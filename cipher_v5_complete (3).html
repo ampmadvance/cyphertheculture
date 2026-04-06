@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIPHER — We Are The Culture · ciphertheculture.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
+<style>
+:root{
+  --bg:#060606;--bg2:#0e0e0e;--bg3:#161616;--bg4:#1e1e1e;--bg5:#262626;
+  --gold:#d4a843;--gold2:#f5c842;--gdim:rgba(212,168,67,.10);--gb:rgba(212,168,67,.20);
+  --red:#e03535;--green:#1dcc6e;--blue:#3a8fd4;--purple:#9a60d4;
+  --text:#f0ece3;--text2:#6e6a62;--text3:#2e2c28;
+  --border:rgba(255,255,255,.05);--b2:rgba(255,255,255,.09);
+  --r:10px;--rl:16px;
+  --sidebar:212px;--right:282px;
+  --fd:'Black Han Sans',sans-serif;
+  --fs:'Syne',sans-serif;
+  --fm:'Space Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--fs);min-height:100vh;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--text3);border-radius:2px;}
+input,select,textarea{font-family:var(--fs);}
+
+/* ─────────── TICKER ─────────── */
+.ticker{position:fixed;top:0;left:0;right:0;z-index:400;background:var(--red);height:26px;display:flex;align-items:center;gap:12px;padding:0 18px;overflow:hidden;}
+.tl{font-size:9px;font-weight:700;letter-spacing:2px;color:#fff;font-family:var(--fm);flex-shrink:0;white-space:nowrap;}
+.tt{overflow:hidden;flex:1;}
+.tinn{display:flex;gap:44px;animation:tick 36s linear infinite;white-space:nowrap;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.tic{font-size:10px;color:rgba(255,255,255,.9);flex-shrink:0;}
+.tdt{color:rgba(255,255,255,.3);margin:0 7px;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+/* ─────────── TOPBAR ─────────── */
+.topbar{position:fixed;top:26px;left:0;right:0;z-index:300;height:56px;background:rgba(6,6,6,.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);display:flex;align-items:center;}
+.tb-logo{width:var(--sidebar);flex-shrink:0;padding:0 20px;border-right:1px solid var(--border);display:flex;align-items:center;gap:10px;height:100%;}
+.logo-img{height:32px;width:auto;object-fit:contain;}
+.logo-fallback{font-family:var(--fd);font-size:20px;letter-spacing:4px;color:var(--text);line-height:1;}
+.logo-fallback em{color:var(--gold);}
+.logo-domain{font-size:8px;letter-spacing:1.5px;color:var(--text2);font-family:var(--fm);text-transform:lowercase;margin-top:2px;}
+.tb-mid{flex:1;display:flex;align-items:center;padding:0 20px;gap:12px;}
+.sbar{flex:1;max-width:400px;position:relative;}
+.sbar input{width:100%;background:var(--bg3);border:1px solid var(--b2);border-radius:30px;padding:7px 40px 7px 16px;color:var(--text);font-size:12px;font-family:var(--fs);outline:none;transition:border-color .2s;}
+.sbar input::placeholder{color:var(--text2);}
+.sbar input:focus{border-color:var(--gb);}
+.sbar-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:var(--bg4);border:none;border-radius:20px;padding:4px 10px;font-size:10px;color:var(--text2);cursor:pointer;font-family:var(--fm);}
+.deep-search-pill{display:flex;align-items:center;gap:6px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.18);border-radius:20px;padding:5px 12px;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.deep-search-pill:hover{background:rgba(212,168,67,.15);}
+.ds-logo{height:16px;width:auto;object-fit:contain;}
+.ds-txt{font-size:10px;font-weight:700;color:var(--gold);font-family:var(--fm);letter-spacing:.5px;}
+.live-pill{display:flex;align-items:center;gap:5px;background:rgba(224,53,53,.12);border:1px solid rgba(224,53,53,.25);border-radius:20px;padding:5px 11px;cursor:pointer;flex-shrink:0;}
+.lpd{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 1.4s infinite;}
+.lpt{font-size:10px;color:#ff7070;font-weight:700;font-family:var(--fm);}
+.tb-right{width:var(--right);flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;gap:9px;padding:0 20px;border-left:1px solid var(--border);}
+.pass-btn{display:flex;align-items:center;gap:5px;background:var(--gdim);border:1px solid var(--gb);border-radius:20px;padding:5px 13px;cursor:pointer;font-size:11px;font-weight:700;color:var(--gold);transition:all .2s;font-family:var(--fs);}
+.pass-btn:hover{background:rgba(212,168,67,.18);}
+.ib{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:12px;transition:all .2s;position:relative;}
+.ib:hover{background:var(--bg4);color:var(--gold);}
+.nd{position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;background:var(--red);border:2px solid var(--bg);}
+
+/* ─────────── LIVE BANNER ─────────── */
+.live-banner{position:fixed;top:82px;left:0;right:0;z-index:199;background:linear-gradient(90deg,rgba(224,53,53,.13),rgba(224,53,53,.05));border-bottom:1px solid rgba(224,53,53,.2);padding:7px 20px 7px calc(var(--sidebar) + 20px);display:flex;align-items:center;gap:14px;flex-wrap:wrap;transition:max-height .3s,opacity .3s;}
+.live-banner.off{max-height:0;overflow:hidden;padding:0;border:none;opacity:0;}
+.lb-it{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.lb-d{width:7px;height:7px;border-radius:50%;animation:blink 1.4s infinite;}
+.lb-tx{font-size:11px;font-weight:700;}
+.lb-su{font-size:11px;color:var(--text2);}
+.lb-j{font-size:10px;color:var(--gold);border:1px solid var(--gb);border-radius:20px;padding:2px 8px;cursor:pointer;background:var(--gdim);}
+.lb-sep{width:1px;height:14px;background:var(--border);}
+.lb-x{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--text2);cursor:pointer;font-size:13px;padding:3px;}
+
+/* ─────────── LAYOUT ─────────── */
+.layout{display:flex;padding-top:115px;min-height:100vh;}
+.sidebar{width:var(--sidebar);flex-shrink:0;position:fixed;top:115px;left:0;bottom:0;background:var(--bg);border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;padding:14px 0 18px;}
+.sidebar::-webkit-scrollbar{display:none;}
+.rp{width:var(--right);flex-shrink:0;position:fixed;top:115px;right:0;bottom:0;background:var(--bg);border-left:1px solid var(--border);overflow-y:auto;padding:14px 0 18px;}
+.rp::-webkit-scrollbar{display:none;}
+.main{flex:1;margin-left:var(--sidebar);margin-right:var(--right);min-width:0;padding:22px 24px 60px;}
+
+/* ─────────── SIDEBAR ─────────── */
+.nl{font-size:8px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;font-family:var(--fm);padding:8px 12px 4px;}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:9px;cursor:pointer;transition:all .2s;color:var(--text2);font-size:12px;font-weight:600;margin:1px 8px;position:relative;}
+.ni:hover{background:var(--bg3);color:var(--text);}
+.ni.active{background:var(--gdim);color:var(--gold);}
+.ni.active::before{content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);width:2px;height:16px;background:var(--gold);border-radius:0 2px 2px 0;}
+.ni-ico{font-size:13px;width:17px;text-align:center;}
+.ni-bdg{margin-left:auto;font-size:8px;background:var(--red);color:#fff;border-radius:20px;padding:1px 5px;font-family:var(--fm);}
+.ni-new{margin-left:auto;font-size:8px;background:rgba(29,204,110,.12);color:var(--green);border-radius:20px;padding:1px 6px;border:1px solid rgba(29,204,110,.2);font-family:var(--fm);}
+.sdiv{height:1px;background:var(--border);margin:9px 12px;}
+.ns{display:flex;align-items:center;gap:7px;padding:5px 12px;border-radius:8px;cursor:pointer;transition:all .2s;margin:0 8px;}
+.ns:hover{background:var(--bg3);}
+.ns-av{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;font-family:var(--fd);flex-shrink:0;}
+.ns-nm{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;}
+.ns-live{width:5px;height:5px;border-radius:50%;background:var(--red);animation:blink 1.4s infinite;margin-left:auto;flex-shrink:0;}
+.sidebar-pass{margin:auto 10px 0;background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(212,168,67,.03));border:1px solid var(--gb);border-radius:var(--r);padding:12px;text-align:center;}
+.sp-t{font-family:var(--fd);font-size:13px;letter-spacing:1px;color:var(--gold);margin-bottom:2px;}
+.sp-s{font-size:10px;color:var(--text2);margin-bottom:8px;line-height:1.4;}
+.sp-b{display:block;width:100%;padding:7px;background:var(--gold);color:#000;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:var(--fs);}
+.sp-p{font-size:9px;color:var(--text2);margin-top:6px;font-family:var(--fm);}
+
+/* ─────────── SECTIONS ─────────── */
+.sec{display:none;}.sec.active{display:block;}
+
+/* ─────────── REUSABLES ─────────── */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;}
+.pht{font-family:var(--fd);font-size:26px;letter-spacing:3px;color:var(--text);line-height:1;}
+.pht span{color:var(--gold);}
+.phs{font-size:12px;color:var(--text2);margin-top:4px;}
+.ph-r{display:flex;gap:7px;align-items:center;flex-shrink:0;}
+.tag{font-size:10px;padding:4px 10px;border-radius:20px;background:var(--bg3);color:var(--text2);border:1px solid var(--border);cursor:pointer;transition:all .2s;font-family:var(--fs);}
+.tag:hover,.tag.on{background:var(--gdim);color:var(--gold);border-color:var(--gb);}
+.tag.fire{background:rgba(224,53,53,.1);color:#f07070;border-color:rgba(224,53,53,.2);}
+.tag.live{background:rgba(224,53,53,.15);color:#ff8080;border-color:rgba(224,53,53,.3);}
+.tag.new{background:rgba(29,204,110,.1);color:#5dce8e;border-color:rgba(29,204,110,.2);}
+.tag.gold{background:var(--gdim);color:var(--gold);border-color:var(--gb);}
+.btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--text2);padding:6px 13px;border-radius:20px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;transition:all .2s;font-family:var(--fs);}
+.btn:hover{background:var(--bg4);color:var(--text);}
+.btn.rh{color:var(--gold);background:var(--gdim);border-color:var(--gb);}
+.btn.rh:hover{background:rgba(212,168,67,.18);}
+.btn.pri{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700;}
+.btn.pri:hover{background:var(--gold2);}
+.btn.out{background:transparent;color:var(--gold);border:1.5px solid var(--gb);}
+.btn.out:hover{background:var(--gdim);}
+.btn.dk{background:#000;color:#fff;border-color:var(--b2);}
+.btn.dk:hover{background:#111;}
+.divl{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+.divll{flex:1;height:1px;background:var(--border);}
+.divlt{font-size:9px;color:var(--text3);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* ─────────── STAT BAR ─────────── */
+.sbar2{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:18px;}
+.sb2{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px 14px;}
+.sb2-n{font-family:var(--fd);font-size:22px;color:var(--gold);}
+.sb2-l{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.7px;margin-top:3px;}
+
+/* ─────────── FEED FILTER ─────────── */
+.ff{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:11px 14px;margin-bottom:14px;}
+.ff-hd{font-size:9px;color:var(--text2);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
+.ff-r{font-size:10px;color:var(--gold);cursor:pointer;}
+.ff-shows{display:flex;gap:6px;flex-wrap:wrap;}
+.ffs{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;transition:all .2s;user-select:none;}
+.ffs.active{border-color:var(--gb);background:var(--gdim);}
+.ffs.off{opacity:.28;border-color:transparent;}
+.ffs-d{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.ffs span{font-size:10px;font-weight:600;color:var(--text);}
+.ffs.active span{color:var(--gold);}
+.ffs.off span{color:var(--text3);}
+
+/* ─────────── CLIP GRID ─────────── */
+.cgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
+.cc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:all .22s;animation:fadeUp .3s ease both;}
+.cc:hover{border-color:var(--b2);transform:translateY(-3px);}
+.cc.hidden{display:none;}
+.cc:nth-child(2){animation-delay:.06s;}.cc:nth-child(3){animation-delay:.12s;}.cc:nth-child(4){animation-delay:.18s;}
+.cthumb{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.ctg{position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.82) 100%);}
+.ctp{position:absolute;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.65);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;z-index:2;transition:transform .2s;}
+.cc:hover .ctp{transform:scale(1.08);}
+.ctri{border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:13px solid var(--gold);margin-left:3px;}
+.csb{position:absolute;top:7px;left:7px;display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.78);backdrop-filter:blur(6px);border:1px solid var(--b2);border-radius:20px;padding:3px 8px;z-index:3;}
+.csd{width:5px;height:5px;border-radius:50%;}
+.csn{font-size:9px;color:var(--text);font-weight:600;}
+.cdur{position:absolute;bottom:7px;right:7px;background:rgba(0,0,0,.78);border-radius:4px;padding:2px 6px;font-size:9px;color:var(--text);font-family:var(--fm);z-index:3;}
+.cbar{position:absolute;bottom:0;left:0;right:0;background:rgba(212,168,67,.9);padding:4px 10px;font-size:9px;color:#000;font-weight:700;z-index:3;}
+.cbody{padding:11px 13px 13px;}
+.crow{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+.cavs{display:flex;}
+.cav{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--bg2);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;margin-left:-4px;flex-shrink:0;}
+.cav:first-child{margin-left:0;}
+.cmeta{font-size:10px;color:var(--text2);}
+.cera{margin-left:auto;font-size:9px;color:var(--text3);font-family:var(--fm);}
+.ctitle{font-size:12px;font-weight:600;color:var(--text);line-height:1.45;margin-bottom:7px;}
+.ctags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;}
+.cacts{display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+.why{font-size:9px;color:var(--text3);padding:3px 8px;border-radius:20px;background:var(--bg4);border:1px solid var(--border);cursor:pointer;flex-shrink:0;}
+.why:hover{color:var(--gold);}
+/* DEBATE */
+.debate-row{display:flex;align-items:center;gap:7px;padding-top:8px;margin-top:8px;border-top:1px solid var(--border);}
+.debate-icon{font-size:11px;}
+.debate-txt{font-size:10px;color:var(--text2);flex:1;}
+.debate-count{font-size:10px;color:var(--gold);font-family:var(--fm);}
+.debate-btn{font-size:9px;color:var(--gold);border:1px solid var(--gb);border-radius:20px;padding:2px 8px;cursor:pointer;background:var(--gdim);}
+
+/* ─────────── HERO ─────────── */
+.hero{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:18px;cursor:pointer;transition:all .3s;}
+.hero:hover{border-color:var(--b2);transform:translateY(-2px);}
+.hthumb{width:100%;height:260px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.hg{position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,rgba(0,0,0,.88) 100%);}
+.hplay{position:absolute;width:56px;height:56px;border-radius:50%;background:rgba(0,0,0,.6);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;z-index:2;transition:all .2s;}
+.hero:hover .hplay{transform:scale(1.08);}
+.hptri{border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:18px solid var(--gold);margin-left:4px;}
+.hshow{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);border:1px solid var(--b2);border-radius:20px;padding:3px 10px;z-index:3;}
+.hsd{width:6px;height:6px;border-radius:50%;}
+.hsn{font-size:10px;color:var(--text);font-weight:600;}
+.hep{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.78);border:1px solid var(--b2);border-radius:6px;padding:3px 8px;font-size:10px;color:var(--text2);font-family:var(--fm);z-index:3;}
+.hbar{position:absolute;bottom:0;left:0;right:0;background:rgba(212,168,67,.9);padding:5px 14px;font-size:10px;color:#000;font-weight:700;z-index:3;}
+.hbody{padding:14px 18px 18px;}
+.hrow{display:flex;align-items:center;gap:9px;margin-bottom:8px;}
+.havs{display:flex;}
+.hav{width:20px;height:20px;border-radius:50%;border:2px solid var(--bg2);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;margin-left:-5px;flex-shrink:0;}
+.hav:first-child{margin-left:0;}
+.hmeta{font-size:11px;color:var(--text2);}
+.hera{margin-left:auto;font-size:10px;color:var(--text3);font-family:var(--fm);}
+.htitle{font-size:16px;font-weight:700;color:var(--text);line-height:1.45;margin-bottom:10px;}
+.htags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.hacts{display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+
+/* ─────────── RABBIT HOLE ─────────── */
+.rh-hdr{background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(212,168,67,.03));border:1px solid var(--gb);border-radius:var(--rl);padding:20px 22px;margin-bottom:18px;}
+.rh-eye{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;font-family:var(--fm);}
+.rh-ttl{font-family:var(--fd);font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:4px;}
+.rh-ttl span{color:var(--gold);}
+.rh-desc{font-size:12px;color:var(--text2);line-height:1.6;}
+/* DEEP SEARCH */
+.deep-search-box{background:var(--bg2);border:1px solid rgba(212,168,67,.25);border-radius:var(--rl);padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden;}
+.deep-search-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.ds-hd{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.ds-logo-lg{height:22px;width:auto;object-fit:contain;}
+.ds-hd-t{font-size:13px;font-weight:700;color:var(--text);}
+.ds-hd-s{font-size:10px;color:var(--text2);margin-top:1px;}
+.ds-premium{font-size:9px;color:var(--gold);background:var(--gdim);border:1px solid var(--gb);border-radius:20px;padding:2px 8px;font-family:var(--fm);margin-left:auto;}
+.ds-input-wrap{position:relative;margin-bottom:10px;}
+.ds-input{width:100%;background:var(--bg3);border:1px solid var(--b2);border-radius:30px;padding:11px 50px 11px 18px;color:var(--text);font-size:13px;font-family:var(--fs);outline:none;transition:border-color .2s;}
+.ds-input::placeholder{color:var(--text3);}
+.ds-input:focus{border-color:var(--gb);}
+.ds-go{position:absolute;right:7px;top:50%;transform:translateY(-50%);background:var(--gold);border:none;border-radius:22px;padding:6px 14px;font-size:11px;font-weight:700;color:#000;cursor:pointer;font-family:var(--fs);}
+.ds-examples{display:flex;gap:7px;flex-wrap:wrap;}
+.ds-ex{font-size:10px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:3px 10px;cursor:pointer;background:var(--bg3);transition:all .2s;font-style:italic;}
+.ds-ex:hover{color:var(--gold);border-color:var(--gb);background:var(--gdim);}
+.ds-results{margin-top:14px;display:none;}
+.ds-res-label{font-size:9px;color:var(--gold);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;}
+.ds-result{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:all .2s;}
+.ds-result:last-child{border-bottom:none;}
+.ds-result:hover{opacity:.8;}
+.ds-r-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.ds-r-info{flex:1;}
+.ds-r-show{font-size:9px;color:var(--text2);font-family:var(--fm);margin-bottom:2px;}
+.ds-r-quote{font-size:12px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:2px;}
+.ds-r-meta{font-size:10px;color:var(--text3);font-family:var(--fm);}
+.ds-r-match{font-size:9px;color:var(--green);font-family:var(--fm);margin-left:auto;flex-shrink:0;}
+.ds-generating{display:none;padding:18px;text-align:center;}
+.ds-gen-ico{font-size:22px;animation:spin 1.5s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+/* STANDARD RABBIT SEARCH */
+.rh-search{position:relative;margin-bottom:18px;}
+.rh-si{width:100%;background:var(--bg2);border:1px solid var(--b2);border-radius:30px;padding:11px 46px 11px 18px;color:var(--text);font-size:13px;font-family:var(--fs);outline:none;transition:border-color .2s;}
+.rh-si::placeholder{color:var(--text3);}
+.rh-si:focus{border-color:var(--gb);}
+.rh-sb{position:absolute;right:7px;top:50%;transform:translateY(-50%);background:var(--gold);border:none;border-radius:22px;padding:6px 14px;font-size:11px;font-weight:700;color:#000;cursor:pointer;}
+/* CATEGORIES */
+.rh-cats{display:flex;flex-direction:column;gap:13px;margin-bottom:22px;}
+.rh-cat-lbl{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text2);margin-bottom:7px;font-family:var(--fm);}
+.rh-bubbles{display:flex;flex-wrap:wrap;gap:6px;}
+.rb{font-size:11px;padding:6px 14px;border-radius:22px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .2s;}
+.rb:hover{background:var(--gdim);color:var(--gold);border-color:var(--gb);}
+.rb.fire{border-color:rgba(224,53,53,.22);color:#f07070;background:rgba(224,53,53,.08);}
+.rb.fire:hover{background:rgba(224,53,53,.15);}
+.rb.hot{border-color:var(--gb);color:var(--gold);background:var(--gdim);}
+/* SUB-GENRE POP CARDS */
+.rh-subgenre-cards{display:flex;gap:9px;margin-bottom:18px;overflow-x:auto;padding-bottom:4px;}
+.rh-subgenre-cards::-webkit-scrollbar{display:none;}
+.sg-card{flex-shrink:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;cursor:pointer;transition:all .2s;min-width:140px;}
+.sg-card:hover{border-color:var(--gb);background:var(--gdim);transform:translateY(-2px);}
+.sg-ico{font-size:18px;margin-bottom:6px;}
+.sg-nm{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.sg-cl{font-size:10px;color:var(--text2);}
+/* GEN STATE */
+.rh-gen{display:none;text-align:center;padding:36px 20px;}
+/* THREAD — "Earlier Rabbit" / "Latest Rabbit" */
+.rh-thread-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;}
+.rh-thread-ttl{font-family:var(--fd);font-size:16px;letter-spacing:1.5px;color:var(--text);}
+.rh-thread-ttl span{color:var(--gold);}
+.rh-thread-meta{font-size:11px;color:var(--gold);font-family:var(--fm);}
+.rh-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative;margin-bottom:16px;}
+.rh-grid::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--gold),rgba(212,168,67,.05));opacity:.3;}
+.rh-col{padding:0 14px;display:flex;flex-direction:column;gap:9px;}
+.rh-col:first-child{padding-left:0;}.rh-col:last-child{padding-right:0;}
+/* COLUMN HEADERS - the key change */
+.rh-col-hdr{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:9px;margin-bottom:10px;}
+.rh-col-hdr.earlier{background:rgba(58,143,212,.08);border:1px solid rgba(58,143,212,.15);}
+.rh-col-hdr.latest{background:rgba(29,204,110,.08);border:1px solid rgba(29,204,110,.15);}
+.rh-col-hdr-ico{font-size:14px;}
+.rh-col-hdr-t{font-size:11px;font-weight:700;font-family:var(--fm);}
+.rh-col-hdr.earlier .rh-col-hdr-t{color:#6ab0e0;}
+.rh-col-hdr.latest .rh-col-hdr-t{color:#5dce8e;}
+.rh-col-hdr-sub{font-size:9px;color:var(--text3);margin-left:auto;}
+.rh-node{display:flex;gap:8px;}
+.rh-bull{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:12px;border:2px solid var(--bg);}
+.rh-card{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:11px 12px;cursor:pointer;transition:all .2s;}
+.rh-card:hover{border-color:var(--b2);}
+.rh-srow{display:flex;align-items:center;gap:4px;margin-bottom:3px;}
+.rh-sdot{width:5px;height:5px;border-radius:50%;}
+.rh-snm{font-size:9px;color:var(--text2);font-family:var(--fm);}
+.rh-heat{font-size:9px;color:var(--red);font-weight:700;margin-left:auto;}
+.rh-txt{font-size:11px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:3px;}
+.rh-ep{font-size:9px;color:var(--text3);font-family:var(--fm);}
+/* CONTRADICTION BADGE */
+.contradiction{display:inline-flex;align-items:center;gap:4px;background:rgba(154,96,212,.1);border:1px solid rgba(154,96,212,.2);border-radius:20px;padding:2px 8px;font-size:9px;color:#c090ef;font-family:var(--fm);margin-bottom:4px;}
+
+/* ─────────── ENTITY MODAL ─────────── */
+.entity-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:600;display:none;overflow-y:auto;backdrop-filter:blur(10px);}
+.entity-overlay.open{display:block;}
+.entity-modal{background:var(--bg);max-width:860px;margin:36px auto;border-radius:20px;border:1px solid var(--b2);overflow:hidden;animation:slideIn .25s ease;}
+.em-top{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);background:rgba(6,6,6,.8);}
+.em-brand{font-family:var(--fd);font-size:13px;letter-spacing:3px;color:var(--text);}
+.em-brand em{color:var(--gold);}
+.em-close{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:14px;}
+.em-close:hover{background:var(--bg4);color:var(--text);}
+.em-hero{padding:24px 26px 20px;display:flex;gap:18px;align-items:flex-start;border-bottom:1px solid var(--border);}
+.em-icon{font-size:44px;line-height:1;flex-shrink:0;}
+.em-info{flex:1;}
+.em-type{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;font-family:var(--fm);}
+.em-name{font-family:var(--fd);font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:3px;}
+.em-sub{font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5;}
+.cp-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:11px 14px;margin-bottom:12px;}
+.cp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
+.cp-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-family:var(--fm);}
+.cp-stats{font-size:10px;color:var(--text2);}
+.cp-bar{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.cp-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .6s ease;}
+.cp-shows{display:flex;gap:3px;margin-top:6px;flex-wrap:wrap;}
+.cp-show{font-size:8px;padding:2px 7px;border-radius:10px;background:var(--bg3);color:var(--text3);border:1px solid var(--border);}
+.em-acts{display:flex;gap:7px;flex-wrap:wrap;}
+.em-body{display:grid;grid-template-columns:1fr 260px;gap:0;}
+.em-timeline{padding:20px 22px;border-right:1px solid var(--border);}
+.em-tl-hd{font-family:var(--fd);font-size:14px;letter-spacing:1.5px;color:var(--text);margin-bottom:12px;}
+.em-tl-hd span{color:var(--gold);}
+.em-take{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);}
+.em-take:last-child{border-bottom:none;}
+.em-take-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;border:2px solid var(--bg);}
+.em-take-info{flex:1;}
+.em-take-show{font-size:9px;color:var(--text2);font-family:var(--fm);margin-bottom:2px;display:flex;align-items:center;gap:5px;}
+.em-take-q{font-size:12px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:2px;}
+.em-take-meta{font-size:9px;color:var(--text3);font-family:var(--fm);}
+.em-take-fire{color:var(--red);font-weight:700;}
+.em-sidebar{padding:20px 18px;display:flex;flex-direction:column;gap:12px;}
+.em-map-note{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 13px;}
+.em-map-lbl{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;font-family:var(--fm);}
+.em-map-text{font-size:11px;color:var(--text2);line-height:1.5;}
+.em-related{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 13px;}
+.em-rel-lbl{font-size:9px;color:var(--text2);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;font-family:var(--fm);}
+.em-rel-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.em-chip{font-size:10px;padding:3px 9px;border-radius:20px;background:var(--bg3);color:var(--text2);border:1px solid var(--border);cursor:pointer;transition:all .2s;}
+.em-chip:hover{background:var(--gdim);color:var(--gold);border-color:var(--gb);}
+
+/* ─────────── BROWSE CULTURE + MAP MERGED ─────────── */
+.bc-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin-bottom:22px;}
+.bc-scroll::-webkit-scrollbar{display:none;}
+.bc-card{flex-shrink:0;width:160px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 12px;cursor:pointer;transition:all .2s;}
+.bc-card:hover{border-color:var(--gb);transform:translateY(-2px);}
+.bc-ico{font-size:22px;margin-bottom:7px;}
+.bc-nm{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.bc-cl{font-size:10px;color:var(--text2);margin-bottom:5px;}
+.bc-dots{display:flex;gap:3px;}
+.bc-d{width:5px;height:5px;border-radius:50%;}
+.bc-heat{font-size:9px;color:var(--red);font-weight:700;margin-top:6px;}
+/* MAP SECTION */
+.map-toggle{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;margin-bottom:0;transition:all .2s;}
+.map-toggle.open{border-radius:var(--r) var(--r) 0 0;border-bottom:none;}
+.map-toggle:hover{border-color:var(--b2);}
+.mt-left{display:flex;align-items:center;gap:9px;}
+.mt-t{font-size:13px;font-weight:700;color:var(--text);}
+.mt-s{font-size:11px;color:var(--text2);}
+.mt-arrow{font-size:12px;color:var(--text2);transition:transform .3s;}
+.mt-arrow.up{transform:rotate(180deg);}
+.map-body{background:var(--bg2);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);overflow:hidden;display:none;}
+.map-body.open{display:block;}
+.mf-row{display:flex;gap:7px;padding:10px 15px;overflow-x:auto;border-bottom:1px solid var(--border);}
+.mf-row::-webkit-scrollbar{display:none;}
+.mfb{flex-shrink:0;font-size:10px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .2s;}
+.mfb.active{background:var(--gdim);color:var(--gold);border-color:var(--gb);}
+.msvg{position:relative;background:#0a0a12;}
+.map-tt{position:absolute;background:rgba(6,6,6,.96);border:1px solid var(--b2);border-radius:8px;padding:8px 11px;font-size:11px;pointer-events:none;opacity:0;transition:opacity .15s;z-index:20;white-space:nowrap;backdrop-filter:blur(10px);}
+.map-tt strong{display:block;color:var(--gold);margin-bottom:2px;}
+.map-tt span{color:var(--text2);}
+.mleg{display:flex;flex-wrap:wrap;gap:8px;padding:9px 15px;border-top:1px solid var(--border);}
+.mli{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--text2);}
+.mld{width:6px;height:6px;border-radius:50%;}
+/* MAP CITY PANEL */
+.map-2col{display:grid;grid-template-columns:1fr 280px;gap:0;}
+.city-panel{padding:14px;display:flex;flex-direction:column;gap:9px;}
+.cp-empty-state{padding:22px 16px;text-align:center;}
+.city-info{background:var(--bg3);border-radius:var(--r);overflow:hidden;}
+.ci-hd{padding:11px 13px;border-bottom:1px solid var(--border);}
+.ci-nm{font-family:var(--fd);font-size:14px;letter-spacing:1px;color:var(--text);margin-bottom:2px;}
+.ci-sub{font-size:10px;color:var(--text2);}
+.ci-shows{display:flex;gap:3px;margin-top:5px;flex-wrap:wrap;}
+.ci-show{font-size:9px;padding:2px 6px;border-radius:8px;background:var(--bg4);color:var(--text2);border:1px solid var(--border);}
+.ci-topic{padding:9px 13px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .2s;}
+.ci-topic:last-child{border-bottom:none;}
+.ci-topic:hover{background:var(--bg4);}
+.cit-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.cit-nm{font-size:11px;font-weight:600;color:var(--text);}
+.cit-heat{font-size:9px;color:var(--red);font-weight:700;}
+.cit-row{display:flex;align-items:center;gap:5px;}
+.cit-cl{font-size:9px;color:var(--text2);}
+.cit-dots{display:flex;gap:2px;}
+.cit-d{width:5px;height:5px;border-radius:50%;}
+.cit-btn{margin-left:auto;font-size:9px;color:var(--gold);}
+
+/* ─────────── VAULT ─────────── */
+.vault-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-bottom:18px;}
+.vc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:15px 14px;}
+.vc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;}
+.vc-icon{font-size:20px;}
+.vc-priv{font-size:9px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:2px 7px;cursor:pointer;font-family:var(--fm);}
+.vc-priv.pub{color:var(--green);border-color:rgba(29,204,110,.2);}
+.vc-nm{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.vc-meta{font-size:10px;color:var(--text2);margin-bottom:8px;}
+.vc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:9px;}
+.vc-tag{font-size:9px;padding:2px 7px;border-radius:10px;background:var(--bg3);color:var(--text3);border:1px solid var(--border);}
+.vc-acts{display:flex;gap:6px;}
+.vc-btn{flex:1;padding:6px;text-align:center;border-radius:20px;font-size:10px;cursor:pointer;border:none;font-family:var(--fs);transition:all .2s;}
+.vc-btn.open{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
+.vc-btn.open:hover{background:var(--bg4);color:var(--text);}
+.vc-btn.sh{background:var(--gdim);color:var(--gold);border:1px solid var(--gb);}
+.public-rh{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+.prh{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 13px;display:flex;gap:10px;align-items:center;cursor:pointer;transition:all .2s;}
+.prh:hover{border-color:var(--b2);}
+.prh-icon{font-size:22px;flex-shrink:0;}
+.prh-info{flex:1;}
+.prh-nm{font-size:12px;font-weight:700;color:var(--text);margin-bottom:1px;}
+.prh-meta{font-size:10px;color:var(--text2);}
+.prh-follow{font-size:10px;color:var(--gold);border:1px solid var(--gb);border-radius:20px;padding:3px 10px;cursor:pointer;background:var(--gdim);flex-shrink:0;}
+
+/* ─────────── PREMIUM ─────────── */
+.pwycaf{background:linear-gradient(135deg,rgba(212,168,67,.13),rgba(212,168,67,.03));border:1px solid var(--gb);border-radius:var(--rl);padding:22px 24px;margin-bottom:20px;text-align:center;}
+.pwycaf-eye{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);font-family:var(--fm);text-transform:uppercase;margin-bottom:6px;}
+.pwycaf-t{font-family:var(--fd);font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:6px;}
+.pwycaf-t span{color:var(--gold);}
+.pwycaf-m{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:18px;font-style:italic;}
+.price-slider{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+.price-opt{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 20px;cursor:pointer;transition:all .2s;text-align:center;min-width:90px;}
+.price-opt:hover,.price-opt.sel{background:var(--gdim);border-color:var(--gb);}
+.price-opt-n{font-family:var(--fd);font-size:22px;color:var(--text);}
+.price-opt.sel .price-opt-n{color:var(--gold);}
+.price-opt-l{font-size:10px;color:var(--text2);margin-top:2px;}
+.price-opt.sel .price-opt-l{color:var(--gold);}
+.pwycaf-start{background:var(--gold);color:#000;border:none;border-radius:30px;padding:12px 36px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--fs);transition:all .2s;}
+.pwycaf-start:hover{background:var(--gold2);}
+.pwycaf-fine{font-size:10px;color:var(--text3);margin-top:10px;}
+/* PERKS */
+.perks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.perk{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 14px;}
+.perk-ico{font-size:20px;margin-bottom:6px;}
+.perk-t{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.perk-s{font-size:11px;color:var(--text2);line-height:1.5;}
+/* REFERRAL */
+.ref-box{background:linear-gradient(135deg,rgba(29,204,110,.08),rgba(29,204,110,.02));border:1px solid rgba(29,204,110,.2);border-radius:var(--r);padding:16px 18px;margin-bottom:14px;}
+
+/* ─────────── DEBATE MODAL ─────────── */
+.debate-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:700;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(8px);}
+.debate-overlay.open{display:flex;}
+.debate-modal{background:var(--bg2);width:620px;max-width:96vw;border-radius:20px 20px 0 0;border:1px solid var(--b2);border-bottom:none;animation:slideUp .25s ease;max-height:72vh;overflow-y:auto;}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.dm-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:2;}
+.dm-t{font-size:13px;font-weight:700;color:var(--text);}
+.dm-close{width:28px;height:28px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:13px;}
+.dm-body{padding:14px 18px;}
+.dm-comment{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.dm-comment:last-child{border-bottom:none;}
+.dm-ava{width:28px;height:28px;border-radius:50%;background:var(--bg3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;border:1px solid var(--border);}
+.dm-info{flex:1;}
+.dm-user{font-size:11px;font-weight:700;color:var(--text);margin-bottom:3px;display:flex;align-items:center;gap:6px;}
+.dm-badge{font-size:8px;color:var(--gold);background:var(--gdim);border:1px solid var(--gb);border-radius:20px;padding:1px 5px;font-family:var(--fm);}
+.dm-txt{font-size:12px;color:var(--text);line-height:1.5;margin-bottom:5px;}
+.dm-acts{display:flex;gap:10px;align-items:center;}
+.dm-act{font-size:10px;color:var(--text2);cursor:pointer;transition:color .2s;}
+.dm-act:hover{color:var(--gold);}
+.dm-input-row{display:flex;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+.dm-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:8px 14px;font-size:12px;color:var(--text);font-family:var(--fs);outline:none;}
+.dm-send{background:var(--gold);color:#000;border:none;border-radius:20px;padding:8px 16px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--fs);}
+
+/* ─────────── SHARE MODAL ─────────── */
+.share-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:800;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.share-overlay.open{display:flex;}
+.share-modal{background:var(--bg2);border:1px solid var(--b2);border-radius:18px;width:500px;max-width:94vw;overflow:hidden;animation:slideIn .22s ease;}
+.sm-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.sm-title{font-size:13px;font-weight:700;color:var(--text);}
+.sm-close{width:27px;height:27px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:13px;}
+.sm-body{padding:16px 18px;}
+.sm-tabs{display:flex;gap:5px;margin-bottom:12px;}
+.sm-tab{font-size:10px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .2s;}
+.sm-tab.active{background:var(--gdim);color:var(--gold);border-color:var(--gb);}
+.sm-card-wrap{border:1px solid var(--border);border-radius:9px;overflow:hidden;margin-bottom:13px;}
+.sm-cap-lbl{font-size:9px;color:var(--text2);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.sm-cap{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;font-size:11px;color:var(--text);line-height:1.7;font-family:var(--fs);resize:none;height:100px;outline:none;margin-bottom:10px;}
+.sm-acts{display:flex;gap:7px;}
+.sm-btn{flex:1;padding:10px;border-radius:30px;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:var(--fs);}
+.sm-copy{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
+.sm-copy:hover{background:var(--bg4);color:var(--text);}
+.sm-x{background:#000;color:#fff;}
+
+/* ─────────── WHY TOOLTIP ─────────── */
+.why-tip{position:fixed;background:rgba(10,10,10,.97);border:1px solid var(--b2);border-radius:10px;padding:12px 14px;font-size:11px;z-index:900;width:230px;display:none;backdrop-filter:blur(12px);box-shadow:0 8px 40px rgba(0,0,0,.6);}
+.why-tip.open{display:block;}
+.why-lbl{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;font-family:var(--fm);}
+.why-item{display:flex;align-items:flex-start;gap:6px;padding:4px 0;}
+.why-d{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:4px;}
+.why-t{font-size:10px;color:var(--text2);line-height:1.4;}
+
+/* ─────────── RIGHT PANEL ─────────── */
+.rp-sec{padding:0 14px;margin-bottom:14px;}
+.rp-t{font-family:var(--fd);font-size:11px;letter-spacing:2px;color:var(--text);margin-bottom:9px;}
+.rp-t span{color:var(--gold);}
+.rp-div{height:1px;background:var(--border);margin:11px 14px;}
+.sq-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.sq{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;}
+.sq-av{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;font-family:var(--fd);transition:transform .2s;}
+.sq:hover .sq-av{transform:scale(1.07);}
+.sq-nm{font-size:8px;color:var(--text2);text-align:center;line-height:1.2;max-width:38px;font-weight:600;}
+.sq-lp{width:5px;height:5px;border-radius:50%;background:var(--red);animation:blink 1.4s infinite;margin:0 auto -3px;}
+.si{padding:7px 0;border-bottom:1px solid var(--border);}
+.si:last-child{border-bottom:none;}
+.si-top{display:flex;align-items:center;gap:5px;margin-bottom:2px;}
+.si-d{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.si-time{font-size:9px;color:var(--text2);font-family:var(--fm);}
+.si-live{font-size:9px;color:var(--red);font-weight:700;animation:blink 1.4s infinite;}
+.si-show{font-size:11px;font-weight:700;color:var(--text);margin-bottom:1px;}
+.si-desc{font-size:10px;color:var(--text2);line-height:1.4;}
+.si-remind{font-size:9px;color:var(--gold);cursor:pointer;margin-top:2px;display:inline-block;}
+.ti{padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:all .2s;}
+.ti:last-child{border-bottom:none;}
+.ti:hover .ti-nm{color:var(--gold);}
+.ti-row{display:flex;align-items:center;gap:6px;}
+.ti-rank{font-family:var(--fd);font-size:16px;color:var(--text3);min-width:22px;}
+.ti-body{flex:1;}
+.ti-nm{font-size:11px;font-weight:700;color:var(--text);margin-bottom:2px;transition:color .2s;}
+.ti-cl{font-size:9px;color:var(--text2);}
+.ti-dots{display:flex;gap:2px;margin-top:2px;}
+.ti-dot{width:4px;height:4px;border-radius:50%;}
+.ti-heat{font-size:9px;color:var(--red);font-weight:700;margin-left:auto;font-family:var(--fm);}
+
+/* ── TIMESTAMP BADGE ── */
+.cts{position:absolute;bottom:6px;left:6px;background:rgba(0,0,0,.85);border:1px solid var(--gb);border-radius:20px;padding:2px 8px;font-size:9px;color:var(--gold);font-family:var(--fm);z-index:3;cursor:pointer;transition:all .2s;}
+.cts:hover{background:var(--gdim);}
+/* ── CALLED IT / AGED BADLY ── */
+.vote-row{display:flex;align-items:center;gap:7px;padding:7px 0 0;border-top:1px solid var(--border);margin-top:5px;}
+.vi-btn{display:flex;align-items:center;gap:4px;padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;transition:all .25s;font-size:10px;font-weight:600;}
+.vi-btn.ci{color:var(--green);border-color:rgba(29,204,110,.22);}
+.vi-btn.ci:hover,.vi-btn.ci.voted{background:rgba(29,204,110,.12);border-color:rgba(29,204,110,.4);transform:scale(1.04);}
+.vi-btn.ab{color:#f07070;border-color:rgba(224,53,53,.22);}
+.vi-btn.ab:hover,.vi-btn.ab.voted{background:rgba(224,53,53,.1);border-color:rgba(224,53,53,.4);transform:scale(1.04);}
+.vi-n{font-family:var(--fm);font-size:9px;transition:all .2s;}
+.vi-share{margin-left:auto;font-size:10px;color:var(--text2);cursor:pointer;}
+.vi-share:hover{color:var(--gold);}
+/* ── EPISODE SUMMARY ── */
+.ep-sum{margin-top:7px;padding-top:7px;border-top:1px solid var(--border);}
+.ep-sum-hd{display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:10px;color:var(--text2);}
+.ep-sum-hd:hover{color:var(--text);}
+.ep-sum-tog{font-size:9px;color:var(--gold);}
+.ep-sum-body{font-size:11px;color:var(--text2);line-height:1.6;padding-top:6px;display:none;}
+.ep-sum-body.open{display:block;}
+.ep-sum-ts{font-size:9px;color:var(--gold);cursor:pointer;margin-top:4px;display:inline-block;}
+/* ── DEBATE ROW ── */
+.debate-row{display:flex;align-items:center;gap:6px;padding:6px 0 0;border-top:1px solid var(--border);margin-top:4px;}
+.db-ico{font-size:11px;}
+.db-txt{font-size:10px;color:var(--text2);flex:1;}
+.db-cnt{font-size:10px;color:var(--gold);font-family:var(--fm);}
+.db-btn{font-size:9px;color:var(--gold);border:1px solid var(--gb);border-radius:20px;padding:2px 7px;cursor:pointer;background:var(--gdim);flex-shrink:0;}
+/* ── ON THIS DAY (right panel) ── */
+.otd-panel{background:linear-gradient(135deg,rgba(154,96,212,.1),rgba(154,96,212,.03));border:1px solid rgba(154,96,212,.22);border-radius:var(--r);padding:12px 13px;}
+.otd-eye{font-size:9px;font-weight:700;letter-spacing:1.5px;color:#c090ef;font-family:var(--fm);text-transform:uppercase;margin-bottom:5px;}
+.otd-date{font-size:9px;color:var(--text3);font-family:var(--fm);margin-bottom:4px;}
+.otd-sn{font-size:10px;font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.otd-q{font-size:11px;color:var(--text);line-height:1.4;margin-bottom:7px;font-style:italic;}
+.otd-votes{display:flex;gap:9px;align-items:center;}
+.otd-vi{font-size:10px;display:flex;align-items:center;gap:3px;cursor:pointer;}
+.otd-vi.ci{color:var(--green);}
+.otd-vi.ab{color:#f07070;}
+.otd-play{font-size:10px;color:var(--gold);cursor:pointer;margin-left:auto;}
+/* ── VAULT TABS ── */
+.vault-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto;}
+.vault-tabs::-webkit-scrollbar{display:none;}
+.vt{font-size:11px;font-weight:600;color:var(--text2);padding:8px 14px;cursor:pointer;transition:all .2s;border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0;}
+.vt:hover{color:var(--text);}
+.vt.active{color:var(--gold);border-bottom-color:var(--gold);}
+.vsec{display:none;}.vsec.active{display:block;}
+/* CROSS-SHOW ANALYTICS */
+.csa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.csa-s{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;}
+.csa-n{font-family:var(--fd);font-size:24px;color:var(--gold);}
+.csa-l{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;margin-top:2px;}
+.csa-d{font-size:10px;color:var(--green);margin-top:2px;}
+.sa-hd-t{font-size:12px;font-weight:700;color:var(--text);margin-bottom:12px;}
+.sa-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.sa-av{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;font-family:var(--fd);flex-shrink:0;}
+.sa-nm{font-size:11px;color:var(--text2);width:80px;flex-shrink:0;}
+.sa-bar{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.sa-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .6s ease;}
+.sa-pct{font-size:10px;color:var(--gold);font-family:var(--fm);width:34px;text-align:right;}
+/* FINGERPRINT CARD */
+.cf-card{background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(154,96,212,.06));border:1px solid var(--gb);border-radius:var(--rl);padding:18px 20px;margin-bottom:14px;}
+.cf-hd{font-family:var(--fd);font-size:16px;letter-spacing:2px;color:var(--text);margin-bottom:3px;}
+.cf-hd span{color:var(--gold);}
+/* CUSTOM RH BUILDER */
+.crh-clip{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:8px 10px;margin-bottom:6px;}
+.crh-rm{font-size:11px;color:var(--text3);cursor:pointer;padding:0 4px;}
+.crh-rm:hover{color:var(--red);}
+/* PUBLIC RH LIST */
+.pub-rh-list{display:flex;flex-direction:column;gap:8px;}
+.prh-row{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:11px 12px;display:flex;gap:9px;align-items:center;cursor:pointer;transition:all .2s;}
+.prh-row:hover{border-color:var(--b2);}
+.prh-info{flex:1;}
+.prh-nm{font-size:12px;font-weight:700;color:var(--text);margin-bottom:1px;}
+.prh-meta{font-size:10px;color:var(--text2);}
+.prh-follow{font-size:10px;color:var(--gold);border:1px solid var(--gb);border-radius:20px;padding:3px 9px;cursor:pointer;background:var(--gdim);flex-shrink:0;}
+/* PREMIUM PERK DEMOS */
+.perk-grid-2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+.perk-2{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;transition:all .2s;}
+.perk-2:hover{border-color:var(--b2);}
+.p2-ico{font-size:18px;margin-bottom:6px;}
+.p2-t{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.p2-s{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:9px;}
+.p2-demo{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 11px;margin-top:7px;}
+/* PROVE ME RIGHT */
+.prm-item{display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg4);border-radius:7px;margin-bottom:4px;}
+.prm-d{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.prm-t{font-size:10px;color:var(--text);flex:1;}
+.prm-alert{font-size:9px;color:var(--red);font-family:var(--fm);}
+.prm-rm{font-size:11px;color:var(--text3);cursor:pointer;}
+.prm-rm:hover{color:var(--red);}
+.prm-add{display:flex;gap:5px;margin-top:6px;}
+.prm-in{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:5px 10px;color:var(--text);font-size:10px;outline:none;}
+.prm-in:focus{border-color:var(--gb);}
+.prm-btn{background:var(--gold);color:#000;border:none;border-radius:20px;padding:5px 10px;font-size:10px;font-weight:700;cursor:pointer;}
+/* FIRST TO KNOW */
+.ftk-alert{background:rgba(224,53,53,.08);border:1px solid rgba(224,53,53,.2);border-radius:8px;padding:9px 11px;}
+.ftk-hd{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.ftk-d{width:7px;height:7px;border-radius:50%;background:var(--red);animation:blink 1.4s infinite;}
+.ftk-t{font-size:10px;font-weight:700;color:#ff7070;}
+.ftk-hrs{font-size:9px;color:var(--text3);margin-left:auto;font-family:var(--fm);}
+.ftk-desc{font-size:10px;color:var(--text2);line-height:1.4;}
+/* WEEKLY DIGEST */
+.digest-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.digest-hdr{background:var(--bg4);padding:8px 11px;border-bottom:1px solid var(--border);}
+.digest-ht{font-size:11px;font-weight:700;color:var(--gold);}
+.digest-hs{font-size:9px;color:var(--text2);}
+.digest-it{display:flex;gap:7px;padding:8px 11px;border-bottom:1px solid var(--border);}
+.digest-it:last-child{border-bottom:none;}
+.digest-rk{font-family:var(--fd);font-size:16px;color:var(--text3);min-width:20px;}
+.digest-info{flex:1;}
+.digest-nm{font-size:11px;font-weight:700;color:var(--text);margin-bottom:1px;}
+.digest-s{font-size:10px;color:var(--text2);}
+.digest-ht2{font-size:10px;color:var(--red);font-family:var(--fm);}
+/* WATCH PARTY */
+.wp-preview-sm{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 11px;display:flex;gap:8px;align-items:center;}
+.wp-thumb-sm{width:56px;height:32px;background:var(--bg4);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+/* B2B */
+.b2b-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.b2b-c{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:15px 14px;}
+.b2b-ico{font-size:18px;margin-bottom:6px;}
+.b2b-t{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.b2b-s{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:8px;}
+.b2b-price{font-size:11px;color:var(--gold);font-family:var(--fm);margin-bottom:8px;}
+/* TREND REPORT MINI */
+.tr-mini{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:9px 10px;margin-top:8px;}
+.tr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.tr-nm{font-size:9px;color:var(--text2);}
+.tr-n{font-size:10px;font-weight:700;color:var(--gold);font-family:var(--fm);}
+.tr-bar{height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-bottom:5px;}
+.tr-fill{height:100%;border-radius:2px;background:var(--gold);}
+/* SPONSORED CARD */
+.sponsored-badge{font-size:8px;color:var(--blue);font-family:var(--fm);text-transform:uppercase;margin-bottom:4px;}
+/* WATCH PARTY MODAL */
+.wp-layout{display:grid;grid-template-columns:1fr 230px;gap:0;}
+.wp-player-side{padding:15px 17px;border-right:1px solid var(--border);}
+.wp-screen{aspect-ratio:16/9;background:var(--bg3);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:11px;border:1px solid var(--border);}
+.wp-ctrl-row{display:flex;gap:6px;margin-bottom:11px;}
+.wp-invite-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:9px 11px;}
+.wp-invite-t{font-size:10px;font-weight:700;color:var(--text);margin-bottom:5px;}
+.wp-invite-row{display:flex;gap:5px;}
+.wp-link{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:5px 9px;font-size:9px;color:var(--text2);font-family:var(--fm);}
+.wp-copy{background:var(--green);color:#000;border:none;border-radius:20px;padding:5px 9px;font-size:10px;font-weight:700;cursor:pointer;}
+.wp-chat-side{display:flex;flex-direction:column;padding:12px 13px;}
+.wp-chat-hd{font-size:11px;font-weight:700;color:var(--text);margin-bottom:9px;}
+.wp-msgs{display:flex;flex-direction:column;gap:7px;min-height:180px;}
+.wp-msg{display:flex;gap:6px;}
+.wp-msg-av{width:20px;height:20px;border-radius:50%;background:var(--bg3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;border:1px solid var(--border);}
+.wp-msg-u{font-size:9px;color:var(--gold);font-weight:700;margin-bottom:1px;}
+.wp-msg-t{font-size:11px;color:var(--text);line-height:1.4;}
+.wp-msg-body{flex:1;}
+.wp-in-row{display:flex;gap:5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.wp-in{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 10px;font-size:11px;color:var(--text);outline:none;}
+.wp-send{background:var(--gold);color:#000;border:none;border-radius:20px;padding:6px 11px;font-size:11px;font-weight:700;cursor:pointer;}
+/* FINGERPRINT MODAL */
+.fp-card{background:linear-gradient(135deg,rgba(212,168,67,.13),rgba(154,96,212,.08));border:1px solid var(--gb);border-radius:var(--rl);padding:22px;margin-bottom:15px;text-align:center;}
+/* OVERLAY (generic) */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:600;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
+.overlay.open{display:flex;}
+.overlay.btm{align-items:flex-end;}
+.modal-inner{background:var(--bg2);border:1px solid var(--b2);border-radius:18px;width:520px;max-width:96vw;max-height:88vh;overflow-y:auto;}
+.modal-inner.lg{width:760px;}
+.modal-inner.btm-inner{border-radius:18px 18px 0 0;border-bottom:none;width:640px;max-width:96vw;max-height:74vh;overflow-y:auto;}
+.modal-top{display:flex;align-items:center;justify-content:space-between;padding:13px 17px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg2);z-index:2;}
+.modal-t{font-size:13px;font-weight:700;color:var(--text);}
+.modal-x{width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:13px;}
+.modal-x:hover{background:var(--bg4);color:var(--text);}
+.modal-body{padding:15px 17px;}
+/* TOAST */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:var(--green);color:#000;font-size:11px;font-weight:700;padding:8px 18px;border-radius:30px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:1000;}
+.toast.show{opacity:1;}
+
+/* COLORS */
+.jbp{background:linear-gradient(135deg,#2a1a00,#1a1000);color:#c9a84c;}
+.vlad{background:linear-gradient(135deg,#001525,#001020);color:#4a9fdf;}
+.champs{background:linear-gradient(135deg,#1a0012,#0a0008);color:#df4aaf;}
+.akad{background:linear-gradient(135deg,#001a10,#000a08);color:#4adf8f;}
+.akademy{background:linear-gradient(135deg,#002010,#001008);color:#60ef9f;}
+.bkfst{background:linear-gradient(135deg,#1a1000,#0a0800);color:#dfaf4a;}
+.idiots{background:linear-gradient(135deg,#1a001a,#0a000a);color:#af4adf;}
+.rmal{background:linear-gradient(135deg,#001a1a,#000a0a);color:#4adfdf;}
+.revolt{background:linear-gradient(135deg,#1a0000,#0a0000);color:#df4a4a;}
+.complex{background:linear-gradient(135deg,#0a0a1a,#05050a);color:#6a8fdf;}
+.flee{background:linear-gradient(135deg,#1a0a00,#0a0500);color:#df8f4a;}
+.shay{background:linear-gradient(135deg,#1a1200,#0a0a00);color:#dfcf4a;}
+.arena{background:linear-gradient(135deg,#100a1a,#080510);color:#c060ef;}
+.joejada{background:linear-gradient(135deg,#180010,#0a0008);color:#df6aaf;}
+.ctm{background:linear-gradient(135deg,#0a1500,#050a00);color:#8fdf4a;}
+.hoffa{background:linear-gradient(135deg,#0a1500,#050900);color:#9fdf5a;}
+.lrai{background:linear-gradient(135deg,#001520,#000a14);color:#4aafd4;}
+.c520{background:linear-gradient(135deg,#140a00,#0a0500);color:#d48f4a;}
+.mwog{background:linear-gradient(135deg,#001a10,#000d08);color:#4aef9f;}
+/* ── DEEP RABBIT SEARCH PAGE ── */
+.drs-hero{background:linear-gradient(135deg,rgba(212,168,67,.14),rgba(212,168,67,.04));border:1px solid var(--gb);border-radius:var(--rl);padding:22px 24px;margin-bottom:20px;}
+.drs-eye{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);font-family:var(--fm);text-transform:uppercase;margin-bottom:5px;}
+.drs-ttl{font-family:var(--fd);font-size:26px;letter-spacing:2px;color:var(--text);margin-bottom:5px;}
+.drs-ttl span{color:var(--gold);}
+.drs-desc{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:16px;}
+.drs-preview-wrap{position:relative;border-radius:var(--rl);overflow:hidden;margin-bottom:20px;}
+.drs-preview-content{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:20px;filter:blur(2.5px);opacity:.5;pointer-events:none;user-select:none;}
+.drs-lock-wall{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,transparent 0%,rgba(6,6,6,.7) 35%,rgba(6,6,6,.97) 65%);}
+.drs-lock-card{background:rgba(6,6,6,.96);border:1px solid var(--gb);border-radius:var(--rl);padding:28px 30px;text-align:center;max-width:400px;box-shadow:0 24px 64px rgba(0,0,0,.9);}
+.drs-lock-ico{font-size:34px;margin-bottom:10px;}
+.drs-lock-t{font-family:var(--fd);font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:5px;}
+.drs-lock-t span{color:var(--gold);}
+.drs-lock-s{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:16px;}
+/* DRS preview result cards */
+.drs-eg{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;margin-bottom:7px;}
+.drs-eg-show{font-size:9px;color:var(--text2);font-family:var(--fm);margin-bottom:3px;}
+.drs-eg-q{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px;line-height:1.4;}
+.drs-eg-meta{font-size:9px;color:var(--text3);font-family:var(--fm);}
+.drs-eg-pct{float:right;font-size:9px;color:var(--green);font-family:var(--fm);}
+/* PWYCAF on DRS page */
+.drs-pwycaf{background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(212,168,67,.03));border:1px solid var(--gb);border-radius:var(--rl);padding:20px 22px;text-align:center;margin-bottom:18px;}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="tl">LIVE</div>
+  <div class="tt"><div class="tinn">
+    <span class="tic">🔴 King Akademiks live now — 134 clipping<span class="tdt">·</span></span>
+    <span class="tic">📅 Club Shay Shay drops in 2hrs<span class="tdt">·</span></span>
+    <span class="tic">🔥 Diddy Trial — 11 official shows weighed in<span class="tdt">·</span></span>
+    <span class="tic">⚡ The Arena new drop tonight — sports & culture<span class="tdt">·</span></span>
+    <span class="tic">🎤 Kendrick Superbowl — 8 official shows covered it<span class="tdt">·</span></span>
+    <span class="tic">🆕 Let's Rap About It + Club 520 now on CIPHER<span class="tdt">·</span></span>
+    <span class="tic">🔴 King Akademiks live now — 134 clipping<span class="tdt">·</span></span>
+    <span class="tic">📅 Club Shay Shay drops in 2hrs<span class="tdt">·</span></span>
+    <span class="tic">🔥 Diddy Trial — 11 official shows weighed in<span class="tdt">·</span></span>
+    <span class="tic">⚡ The Arena new drop tonight<span class="tdt">·</span></span>
+  </div></div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-logo">
+    <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_97ef0f4f-fc21-432a-ba5e-97a2aae25f32.png?v=1775412867" class="logo-img" alt="CIPHER" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="logo-fallback" style="display:none;flex-direction:column;"><div>C<em>I</em>PHER</div><div class="logo-domain">ciphertheculture.com</div></div>
+  </div>
+  <div class="tb-mid">
+    <div class="sbar">
+      <input type="text" placeholder="Search shows, topics, artists, beefs, eras, cities...">
+      <button class="sbar-btn" onclick="showSec('rabbithole')">🔍</button>
+    </div>
+    <div class="deep-search-pill" onclick="openDeepSearch()">
+      <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_4db0369b-5f79-4454-a749-a932c12b951b.png?v=1775412869" class="ds-logo" alt="" onerror="this.style.display='none'">
+      <span class="ds-txt">DEEP RABBIT SEARCH</span>
+    </div>
+    <div class="live-pill"><div class="lpd"></div><span class="lpt">AK LIVE</span></div>
+  </div>
+  <div class="tb-right">
+    <div class="pass-btn" onclick="showSec('premium')">🕳 Deep Rabbit Search · from $0.99</div>
+    <div class="ib" style="position:relative;">🔔<div class="nd"></div></div>
+    <div class="ib">👤</div>
+  </div>
+</div>
+
+<!-- LIVE BANNER -->
+<div class="live-banner" id="liveBanner">
+  <div class="lb-it"><div class="lb-d" style="background:var(--red);"></div><div class="lb-tx" style="color:#ff8080;">King Akademiks LIVE</div><div class="lb-su">· 134 clipping right now</div><div class="lb-j" onclick="showSec('culture')">Join →</div></div>
+  <div class="lb-sep"></div>
+  <div class="lb-it"><div class="lb-d" style="background:#dfcf4a;"></div><div class="lb-tx" style="color:#e0d070;">Club Shay Shay</div><div class="lb-su">· major guest dropping in 2hrs</div><div class="lb-j">Remind me</div></div>
+  <div class="lb-x" onclick="document.getElementById('liveBanner').classList.add('off')">✕</div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div style="padding:0 8px;">
+      <div class="nl">Navigate</div>
+      <div class="ni active" id="nav-home" onclick="showSec('home')"><span class="ni-ico">🏠</span>The Feed<span class="ni-bdg">LIVE</span></div>
+      <div class="ni" id="nav-rabbithole" onclick="showSec('rabbithole')"><span class="ni-ico">🕳</span>Rabbit Hole</div>
+      <div class="ni" id="nav-browse" onclick="showSec('browse')"><span class="ni-ico">🌐</span>Browse Culture</div>
+      <div class="ni" id="nav-vault" onclick="showSec('vault')"><span class="ni-ico">🔐</span>My Vault</div>
+      <div class="ni" id="nav-premium" onclick="showSec('premium')"><span class="ni-ico">🕳</span>Deep Rabbit Search<span class="ni-new">⭐ Pass</span></div>
+    </div>
+    <div class="sdiv"></div>
+    <div class="nl" style="padding-left:20px;">Official Shows · 21</div>
+    <div class="ns"><div class="ns-av jbp">JBP</div><div class="ns-nm">Joe Budden Podcast</div></div>
+    <div class="ns"><div class="ns-av akad">AK</div><div class="ns-nm">DJ Akademiks</div></div>
+    <div class="ns"><div class="ns-av akademy" style="font-size:7px;">AHQ</div><div class="ns-nm">The Akademy HQ</div><div class="ns-live"></div></div>
+    <div class="ns"><div class="ns-av vlad">VTV</div><div class="ns-nm">VladTV</div></div>
+    <div class="ns"><div class="ns-av champs">DC</div><div class="ns-nm">Drink Champs</div></div>
+    <div class="ns"><div class="ns-av bkfst">BKF</div><div class="ns-nm">Breakfast Club</div></div>
+    <div class="ns"><div class="ns-av shay">CSS</div><div class="ns-nm">Club Shay Shay</div></div>
+    <div class="ns"><div class="ns-av arena">ARN</div><div class="ns-nm">The Arena</div></div>
+    <div class="ns"><div class="ns-av idiots">BI</div><div class="ns-nm">Brilliant Idiots</div></div>
+    <div class="ns"><div class="ns-av rmal">R&M</div><div class="ns-nm">New Rory & Mal</div></div>
+    <div class="ns"><div class="ns-av joejada">J+J</div><div class="ns-nm">Joe & Jada</div></div>
+    <div class="ns"><div class="ns-av revolt">RVT</div><div class="ns-nm">REVOLT TV</div></div>
+    <div class="ns"><div class="ns-av complex">CX</div><div class="ns-nm">Complex</div></div>
+    <div class="ns"><div class="ns-av flee">TF</div><div class="ns-nm">Talk With Flee</div></div>
+    <div class="ns"><div class="ns-av ctm">CTM</div><div class="ns-nm">Come Talk To Me</div></div>
+    <div class="ns"><div class="ns-av hoffa">MH</div><div class="ns-nm">Matt Hoffa</div></div>
+    <div class="ns"><div class="ns-av lrai">LRAI</div><div class="ns-nm">Let's Rap About It</div></div>
+    <div class="ns"><div class="ns-av c520">C520</div><div class="ns-nm">Club 520 Podcast</div></div>
+    <div class="ns"><div class="ns-av mwog" style="font-size:7px;">MDG</div><div class="ns-nm">Million Dollaz Worth of Game</div></div>
+    <div class="ns" style="opacity:.5;"><div class="ns-av" style="background:var(--bg3);color:var(--text3);font-size:9px;">7PM</div><div class="ns-nm">7PM in Brooklyn</div></div>
+    <div class="sidebar-pass" onclick="showSec('premium')">
+      <div class="sp-t">🕳 DEEP RABBIT SEARCH</div>
+      <div class="sp-s">Describe what you half-remember — CIPHER finds the exact clip across all 21 shows</div>
+      <button class="sp-b">Unlock · from $0.99</button>
+      <div class="sp-p">pay what you can · for the people</div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- ═══ HOME — FOR YOU ═══ -->
+    <div class="sec active" id="tab-home">
+      <div class="ph">
+        <div>
+          <div class="pht">THE <span>FEED</span></div>
+          <div class="phs">Official Only — We Are The Culture · all views go directly to the verified creator</div>
+        </div>
+        <div class="ph-r"><span class="tag fire">🔥 Diddy Trial</span><span class="tag live">🔴 Ak Live</span></div>
+      </div>
+      <div class="sbar2">
+        <div class="sb2"><div class="sb2-n">21</div><div class="sb2-l">Official Shows</div></div>
+        <div class="sb2"><div class="sb2-n">70M+</div><div class="sb2-l">Total Subscribers</div></div>
+        <div class="sb2"><div class="sb2-n">0</div><div class="sb2-l">Re-uploads</div></div>
+        <div class="sb2"><div class="sb2-n">100%</div><div class="sb2-l">Real Culture</div></div>
+      </div>
+
+      <!-- HERO SLOGAN BANNER -->
+      <div style="background:var(--bg2);border:1px solid var(--gb);border-radius:var(--r);padding:13px 16px;margin-bottom:16px;border-left:3px solid var(--gold);">
+        <div style="font-size:12px;color:var(--text);line-height:1.6;font-style:italic;">"Official Only — We Are The Culture. Every view, every engagement goes directly to the verified creator. No re-uploads. No basement opinions. If it's on CIPHER, it's the real thing."</div>
+        <div style="font-size:9px;color:var(--text3);font-family:var(--fm);margin-top:6px;letter-spacing:1px;">— CIPHER · CIPHERTHECULTURE.COM</div>
+      </div>
+
+      <!-- HERO CLIP -->
+      <div class="hero" onclick="openShare('clip')">
+        <div class="hthumb" style="background:linear-gradient(135deg,#060414,#100820);">
+          <div class="hg"></div><div class="hplay"><div class="hptri"></div></div>
+          <div class="hshow"><div class="hsd" style="background:#c9a84c;"></div><span class="hsn">Joe Budden Podcast</span><span style="font-size:9px;color:var(--gold);">✓</span></div>
+          <!-- TIMESTAMP DEEP LINK — NEW -->
+          <div class="cts" style="position:absolute;top:11px;right:11px;" onclick="event.stopPropagation();showToast('Opening YouTube at 43:12 →')">⏱ Jump to 43:12</div>
+          <div class="hbar">🔥 8 official shows reacted — go down the Rabbit Hole for every take</div>
+        </div>
+        <div class="hbody">
+          <div class="hrow">
+            <div class="havs"><div class="hav jbp">JB</div><div class="hav" style="background:linear-gradient(135deg,#4ab8c9,#2a7a9a);color:#000;">I</div><div class="hav" style="background:linear-gradient(135deg,#c9c94a,#8a8a20);color:#000;">ML</div></div>
+            <div class="hmeta">Joe Budden · Ice · Marc Lamont Hill</div>
+            <div class="hera">2025 · Official JBP</div>
+          </div>
+          <div class="htitle">"This trial is bigger than Puff — the entire system that protected him for decades is what's really on trial here."</div>
+          <div class="htags"><span class="tag fire">🔥 Diddy Trial</span><span class="tag">Industry</span><span class="tag new">↑ 8 shows covered this</span></div>
+          <div class="hacts">
+            <button class="btn">▶ Play</button>
+            <button class="btn dk" onclick="event.stopPropagation();openShare('clip')">↗ Share to X</button>
+            <button class="btn rh" onclick="event.stopPropagation();showSec('rabbithole')">🕳 Rabbit Hole</button>
+            <button class="btn" onclick="event.stopPropagation();openOverlay('watchPartyOverlay')">🎬 Watch Party</button>
+            <button class="btn" onclick="event.stopPropagation();openOverlay('debateOverlay')">💬 Debate (47)</button>
+            <button class="why" onclick="event.stopPropagation();showWhy(event,'Trending in Hip-Hop · You Rabbit-Holed Diddy 3× · Breaking news · Nationally discussed')">💡 Why?</button>
+          </div>
+          <!-- CALLED IT / AGED BADLY — NEW FEATURE -->
+          <div class="vote-row">
+            <button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">847</span> Called It</button>
+            <button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">23</span> Aged Badly</button>
+            <span class="vi-share" onclick="openShare('clip')">↗ Share verdict</span>
+          </div>
+          <!-- EPISODE SUMMARY — NEW FEATURE -->
+          <div class="ep-sum">
+            <div class="ep-sum-hd" onclick="toggleSum(this)"><span>📄 Episode Summary — EP. 848</span><span class="ep-sum-tog">▼ Read</span></div>
+            <div class="ep-sum-body">Joe opens with an unfiltered reaction to the latest trial developments, then passes to Marc Lamont Hill who breaks down the legal implications in detail. Ice challenges the framing at 43:12 — the clip the whole culture is talking about. The panel debates whether the verdict will change anything about how the industry operates going forward.<div class="ep-sum-ts" onclick="showToast('Opening YouTube at 43:12 →')">⏱ Key moment at 43:12 → Jump to it</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEED FILTER -->
+      <div class="ff">
+        <div class="ff-hd"><span>Filter feed by show</span><span class="ff-r" onclick="resetFilter()">Show all</span></div>
+        <div class="ff-shows" id="feedFilters">
+          <div class="ffs active" data-show="jbp" onclick="toggleShow(this)"><div class="ffs-d" style="background:#c9a84c;"></div><span>JBP</span></div>
+          <div class="ffs active" data-show="vlad" onclick="toggleShow(this)"><div class="ffs-d" style="background:#4a9fdf;"></div><span>VladTV</span></div>
+          <div class="ffs active" data-show="champs" onclick="toggleShow(this)"><div class="ffs-d" style="background:#df4aaf;"></div><span>Drink Champs</span></div>
+          <div class="ffs active" data-show="akad" onclick="toggleShow(this)"><div class="ffs-d" style="background:#4adf8f;"></div><span>Akademiks</span></div>
+          <div class="ffs active" data-show="akademy" onclick="toggleShow(this)"><div class="ffs-d" style="background:#60ef9f;"></div><span>Akademy HQ</span></div>
+          <div class="ffs active" data-show="bkfst" onclick="toggleShow(this)"><div class="ffs-d" style="background:#dfaf4a;"></div><span>Breakfast Club</span></div>
+          <div class="ffs active" data-show="shay" onclick="toggleShow(this)"><div class="ffs-d" style="background:#dfcf4a;"></div><span>Club Shay Shay</span></div>
+          <div class="ffs active" data-show="arena" onclick="toggleShow(this)"><div class="ffs-d" style="background:#c060ef;"></div><span>The Arena</span></div>
+          <div class="ffs active" data-show="idiots" onclick="toggleShow(this)"><div class="ffs-d" style="background:#af4adf;"></div><span>Brilliant Idiots</span></div>
+          <div class="ffs active" data-show="lrai" onclick="toggleShow(this)"><div class="ffs-d" style="background:#4aafd4;"></div><span>Let's Rap About It</span></div>
+          <div class="ffs active" data-show="c520" onclick="toggleShow(this)"><div class="ffs-d" style="background:#d48f4a;"></div><span>Club 520</span></div>
+          <div class="ffs active" data-show="revolt" onclick="toggleShow(this)"><div class="ffs-d" style="background:#df4a4a;"></div><span>REVOLT</span></div>
+          <div class="ffs active" data-show="mwog" onclick="toggleShow(this)"><div class="ffs-d" style="background:#4aef9f;"></div><span>Million Dollaz</span></div>
+        </div>
+      </div>
+      <div class="divl"><div class="divll"></div><div class="divlt">Official Cross-Show Feed</div><div class="divll"></div></div>
+
+      <div class="cgrid" id="clipGrid">
+        <div class="cc" data-show="vlad">
+          <div class="cthumb" style="background:linear-gradient(135deg,#001525,#001020);">
+            <div class="ctg"></div><div class="ctp"><div class="ctri"></div></div>
+            <div class="csb"><div class="csd" style="background:#4a9fdf;"></div><span class="csn">VladTV ✓</span></div>
+            <div class="cts" onclick="showToast('Opening YouTube at 11:27 →')">⏱ 11:27 →</div>
+            <div class="cbar">🕳 5 shows covered this · Rabbit Hole ready</div>
+          </div>
+          <div class="cbody">
+            <div class="crow"><div class="cavs"><div class="cav vlad" style="font-size:6px;">VTV</div></div><div class="cmeta">DJ Vlad · 6.1M subs</div><div class="cera">2024</div></div>
+            <div class="ctitle">Industry source breaks down how the silence lasted decades — nobody said it like this</div>
+            <div class="ctags"><span class="tag fire">🔥 Exclusive</span><span class="tag">Industry</span></div>
+            <div class="cacts"><button class="btn">▶ Play</button><button class="btn dk" onclick="openShare('clip')">↗</button><button class="btn rh" onclick="showSec('rabbithole')">🕳</button><button class="why" onclick="showWhy(event,'VladTV in feed · Diddy topic match · Trending nationally')">💡</button></div>
+            <div class="vote-row"><button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">412</span> Called It</button><button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">8</span> Aged Badly</button></div>
+            <div class="ep-sum"><div class="ep-sum-hd" onclick="toggleSum(this)"><span>📄 Episode Summary</span><span class="ep-sum-tog">▼</span></div><div class="ep-sum-body">Vlad sits down with an industry insider who worked closely with major label executives through the 2000s and 2010s. The source describes specific instances where internal discussions about certain artists' behavior were actively suppressed. Three separate incidents are described — all connecting directly to the current trial testimony.</div></div>
+            <div class="debate-row"><div class="db-ico">💬</div><div class="db-txt">Is Vlad the most important archive in hip-hop?</div><div class="db-cnt">112</div><div class="db-btn" onclick="openOverlay('debateOverlay')">Join</div></div>
+          </div>
+        </div>
+        <div class="cc" data-show="shay">
+          <div class="cthumb" style="background:linear-gradient(135deg,#1a1200,#0a0a00);">
+            <div class="ctg"></div><div class="ctp"><div class="ctri"></div></div>
+            <div class="csb"><div class="csd" style="background:#dfcf4a;"></div><span class="csn">Club Shay Shay ✓</span></div>
+            <div class="cts" onclick="showToast('Opening YouTube at 1:24:08 →')">⏱ 1:24:08 →</div>
+          </div>
+          <div class="cbody">
+            <div class="crow"><div class="cavs"><div class="cav shay" style="font-size:6px;">SS</div></div><div class="cmeta">Shannon Sharpe · 3.17M</div><div class="cera">2024</div></div>
+            <div class="ctitle">Katt Williams said EVERYTHING — 72M views · most watched YouTube interview in history</div>
+            <div class="ctags"><span class="tag fire">🔥 72M Views</span><span class="tag">Katt Williams</span></div>
+            <div class="cacts"><button class="btn">▶ Play</button><button class="btn dk" onclick="openShare('clip')">↗</button><button class="btn rh" onclick="showSec('rabbithole')">🕳</button><button class="btn" onclick="openOverlay('watchPartyOverlay')">🎬</button></div>
+            <div class="vote-row"><button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">2.1K</span> Called It</button><button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">14</span> Aged Badly</button></div>
+            <div class="ep-sum"><div class="ep-sum-hd" onclick="toggleSum(this)"><span>📄 Episode Summary</span><span class="ep-sum-tog">▼</span></div><div class="ep-sum-body">In what became the most watched YouTube interview ever with 72M views, Katt joins Shannon for 3 unfiltered hours. Katt names specific industry figures and discusses systemic suppression of Black male comedians. At 1:24:08 he makes the statement that sends every other CIPHER show into reaction mode within 48 hours.</div></div>
+            <div class="debate-row"><div class="db-ico">💬</div><div class="db-txt">Best interview of the decade?</div><div class="db-cnt">340</div><div class="db-btn" onclick="openOverlay('debateOverlay')">Join</div></div>
+          </div>
+        </div>
+        <div class="cc" data-show="akademy">
+          <div class="cthumb" style="background:linear-gradient(135deg,#002a10,#001508);">
+            <div class="ctg"></div><div class="ctp"><div class="ctri"></div></div>
+            <div class="csb"><div class="csd" style="background:#60ef9f;"></div><span class="csn">The Akademy HQ ✓</span></div>
+            <div class="cdur" style="color:#ff7070;font-weight:700;">● LIVE</div>
+            <div class="cbar">🔴 134 people clipping this right now</div>
+          </div>
+          <div class="cbody">
+            <div class="crow"><div class="cavs"><div class="cav akademy" style="font-size:6px;">AHQ</div></div><div class="cmeta">@TheAkademyHQ · Live</div><div class="cera">Now</div></div>
+            <div class="ctitle">Ak goes in on Drake live — chat going crazy, clips flying in real time</div>
+            <div class="ctags"><span class="tag live">🔴 LIVE</span><span class="tag fire">🔥 Drake</span></div>
+            <div class="cacts"><button class="btn pri">▶ Join Live</button><button class="btn dk" onclick="openShare('clip')">↗</button><button class="btn" onclick="openOverlay('watchPartyOverlay')">🎬 Watch Party</button></div>
+            <div class="vote-row"><button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">88</span> Called It</button><button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">44</span> Aged Badly</button></div>
+          </div>
+        </div>
+        <div class="cc" data-show="arena">
+          <div class="cthumb" style="background:linear-gradient(135deg,#100a1a,#060310);">
+            <div class="ctg"></div><div class="ctp"><div class="ctri"></div></div>
+            <div class="csb"><div class="csd" style="background:#c060ef;"></div><span class="csn">The Arena ✓</span></div>
+            <div class="cts" onclick="showToast('Opening YouTube at 18:44 →')">⏱ 18:44 →</div>
+          </div>
+          <div class="cbody">
+            <div class="crow"><div class="cavs"><div class="cav arena" style="font-size:6px;">ARN</div></div><div class="cmeta">Sports & Culture · @TheArena0</div><div class="cera">2025</div></div>
+            <div class="ctitle">Sports meets the culture — breaking down what's happening in the game and in the streets simultaneously</div>
+            <div class="ctags"><span class="tag">Sports & Culture</span><span class="tag new">New Drop</span></div>
+            <div class="cacts"><button class="btn">▶ Play</button><button class="btn dk" onclick="openShare('clip')">↗</button><button class="btn rh" onclick="showSec('rabbithole')">🕳</button></div>
+            <div class="vote-row"><button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">234</span> Called It</button><button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">19</span> Aged Badly</button></div>
+            <div class="ep-sum"><div class="ep-sum-hd" onclick="toggleSum(this)"><span>📄 Episode Summary</span><span class="ep-sum-tog">▼</span></div><div class="ep-sum-body">The Arena examines how two current NBA players' off-court social media activity has become a bigger story than their on-court performance. One is linked to an ongoing rap beef. The show asks: in 2025, is a player's cultural footprint as important as their stats?</div></div>
+            <div class="debate-row"><div class="db-ico">💬</div><div class="db-txt">Does NBA care too much about rap culture now?</div><div class="db-cnt">89</div><div class="db-btn" onclick="openOverlay('debateOverlay')">Join</div></div>
+          </div>
+        </div>
+        <div class="cc" data-show="lrai">
+          <div class="cthumb" style="background:linear-gradient(135deg,#001520,#000a14);">
+            <div class="ctg"></div><div class="ctp"><div class="ctri"></div></div>
+            <div class="csb"><div class="csd" style="background:#4aafd4;"></div><span class="csn">Let's Rap About It ✓</span></div>
+            <div class="cts" onclick="showToast('Opening YouTube at 34:22 →')">⏱ 34:22 →</div>
+          </div>
+          <div class="cbody">
+            <div class="crow"><div class="cavs"><div class="cav lrai" style="font-size:6px;">LR</div></div><div class="cmeta">@LetsRapAboutIt · Official</div><div class="cera">2025</div></div>
+            <div class="ctitle">Breaking down the culture from a perspective no other show brings to the table right now</div>
+            <div class="ctags"><span class="tag new">New to CIPHER</span><span class="tag">Culture</span></div>
+            <div class="cacts"><button class="btn">▶ Play</button><button class="btn dk" onclick="openShare('clip')">↗</button><button class="btn rh" onclick="showSec('rabbithole')">🕳</button></div>
+            <div class="vote-row"><button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">67</span> Called It</button><button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">5</span> Aged Badly</button></div>
+          </div>
+        </div>
+        <div class="cc" data-show="c520">
+          <div class="cthumb" style="background:linear-gradient(135deg,#140a00,#0a0500);">
+            <div class="ctg"></div><div class="ctp"><div class="ctri"></div></div>
+            <div class="csb"><div class="csd" style="background:#d48f4a;"></div><span class="csn">Club 520 ✓</span></div>
+            <div class="cts" onclick="showToast('Opening YouTube at 22:08 →')">⏱ 22:08 →</div>
+          </div>
+          <div class="cbody">
+            <div class="crow"><div class="cavs"><div class="cav c520" style="font-size:6px;">520</div></div><div class="cmeta">@club520podcast · Official</div><div class="cera">2025</div></div>
+            <div class="ctitle">Real talk, no filter — Club 520 keeps it authentic every single episode without compromise</div>
+            <div class="ctags"><span class="tag new">New to CIPHER</span><span class="tag">Hip-Hop</span></div>
+            <div class="cacts"><button class="btn">▶ Play</button><button class="btn dk" onclick="openShare('clip')">↗</button><button class="btn rh" onclick="showSec('rabbithole')">🕳</button></div>
+            <div class="vote-row"><button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">44</span> Called It</button><button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">3</span> Aged Badly</button></div>
+          </div>
+        </div>
+        <div class="cc" data-show="mwog">
+          <div class="cthumb" style="background:linear-gradient(135deg,#001a10,#000d08);">
+            <div class="ctg"></div><div class="ctp"><div class="ctri"></div></div>
+            <div class="csb"><div class="csd" style="background:#4aef9f;"></div><span class="csn">Million Dollaz WOG ✓</span></div>
+            <div class="cts" onclick="showToast('Opening YouTube at 28:14 →')">⏱ 28:14 →</div>
+          </div>
+          <div class="cbody">
+            <div class="crow"><div class="cavs"><div class="cav mwog" style="font-size:6px;">MDG</div></div><div class="cmeta">Gillie Da King & Wallo267 · 1.53M</div><div class="cera">2025</div></div>
+            <div class="ctitle">Gillie & Wallo drop real game — Philly roots, street wisdom, and the culture from people who lived it</div>
+            <div class="ctags"><span class="tag new">New to CIPHER</span><span class="tag">Game</span><span class="tag">Philly</span></div>
+            <div class="cacts"><button class="btn">▶ Play</button><button class="btn dk" onclick="openShare('clip')">↗</button><button class="btn rh" onclick="showSec('rabbithole')">🕳</button><button class="why" onclick="showWhy(event,'Philly culture · Gillie & Wallo · New verified show')">💡</button></div>
+            <div class="vote-row"><button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">189</span> Called It</button><button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">7</span> Aged Badly</button></div>
+            <div class="ep-sum"><div class="ep-sum-hd" onclick="toggleSum(this)"><span>📄 Episode Summary</span><span class="ep-sum-tog">▼</span></div><div class="ep-sum-body">Gillie and Wallo sit down for their signature no-filter conversation. Wallo, who turned his life around after 20 years in prison, brings the street perspective while Gillie brings the rap industry lens. This episode covers personal growth, navigating success, and what it means to own your intellectual property — a topic they know well after turning down Spotify's multi-million dollar IP acquisition offer.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ RABBIT HOLE ═══ -->
+    <div class="sec" id="tab-rabbithole">
+      <div class="rh-hdr">
+        <div class="rh-eye">🕳 THE RABBIT HOLE</div>
+        <div class="rh-ttl">ONE TOPIC. <span>EVERY OFFICIAL TAKE.</span></div>
+        <div class="rh-desc">One tap on any topic shows every official take across all 21 shows — threaded so you can see who said it first, who flipped, and who got it right. No re-uploads. No basement opinions.</div>
+      </div>
+
+      <!-- DEEP RABBIT SEARCH (PREMIUM) -->
+      <div class="deep-search-box">
+        <div class="ds-hd">
+          <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_4db0369b-5f79-4454-a749-a932c12b951b.png?v=1775412869" class="ds-logo-lg" alt="Deep Rabbit Search" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;flex-direction:column;"><div style="font-size:14px;font-weight:800;color:var(--gold);font-family:var(--fm);">🕳 DEEP RABBIT SEARCH</div></div>
+          <div>
+            <div class="ds-hd-t">Deep Rabbit Search</div>
+            <div class="ds-hd-s">Describe what you half-remember — we find the exact clip</div>
+          </div>
+          <div class="ds-premium">⭐ CIPHER Pass</div>
+        </div>
+        <div class="ds-input-wrap">
+          <input class="ds-input" id="dsInput" type="text" placeholder="&quot;that episode where Joe got really mad about something with Rory...&quot; or &quot;when Ak said something about a lawsuit...&quot;" onkeydown="if(event.key==='Enter')runDeepSearch()">
+          <button class="ds-go" onclick="runDeepSearch()">Search</button>
+        </div>
+        <div class="ds-examples">
+          <div class="ds-ex" onclick="setDSExample(this.textContent)">"that time Joe fired someone live on air"</div>
+          <div class="ds-ex" onclick="setDSExample(this.textContent)">"when VladTV had a rapper talk about Bad Boy back in the day"</div>
+          <div class="ds-ex" onclick="setDSExample(this.textContent)">"Akademiks said something about a lawsuit with another show"</div>
+          <div class="ds-ex" onclick="setDSExample(this.textContent)">"Charlamagne giving donkey of the day to someone in the industry"</div>
+          <div class="ds-ex" onclick="setDSExample(this.textContent)">"Drink Champs episode where the guest got emotional"</div>
+        </div>
+        <div class="ds-generating" id="dsGen"><div class="ds-gen-ico">🕳</div><div style="font-size:13px;color:var(--text2);margin-top:8px;" id="dsGenTxt">Searching the archive...</div></div>
+        <div class="ds-results" id="dsResults">
+          <div class="ds-res-label">Best matches found — click any to open</div>
+          <div class="ds-result" onclick="selBubble('Rory & Mal fired JBP Episode 437')">
+            <div class="ds-r-dot" style="background:#c9a84c;"></div>
+            <div class="ds-r-info">
+              <div class="ds-r-show">JOE BUDDEN PODCAST · EP. 437 · MAY 2021</div>
+              <div class="ds-r-quote">"Rory, you are in breach of your contract — from this point forward, you are fired."</div>
+              <div class="ds-r-meta">Joe Budden · Alone in studio · Empty seats · 2 empty chairs · Most viral pod moment ever</div>
+            </div>
+            <div class="ds-r-match">98% match</div>
+          </div>
+          <div class="ds-result" onclick="selBubble('Joe Budden on industry problems')">
+            <div class="ds-r-dot" style="background:#c9a84c;"></div>
+            <div class="ds-r-info">
+              <div class="ds-r-show">JOE BUDDEN PODCAST · EP. 440 · JUNE 2021</div>
+              <div class="ds-r-quote">"I built something and they wanted to take it from me — that's what this was always about."</div>
+              <div class="ds-r-meta">Joe Budden · Post-split · Addressing the beef directly · 1 week after Ep. 437</div>
+            </div>
+            <div class="ds-r-match">84% match</div>
+          </div>
+          <div class="ds-result" onclick="selBubble('Rory and Mal side of the split')">
+            <div class="ds-r-dot" style="background:#4adfdf;"></div>
+            <div class="ds-r-info">
+              <div class="ds-r-show">NEW RORY & MAL · EP. 01 · JULY 2021</div>
+              <div class="ds-r-quote">"We want to tell y'all our side of the story — for real this time, unfiltered."</div>
+              <div class="ds-r-meta">Rory Farrell · Jamil "Mal" Clay · First episode post-JBP · Their new independent show</div>
+            </div>
+            <div class="ds-r-match">79% match</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STANDARD SEARCH -->
+      <div class="rh-search">
+        <input class="rh-si" id="rhInput" type="text" placeholder="Or type any topic, artist, beef, city, moment directly..." onkeydown="if(event.key==='Enter')rhGo()">
+        <button class="rh-sb" onclick="rhGo()">🕳 Go</button>
+      </div>
+      <div class="rh-gen" id="rhGen"><div class="ds-gen-ico" style="font-size:28px;">🕳</div><div id="rhGenTxt" style="font-size:13px;color:var(--text2);margin-top:8px;">Searching the culture...</div><div style="font-size:10px;color:var(--text3);margin-top:4px;">Pulling from 20 official channels · all eras</div></div>
+
+      <!-- BUBBLES -->
+      <div id="rhCats">
+        <div class="rh-cats">
+          <div><div class="rh-cat-lbl">🔥 Beef & Smoke</div><div class="rh-bubbles">
+            <div class="rb fire" onclick="selBubble('Drake vs Kendrick full timeline')">Drake vs Kendrick</div>
+            <div class="rb fire" onclick="selBubble('Joe Budden vs Drake 2017')">Joe Budden vs Drake</div>
+            <div class="rb fire" onclick="selBubble('Meek Mill vs Drake beef')">Meek vs Drake</div>
+            <div class="rb fire" onclick="selBubble('Rory and Mal split JBP Episode 437')">Rory & Mal split</div>
+            <div class="rb fire" onclick="selBubble('50 Cent beef archive')">50 Cent beefs</div>
+            <div class="rb fire" onclick="selBubble('Pusha T vs Drake')">Pusha T vs Drake</div>
+            <div class="rb fire" onclick="selBubble('JBP vs Akademiks')">JBP vs Akademiks</div>
+            <div class="rb fire" onclick="selBubble('Nicki Minaj vs Cardi B')">Nicki vs Cardi</div>
+          </div></div>
+          <div><div class="rh-cat-lbl">⚖️ Trials & Legal</div><div class="rh-bubbles">
+            <div class="rb fire" onclick="openEntity('diddy-trial')">Diddy trial — all 11 shows</div>
+            <div class="rb" onclick="selBubble('Young Thug YSL RICO trial')">Young Thug YSL</div>
+            <div class="rb" onclick="selBubble('Pooh Shiesty arrest Memphis')">Pooh Shiesty (Memphis)</div>
+            <div class="rb" onclick="selBubble('ASAP Rocky trial verdict')">A$AP Rocky trial</div>
+            <div class="rb" onclick="selBubble('Tekashi 69 snitching case')">Tekashi 69</div>
+          </div></div>
+          <div><div class="rh-cat-lbl">👑 Icons & Legends</div><div class="rh-bubbles">
+            <div class="rb hot" onclick="openEntity('kendrick')">Kendrick Lamar (full archive)</div>
+            <div class="rb hot" onclick="selBubble('Lil Wayne GOAT debate all shows')">Lil Wayne GOAT debate</div>
+            <div class="rb hot" onclick="selBubble('Jay-Z legacy all takes')">Jay-Z legacy</div>
+            <div class="rb hot" onclick="selBubble('Kanye West evolution all shows')">Kanye evolution</div>
+            <div class="rb" onclick="selBubble('Nas vs Jay-Z Ether era')">Nas vs Jay-Z</div>
+            <div class="rb" onclick="selBubble('Drake discography and legacy')">Drake legacy</div>
+            <div class="rb" onclick="selBubble('Joe Budden rap career and retirement')">Joe Budden rapper era</div>
+          </div></div>
+          <div><div class="rh-cat-lbl">🎵 Big Moments</div><div class="rh-bubbles">
+            <div class="rb hot" onclick="selBubble('Katt Williams Club Shay Shay 72M interview')">Katt Williams (72M)</div>
+            <div class="rb" onclick="selBubble('Kendrick Superbowl 2025 halftime')">Kendrick Superbowl 2025</div>
+            <div class="rb" onclick="selBubble('Not Like Us deep dive all shows')">Not Like Us</div>
+            <div class="rb" onclick="selBubble('Lil Wayne Carter VI reactions')">Carter VI reactions</div>
+            <div class="rb" onclick="selBubble('Beyonce Cowboy Carter reactions')">Cowboy Carter</div>
+          </div></div>
+          <div><div class="rh-cat-lbl">🏀 Sports × Culture</div><div class="rh-bubbles">
+            <div class="rb" onclick="selBubble('NBA hip hop culture crossover all shows')">NBA × hip-hop</div>
+            <div class="rb" onclick="selBubble('The Arena sports culture episodes')">The Arena archive</div>
+            <div class="rb" onclick="selBubble('Shannon Sharpe interviews best moments')">Shannon Sharpe archive</div>
+            <div class="rb" onclick="selBubble('LeBron James culture opinions all shows')">LeBron takes</div>
+          </div></div>
+          <div><div class="rh-cat-lbl">🌆 City & Regional</div><div class="rh-bubbles">
+            <div class="rb" onclick="openEntity('atlanta')">Atlanta culture (city page)</div>
+            <div class="rb" onclick="selBubble('Philadelphia rap scene Meek Mill')">Philly rap scene</div>
+            <div class="rb" onclick="selBubble('Memphis rap Pooh Shiesty Three 6 Mafia')">Memphis rap scene</div>
+            <div class="rb" onclick="selBubble('New York all boroughs rap history')">NYC — all boroughs</div>
+            <div class="rb" onclick="selBubble('Houston rap Travis Scott UGK')">Houston culture</div>
+            <div class="rb" onclick="selBubble('Los Angeles Kendrick West Coast rap')">LA — West Coast</div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- THREAD -->
+      <div id="rhThread">
+        <!-- SUB-GENRE CARDS (pop out related topics) -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:9px;color:var(--text2);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;">Related sub-topics — click to filter or open new Rabbit Hole</div>
+          <div class="rh-subgenre-cards">
+            <div class="sg-card" onclick="selBubble('Diddy and music industry abuse')"><div class="sg-ico">🏭</div><div class="sg-nm">Industry Abuse</div><div class="sg-cl">28 clips · 8 shows</div></div>
+            <div class="sg-card" onclick="selBubble('Diddy Bad Boy Records history')"><div class="sg-ico">🎵</div><div class="sg-nm">Bad Boy Era</div><div class="sg-cl">45 clips · 6 shows</div></div>
+            <div class="sg-card" onclick="selBubble('Celebrity accountability in hip hop')"><div class="sg-ico">⚖️</div><div class="sg-nm">Accountability</div><div class="sg-cl">32 clips · 9 shows</div></div>
+            <div class="sg-card" onclick="selBubble('Power and fame in music industry')"><div class="sg-ico">👑</div><div class="sg-nm">Power Dynamics</div><div class="sg-cl">19 clips · 7 shows</div></div>
+            <div class="sg-card" onclick="selBubble('Hip hop silence and complicity')"><div class="sg-ico">🤫</div><div class="sg-nm">The Silence</div><div class="sg-cl">14 clips · 5 shows</div></div>
+            <div class="sg-card" onclick="selBubble('Legal system and rappers')"><div class="sg-ico">🏛️</div><div class="sg-nm">Legal System</div><div class="sg-cl">22 clips · 8 shows</div></div>
+          </div>
+        </div>
+
+        <div class="rh-thread-top">
+          <div class="rh-thread-ttl">RABBIT HOLE: <span id="rhThreadTitle">DIDDY TRIAL</span></div>
+          <div class="rh-thread-meta" id="rhThreadMeta">11 sources · 47 clips</div>
+        </div>
+
+        <!-- COLUMN HEADERS — "Earlier Rabbit" / "Latest Rabbit" -->
+        <div class="rh-grid" style="margin-bottom:0;">
+          <div>
+            <div class="rh-col-hdr earlier">
+              <div class="rh-col-hdr-ico">⏮</div>
+              <div>
+                <div class="rh-col-hdr-t">Earlier Rabbit</div>
+              </div>
+              <div class="rh-col-hdr-sub">Who said it first</div>
+            </div>
+          </div>
+          <div>
+            <div class="rh-col-hdr latest">
+              <div class="rh-col-hdr-ico">⏭</div>
+              <div>
+                <div class="rh-col-hdr-t">Latest Rabbit</div>
+              </div>
+              <div class="rh-col-hdr-sub">Who's saying it now</div>
+            </div>
+          </div>
+        </div>
+        <div class="rh-grid">
+          <div class="rh-col">
+            <div class="rh-node"><div class="rh-bull" style="background:var(--gold);"></div><div class="rh-card"><div class="rh-srow"><div class="rh-sdot" style="background:#4a9fdf;"></div><span class="rh-snm">VLADTV · 2010–2022 ARCHIVE</span><span class="rh-heat">🔥 8.1M</span></div><div class="rh-txt">Vlad compiled every interview hint — the receipts were in plain sight for 12 years</div><div class="rh-ep">DJ Vlad · Official VladTV · 6.1M subs</div></div></div>
+            <div class="rh-node"><div class="rh-bull" style="background:#df4aaf;"></div><div class="rh-card"><div class="contradiction">🔄 Contradicts 2024 take</div><div class="rh-srow"><div class="rh-sdot" style="background:#df4aaf;"></div><span class="rh-snm">DRINK CHAMPS · 2021</span><span class="rh-heat">🔥 3.5M</span></div><div class="rh-txt">N.O.R.E. spoke differently about Puff in 2021 — before all the details came out</div><div class="rh-ep">N.O.R.E. & DJ EFN · Official · 2021</div></div></div>
+            <div class="rh-node"><div class="rh-bull" style="background:#dfcf4a;"></div><div class="rh-card"><div class="rh-srow"><div class="rh-sdot" style="background:#dfcf4a;"></div><span class="rh-snm">CLUB SHAY SHAY · 2023</span><span class="rh-heat">🔥 5.2M</span></div><div class="rh-txt">Shannon's take before the trial — the HOF athlete perspective on power and fame</div><div class="rh-ep">Shannon Sharpe · Official CSS</div></div></div>
+            <div class="rh-node"><div class="rh-bull" style="background:#4adfdf;"></div><div class="rh-card"><div class="rh-srow"><div class="rh-sdot" style="background:#4adfdf;"></div><span class="rh-snm">NEW RORY & MAL · 2022</span><span class="rh-heat">↑ Rising</span></div><div class="rh-txt">Rory and Mal's early take — post-JBP independence gives unfiltered industry perspective</div><div class="rh-ep">Rory Farrell · Mal Clay · Official R&M</div></div></div>
+          </div>
+          <div class="rh-col">
+            <div class="rh-node"><div class="rh-bull" style="background:#c9a84c;"></div><div class="rh-card"><div class="rh-srow"><div class="rh-sdot" style="background:#c9a84c;"></div><span class="rh-snm">JBP · EP. 848 · 2025</span><span class="rh-heat">🔥 4.2M</span></div><div class="rh-txt">"This goes way beyond Puff — the system that protected him is on trial" — Marc Lamont Hill</div><div class="rh-ep">Joe · Ice · MLH · Official JBP</div></div></div>
+            <div class="rh-node"><div class="rh-bull" style="background:#dfaf4a;"></div><div class="rh-card"><div class="rh-srow"><div class="rh-sdot" style="background:#dfaf4a;"></div><span class="rh-snm">BREAKFAST CLUB · 2024</span><span class="rh-heat">🔥 6.8M</span></div><div class="rh-txt">Charlamagne's Donkey of the Day — why industry silence was always the real story</div><div class="rh-ep">Charlamagne · DJ Envy · Official</div></div></div>
+            <div class="rh-node"><div class="rh-bull" style="background:#df4aaf;"></div><div class="rh-card"><div class="contradiction">🔄 Flipped from earlier take</div><div class="rh-srow"><div class="rh-sdot" style="background:#df4aaf;"></div><span class="rh-snm">DRINK CHAMPS · 2024</span><span class="rh-heat">🔥 2.8M</span></div><div class="rh-txt">N.O.R.E. revisits his earlier takes — this is why CIPHER shows you both sides</div><div class="rh-ep">N.O.R.E. & DJ EFN · Official · 2024</div></div></div>
+            <div class="rh-node"><div class="rh-bull" style="background:#4adf8f;"></div><div class="rh-card"><div class="rh-srow"><div class="rh-sdot" style="background:#4adf8f;"></div><span class="rh-snm">DJ AKADEMIKS · 2024</span><span class="rh-heat">🔥 9.4M</span></div><div class="rh-txt">Ak breaks every timeline detail — who knew what, when, and why nobody said it until now</div><div class="rh-ep">DJ Akademiks · Official · 2.8M subs</div></div></div>
+          </div>
+        </div>
+        <div style="text-align:center;padding:14px 0;"><button class="btn rh">🕳 Load 4 more shows on this topic</button></div>
+      </div>
+    </div>
+
+    <!-- ═══ BROWSE CULTURE (+ MAP MERGED) ═══ -->
+    <div class="sec" id="tab-browse">
+      <div class="ph"><div><div class="pht">BROWSE <span>CULTURE</span></div><div class="phs">Click any topic to open its full Entity Page · Culture Map below</div></div></div>
+
+      <!-- HORIZONTAL SCROLL TOPIC CARDS -->
+      <div style="font-size:9px;color:var(--text2);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Swipe to explore all topics →</div>
+      <div class="bc-scroll">
+        <div class="bc-card" onclick="openEntity('kendrick')"><div class="bc-ico">👑</div><div class="bc-nm">Kendrick Lamar</div><div class="bc-cl">200+ clips · 11 shows</div><div class="bc-dots"><div class="bc-d" style="background:#c9a84c;"></div><div class="bc-d" style="background:#af4adf;"></div><div class="bc-d" style="background:#dfaf4a;"></div></div><div class="bc-heat">🔥 SUPERBOWL</div></div>
+        <div class="bc-card" onclick="openEntity('drake-beef')"><div class="bc-ico">🎤</div><div class="bc-nm">Drake Beef</div><div class="bc-cl">120+ clips · 12 shows</div><div class="bc-dots"><div class="bc-d" style="background:#c9a84c;"></div><div class="bc-d" style="background:#4a9fdf;"></div><div class="bc-d" style="background:#4adf8f;"></div></div><div class="bc-heat">🔥 ONGOING</div></div>
+        <div class="bc-card" onclick="openEntity('diddy-trial')"><div class="bc-ico">⚖️</div><div class="bc-nm">Diddy Trial</div><div class="bc-cl">47 clips · 11 shows</div><div class="bc-dots"><div class="bc-d" style="background:#c9a84c;"></div><div class="bc-d" style="background:#dfaf4a;"></div><div class="bc-d" style="background:#af4adf;"></div></div><div class="bc-heat">🔥 BREAKING</div></div>
+        <div class="bc-card" onclick="openEntity('joe-budden')"><div class="bc-ico">🎙️</div><div class="bc-nm">Joe Budden</div><div class="bc-cl">900+ clips · host archive</div><div class="bc-dots"><div class="bc-d" style="background:#c9a84c;"></div><div class="bc-d" style="background:#4adfdf;"></div></div><div class="bc-heat">10yr ARCHIVE</div></div>
+        <div class="bc-card" onclick="openEntity('rory-mal-split')"><div class="bc-ico">🔥</div><div class="bc-nm">Rory & Mal Split</div><div class="bc-cl">47 clips · 6 shows</div><div class="bc-dots"><div class="bc-d" style="background:#c9a84c;"></div><div class="bc-d" style="background:#4adfdf;"></div></div><div class="bc-heat">HISTORIC</div></div>
+        <div class="bc-card" onclick="openEntity('atlanta')"><div class="bc-ico">🍑</div><div class="bc-nm">Atlanta, GA</div><div class="bc-cl">180+ clips · 8 shows</div><div class="bc-dots"><div class="bc-d" style="background:#df4aaf;"></div><div class="bc-d" style="background:#4adf8f;"></div></div><div class="bc-heat">TRAP CAPITAL</div></div>
+        <div class="bc-card" onclick="selBubble('Katt Williams Club Shay Shay 72M interview')"><div class="bc-ico">🎭</div><div class="bc-nm">Katt Williams</div><div class="bc-cl">72M view interview</div><div class="bc-dots"><div class="bc-d" style="background:#dfcf4a;"></div></div><div class="bc-heat">🏆 MOST WATCHED</div></div>
+        <div class="bc-card" onclick="selBubble('Lil Wayne GOAT debate all shows')"><div class="bc-ico">🐐</div><div class="bc-nm">Lil Wayne GOAT</div><div class="bc-cl">80+ clips · 9 shows</div><div class="bc-dots"><div class="bc-d" style="background:#c9a84c;"></div><div class="bc-d" style="background:#df4aaf;"></div></div><div class="bc-heat">🔥 NEVER SETTLED</div></div>
+        <div class="bc-card" onclick="selBubble('NBA hip hop culture all shows')"><div class="bc-ico">🏀</div><div class="bc-nm">NBA × Culture</div><div class="bc-cl">340+ clips · 10 shows</div><div class="bc-dots"><div class="bc-d" style="background:#dfcf4a;"></div><div class="bc-d" style="background:#c9a84c;"></div></div><div class="bc-heat">↑ PLAYOFFS</div></div>
+        <div class="bc-card" onclick="selBubble('AI in music debate 2023 2024 all shows')"><div class="bc-ico">🤖</div><div class="bc-nm">AI in Music</div><div class="bc-cl">55 clips · 8 shows</div><div class="bc-dots"><div class="bc-d" style="background:#4adf8f;"></div><div class="bc-d" style="background:#6a8fdf;"></div></div><div class="bc-heat">↑ RISING</div></div>
+        <div class="bc-card" onclick="selBubble('Beef archive all years all shows')"><div class="bc-ico">🔥</div><div class="bc-nm">Beef Archive</div><div class="bc-cl">500+ clips · all shows</div><div class="bc-dots"><div class="bc-d" style="background:#c9a84c;"></div><div class="bc-d" style="background:#4a9fdf;"></div></div><div class="bc-heat">🔥 ALL-TIME</div></div>
+        <div class="bc-card" onclick="selBubble('Relationship debates hip hop all shows')"><div class="bc-ico">💔</div><div class="bc-nm">Relationships</div><div class="bc-cl">400+ clips · all shows</div><div class="bc-dots"><div class="bc-d" style="background:#c9a84c;"></div><div class="bc-d" style="background:#af4adf;"></div></div><div class="bc-heat">ALWAYS HOT</div></div>
+        <div class="bc-card" onclick="selBubble('Politics and race hip hop culture')"><div class="bc-ico">🏛️</div><div class="bc-nm">Politics & Race</div><div class="bc-cl">160+ clips · 10 shows</div><div class="bc-dots"><div class="bc-d" style="background:#dfaf4a;"></div><div class="bc-d" style="background:#af4adf;"></div></div><div class="bc-heat">↑ ELECTION</div></div>
+        <div class="bc-card" onclick="selBubble('Kanye West evolution all shows all years')"><div class="bc-ico">🌀</div><div class="bc-nm">Kanye Evolution</div><div class="bc-cl">120+ clips · 10 shows</div><div class="bc-dots"><div class="bc-d" style="background:#dfaf4a;"></div><div class="bc-d" style="background:#c9a84c;"></div></div><div class="bc-heat">🔥 NEVER ENDS</div></div>
+        <div class="bc-card" onclick="selBubble('Podcast industry drama all shows')"><div class="bc-ico">🎙️</div><div class="bc-nm">Podcast Beef</div><div class="bc-cl">90+ clips · 6 shows</div><div class="bc-dots"><div class="bc-d" style="background:#c9a84c;"></div><div class="bc-d" style="background:#4adf8f;"></div></div><div class="bc-heat">META</div></div>
+        <div class="bc-card" onclick="selBubble('Memphis rap scene Pooh Shiesty')"><div class="bc-ico">🎵</div><div class="bc-nm">Memphis Scene</div><div class="bc-cl">40+ clips · 5 shows</div><div class="bc-dots"><div class="bc-d" style="background:#4a9fdf;"></div><div class="bc-d" style="background:#4adf8f;"></div></div><div class="bc-heat">CONCENTRATED</div></div>
+      </div>
+
+      <!-- CULTURE MAP TOGGLE -->
+      <div class="map-toggle" id="mapToggle" onclick="toggleMap()">
+        <div class="mt-left">
+          <div style="font-size:20px;">🗺</div>
+          <div><div class="mt-t">Culture Map — Click a City</div><div class="mt-s">See what each city is discussing · launch local Rabbit Holes</div></div>
+        </div>
+        <div class="mt-arrow" id="mapArrow">▼</div>
+      </div>
+      <div class="map-body" id="mapBody">
+        <div class="mf-row">
+          <button class="mfb active" onclick="setMF(this)">All Shows</button>
+          <button class="mfb" onclick="setMF(this)">JBP</button>
+          <button class="mfb" onclick="setMF(this)">VladTV</button>
+          <button class="mfb" onclick="setMF(this)">Drink Champs</button>
+          <button class="mfb" onclick="setMF(this)">Akademiks</button>
+        </div>
+        <div class="map-2col">
+          <div class="msvg" style="position:relative;">
+            <div class="map-tt" id="mapTT"><strong id="mapTTCity"></strong><span id="mapTTInfo"></span></div>
+            <svg id="us-map-svg" viewBox="0 0 975 610" style="width:100%;display:block;"></svg>
+          </div>
+          <div class="city-panel" id="cityPanel">
+            <div class="cp-empty-state">
+              <div style="font-size:26px;margin-bottom:8px;">🗺</div>
+              <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;">Click any city</div>
+              <div style="font-size:11px;color:var(--text2);line-height:1.5;">See what topics are being discussed in that area — then go down the Rabbit Hole.</div>
+            </div>
+          </div>
+        </div>
+        <div class="mleg">
+          <div class="mli"><div class="mld" style="background:rgba(212,168,67,.78);"></div>NY/NJ Hub</div>
+          <div class="mli"><div class="mld" style="background:rgba(224,53,53,.78);"></div>ATL</div>
+          <div class="mli"><div class="mld" style="background:rgba(58,143,212,.78);"></div>West Coast</div>
+          <div class="mli"><div class="mld" style="background:rgba(154,96,212,.75);"></div>Down South</div>
+          <div class="mli"><div class="mld" style="background:rgba(29,204,110,.75);"></div>Miami/SE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MY VAULT ═══ -->
+    <div class="sec" id="tab-vault">
+      <div class="ph"><div><div class="pht">MY <span>VAULT</span></div><div class="phs">Collections · Analytics · Cultural Fingerprint · Custom Rabbit Holes</div></div></div>
+      <div class="vault-tabs">
+        <div class="vt active" onclick="showVault('cols',this)">📂 Collections</div>
+        <div class="vt" onclick="showVault('crh',this)">🕳 Custom Rabbit Holes</div>
+        <div class="vt" onclick="showVault('analytics',this)">📊 Analytics</div>
+        <div class="vt" onclick="showVault('fingerprint',this)">🧬 Fingerprint</div>
+        <div class="vt" onclick="showVault('community',this)">👥 Community</div>
+      </div>
+      <!-- COLLECTIONS TAB -->
+      <div class="vsec active" id="vsec-cols">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><span style="font-size:13px;font-weight:700;color:var(--text);">My Collections</span><span style="font-size:10px;color:var(--gold);font-family:var(--fm);">⭐ Pass: unlimited + smart tags</span></div>
+        <div class="vault-grid">
+          <div class="vc"><div class="vc-top"><div class="vc-ico">🎤</div><div class="vc-priv pub" onclick="this.classList.toggle('pub');this.textContent=this.classList.contains('pub')?'🌐 Public':'🔒 Private'">🌐 Public</div></div><div class="vc-nm">Best Drake Takes — All Time</div><div class="vc-meta">47 clips · updated 2 days ago</div><div class="vc-tags"><span class="vc-tag">JBP</span><span class="vc-tag">VladTV</span><span class="vc-tag smart-tag">🤖 Hip-Hop Beef</span></div><div class="vc-acts"><div class="vc-btn vc-open">Open</div><div class="vc-btn vc-sh">↗ Share</div></div></div>
+          <div class="vc"><div class="vc-top"><div class="vc-ico">🔮</div><div class="vc-priv" onclick="this.classList.toggle('pub');this.textContent=this.classList.contains('pub')?'🌐 Public':'🔒 Private'">🔒 Private</div></div><div class="vc-nm">Cult Stories — 4 Eps</div><div class="vc-meta">8 clips · JBP Eps 214, 387, 652, 901</div><div class="vc-tags"><span class="vc-tag">JBP</span><span class="vc-tag smart-tag">🤖 True Crime</span></div><div class="vc-acts"><div class="vc-btn vc-open">Open</div><div class="vc-btn vc-sh">↗ Share</div></div></div>
+          <div class="vc"><div class="vc-top"><div class="vc-ico">🍑</div><div class="vc-priv pub">🌐 Public</div></div><div class="vc-nm">ATL Trap Culture 2018–2024</div><div class="vc-meta">32 clips · 5 shows</div><div class="vc-tags"><span class="vc-tag">ATL</span><span class="vc-tag smart-tag">🤖 Regional</span></div><div class="vc-acts"><div class="vc-btn vc-open">Open</div><div class="vc-btn vc-sh">↗ Share</div></div></div>
+          <div class="vc" style="border:1px dashed var(--border);background:transparent;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;min-height:130px;" onclick="openOverlay('crhOverlay')"><div style="font-size:22px;">+</div><div style="font-size:11px;color:var(--text3);">New collection</div></div>
+        </div>
+        <div style="background:rgba(58,143,212,.06);border:1px solid rgba(58,143,212,.18);border-radius:var(--r);padding:11px 13px;"><div style="font-size:11px;font-weight:700;color:var(--blue);margin-bottom:3px;">🤖 Smart Tagging — CIPHER Pass</div><div style="font-size:10px;color:var(--text2);">CIPHER auto-analyzes saved clips and suggests tags. No effort needed.</div></div>
+      </div>
+      <!-- CUSTOM RH TAB -->
+      <div class="vsec" id="vsec-crh">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px;">Build Your Own Official Rabbit Hole <span style="font-size:10px;color:var(--gold);font-family:var(--fm);">⭐ Pass Feature</span></div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:14px;">Curate clips from any verified show · add context · publish under your handle · best ones featured on Browse Culture</div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;">
+          <input style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px;color:var(--text);font-size:12px;outline:none;margin-bottom:8px;display:block;" placeholder="Name your Rabbit Hole..." type="text">
+          <textarea style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px;color:var(--text);font-size:12px;outline:none;resize:none;height:52px;margin-bottom:11px;display:block;" placeholder="Context note — tell the culture why this matters..."></textarea>
+          <div style="font-size:9px;color:var(--text2);font-family:var(--fm);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;">Clips added</div>
+          <div class="crh-clip"><div style="width:6px;height:6px;border-radius:50%;background:#c9a84c;flex-shrink:0;"></div><div style="flex:1;font-size:11px;color:var(--text);">JBP Ep. 214 — Joe on Meek's approach</div><div style="font-size:9px;color:var(--text3);font-family:var(--fm);">43:12</div><div class="crh-rm" onclick="this.closest('.crh-clip').remove()">✕</div></div>
+          <div class="crh-clip"><div style="width:6px;height:6px;border-radius:50%;background:#4a9fdf;flex-shrink:0;"></div><div style="flex:1;font-size:11px;color:var(--text);">VladTV — Drake interview 2016</div><div style="font-size:9px;color:var(--text3);font-family:var(--fm);">11:27</div><div class="crh-rm" onclick="this.closest('.crh-clip').remove()">✕</div></div>
+          <div class="crh-clip"><div style="width:6px;height:6px;border-radius:50%;background:#4adf8f;flex-shrink:0;"></div><div style="flex:1;font-size:11px;color:var(--text);">Akademiks reacts to Meek Twitter beef</div><div style="font-size:9px;color:var(--text3);font-family:var(--fm);">7:44</div><div class="crh-rm" onclick="this.closest('.crh-clip').remove()">✕</div></div>
+          <div style="width:100%;padding:8px;background:var(--bg3);border:1px dashed var(--border);border-radius:var(--r);font-size:11px;color:var(--text3);text-align:center;cursor:pointer;margin:6px 0 12px;" onclick="showToast('Browse all 20 verified shows to add clips')">+ Add clips from verified shows</div>
+          <div style="display:flex;gap:7px;"><button class="btn rh" onclick="showToast('✓ Rabbit Hole published! Now live on Browse Culture')">🕳 Publish</button><button class="btn">Save Draft</button><button class="btn out">Preview</button></div>
+        </div>
+        <div style="margin-top:14px;"><div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px;">Your Published Rabbit Holes</div>
+          <div class="prh-row"><div style="font-size:20px;">🕳</div><div class="prh-info"><div class="prh-nm">Rory & Mal split — every episode leading to Ep. 437</div><div class="prh-meta">47 clips · 3 shows · 890 followers · Published by you</div></div><button class="btn" style="font-size:10px;padding:4px 10px;" onclick="openShare('rabbit')">↗ Share</button></div>
+        </div>
+      </div>
+      <!-- ANALYTICS TAB -->
+      <div class="vsec" id="vsec-analytics">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;">Cross-Show Analytics <span style="font-size:10px;color:var(--gold);font-family:var(--fm);">⭐ Pass Feature</span></div>
+        <div class="csa-grid">
+          <div class="csa-s"><div class="csa-n">47</div><div class="csa-l">Total Rabbit Holes</div><div class="csa-d">↑ 12 this month</div></div>
+          <div class="csa-s"><div class="csa-n">23</div><div class="csa-l">Called It Votes</div><div class="csa-d">78% accuracy</div></div>
+          <div class="csa-s"><div class="csa-n">8</div><div class="csa-l">Aged Badly Votes</div><div class="csa-d">All on Akademiks 😂</div></div>
+          <div class="csa-s"><div class="csa-n">Diddy</div><div class="csa-l">Top Topic</div><div class="csa-d">8 rabbit holes</div></div>
+          <div class="csa-s"><div class="csa-n">3</div><div class="csa-l">Custom Rabbit Holes</div><div class="csa-d">890 total followers</div></div>
+          <div class="csa-s"><div class="csa-n">4</div><div class="csa-l">Watch Parties</div><div class="csa-d">Avg 14 people</div></div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px;">
+          <div class="sa-hd-t">Your Show Alignment — Based on Rabbit Holes & Saves</div>
+          <div class="sa-row"><div class="sa-av jbp">JBP</div><div class="sa-nm">Joe Budden</div><div class="sa-bar"><div class="sa-fill" style="width:74%;"></div></div><div class="sa-pct">74%</div></div>
+          <div class="sa-row"><div class="sa-av vlad">VTV</div><div class="sa-nm">VladTV</div><div class="sa-bar"><div class="sa-fill" style="width:18%;"></div></div><div class="sa-pct">18%</div></div>
+          <div class="sa-row"><div class="sa-av champs">DC</div><div class="sa-nm">Drink Champs</div><div class="sa-bar"><div class="sa-fill" style="width:8%;"></div></div><div class="sa-pct">8%</div></div>
+        </div>
+        <button class="btn rh" onclick="openOverlay('fpOverlay')">🧬 View Full Cultural Fingerprint →</button>
+      </div>
+      <!-- FINGERPRINT TAB -->
+      <div class="vsec" id="vsec-fingerprint">
+        <div class="cf-card">
+          <div class="cf-hd">YOUR CULTURAL <span>FINGERPRINT</span></div>
+          <div style="font-size:11px;color:var(--text2);margin-bottom:14px;">Based on 47 Rabbit Holes · 23 Called It votes · 4 Watch Parties</div>
+          <div class="sa-row" style="margin-bottom:8px;"><div class="sa-av jbp">JBP</div><div class="sa-nm">Joe Budden</div><div class="sa-bar"><div class="sa-fill" style="width:74%;"></div></div><div class="sa-pct">74%</div></div>
+          <div class="sa-row" style="margin-bottom:8px;"><div class="sa-av vlad">VTV</div><div class="sa-nm">VladTV</div><div class="sa-bar"><div class="sa-fill" style="width:18%;"></div></div><div class="sa-pct">18%</div></div>
+          <div class="sa-row" style="margin-bottom:14px;"><div class="sa-av champs">DC</div><div class="sa-nm">Drink Champs</div><div class="sa-bar"><div class="sa-fill" style="width:8%;"></div></div><div class="sa-pct">8%</div></div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;"><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">🔥 Beef Specialist</span><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">⚖️ Trial Follower</span><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">🎙️ JBP Era Expert</span><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">✓ 78% Called It</span></div>
+          <div style="display:flex;gap:7px;"><button class="btn rh" onclick="openOverlay('fpOverlay')">🧬 Full Card + Share</button><button class="btn dk" onclick="openShare('clip')">↗ Post on X</button></div>
+        </div>
+      </div>
+      <!-- COMMUNITY TAB -->
+      <div class="vsec" id="vsec-community">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;">Community Rabbit Holes — Follow &amp; Save</div>
+        <div class="pub-rh-list">
+          <div class="prh-row"><div style="font-size:20px;flex-shrink:0;">🕳</div><div class="prh-info"><div class="prh-nm">Every Kendrick take 2012 to Superbowl — chronological</div><div class="prh-meta">By @CipherUser_89 · 200 clips · 11 shows · 1.2K followers</div></div><div class="prh-follow" onclick="this.textContent=this.textContent==='+ Follow'?'✓ Following':'+ Follow'">+ Follow</div></div>
+          <div class="prh-row"><div style="font-size:20px;flex-shrink:0;">🕳</div><div class="prh-info"><div class="prh-nm">Rory & Mal split — every episode leading to Ep. 437</div><div class="prh-meta">By @JBPSuperFan · 47 clips · 3 shows · 890 followers</div></div><div class="prh-follow" onclick="this.textContent=this.textContent==='+ Follow'?'✓ Following':'+ Follow'">+ Follow</div></div>
+          <div class="prh-row"><div style="font-size:20px;flex-shrink:0;">🕳</div><div class="prh-info"><div class="prh-nm">Memphis rap scene — official interviews 2015–2025</div><div class="prh-meta">By @SouthernCulture · 55 clips · 6 shows · 640 followers</div></div><div class="prh-follow" onclick="this.textContent=this.textContent==='+ Follow'?'✓ Following':'+ Follow'">+ Follow</div></div>
+          <div class="prh-row"><div style="font-size:20px;flex-shrink:0;">🕳</div><div class="prh-info"><div class="prh-nm">Kanye's full arc — every major interview 2006–2025</div><div class="prh-meta">By @KanyeArchive · 88 clips · 9 shows · 2.1K followers</div></div><div class="prh-follow" onclick="this.textContent=this.textContent==='+ Follow'?'✓ Following':'+ Follow'">+ Follow</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ DEEP RABBIT SEARCH ═══ -->
+    <div class="sec" id="tab-premium">
+      <div class="ph">
+        <div>
+          <div class="pht">🕳 DEEP RABBIT <span>SEARCH</span></div>
+          <div class="phs">Describe what you half-remember — CIPHER finds the exact clip across all 21 verified shows</div>
+        </div>
+        <div class="ph-r"><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">⭐ CIPHER Pass Feature</span></div>
+      </div>
+
+      <!-- WHAT IS DEEP RABBIT SEARCH -->
+      <div class="drs-hero">
+        <div class="drs-eye">🕳 DEEP RABBIT SEARCH</div>
+        <div class="drs-ttl">FIND ANY MOMENT. <span>EVEN THE ONES YOU HALF REMEMBER.</span></div>
+        <div class="drs-desc">Standard search needs exact words. Deep Rabbit Search understands the way your brain actually stores podcast moments — vague, out of order, partial. Type "that episode where Joe was alone and fired someone live" and CIPHER matches it to JBP Ep. 437, 98% confidence. Powered by semantic search across every transcript, every episode, all 21 shows.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+          <span class="tag" style="font-size:10px;">Fuzzy memory search</span>
+          <span class="tag" style="font-size:10px;">All 21 verified shows</span>
+          <span class="tag" style="font-size:10px;">Every episode ever archived</span>
+          <span class="tag" style="font-size:10px;">Confidence matching</span>
+          <span class="tag" style="font-size:10px;">Timestamp deep links</span>
+        </div>
+      </div>
+
+      <!-- PREVIEW — blurred UI + lock wall -->
+      <div class="drs-preview-wrap">
+        <!-- BLURRED PREVIEW — what users see but can't interact with -->
+        <div class="drs-preview-content">
+          <div style="margin-bottom:12px;">
+            <div style="font-size:10px;color:var(--text2);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Try searching like this</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"that episode where Joe was alone and fired everyone"</div>
+              <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"when Vlad had someone talk about Bad Boy in the 90s"</div>
+              <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"Akademiks said something about a lawsuit with another show"</div>
+              <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"Gillie and Wallo talking about turning down that big deal"</div>
+              <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"Charlamagne giving donkey of the day to an industry figure"</div>
+            </div>
+          </div>
+          <!-- Fake search input -->
+          <div style="position:relative;margin-bottom:16px;">
+            <div style="width:100%;background:var(--bg3);border:1px solid var(--b2);border-radius:30px;padding:12px 52px 12px 18px;font-size:13px;color:var(--text3);">Type what you remember — even if it's vague, partial, or out of order...</div>
+            <div style="position:absolute;right:7px;top:50%;transform:translateY(-50%);background:var(--gold);border-radius:22px;padding:7px 16px;font-size:11px;font-weight:700;color:#000;opacity:.5;">Search</div>
+          </div>
+          <!-- Fake results -->
+          <div style="font-size:9px;color:var(--text2);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;">Best matches found — 3 results</div>
+          <div class="drs-eg">
+            <div class="drs-eg-show"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#c9a84c;margin-right:4px;"></span>JOE BUDDEN PODCAST · EP. 437 · MAY 2021<span class="drs-eg-pct">98% match</span></div>
+            <div class="drs-eg-q">"Rory, you are in breach of your contract — from this point forward, you are fired."</div>
+            <div class="drs-eg-meta">Joe Budden · Alone in studio · Empty seats · Most viral pod moment in hip-hop history</div>
+          </div>
+          <div class="drs-eg">
+            <div class="drs-eg-show"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#c9a84c;margin-right:4px;"></span>JOE BUDDEN PODCAST · EP. 440 · JUNE 2021<span class="drs-eg-pct">84% match</span></div>
+            <div class="drs-eg-q">"I built something and they wanted to take it from me — that's what this was always about."</div>
+            <div class="drs-eg-meta">Joe Budden · Post-split episode · Addressing the beef directly</div>
+          </div>
+          <div class="drs-eg">
+            <div class="drs-eg-show"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4adfdf;margin-right:4px;"></span>NEW RORY & MAL · EP. 01 · JULY 2021<span class="drs-eg-pct">79% match</span></div>
+            <div class="drs-eg-q">"We want to tell y'all our side of the story — for real this time, unfiltered."</div>
+            <div class="drs-eg-meta">Rory Farrell · Mal Clay · Their first independent episode post-JBP</div>
+          </div>
+        </div>
+
+        <!-- LOCK WALL overlay -->
+        <div class="drs-lock-wall">
+          <div class="drs-lock-card">
+            <div class="drs-lock-ico">🕳</div>
+            <div class="drs-lock-t">DEEP RABBIT <span>SEARCH</span></div>
+            <div class="drs-lock-s">This is what you're missing. Unlock fuzzy memory search across all 21 shows, every episode, every timestamp. Pay what you can afford.</div>
+            <!-- PWYCAF inline -->
+            <div class="drs-pwycaf" style="margin-bottom:14px;">
+              <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);font-family:var(--fm);text-transform:uppercase;margin-bottom:8px;">CIPHER PASS · PAY WHAT YOU CAN</div>
+              <div style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+                <div class="price-opt" onclick="selPrice(this)" style="min-width:70px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$0.99</div><div class="price-opt-l">/mo</div></div>
+                <div class="price-opt sel" onclick="selPrice(this)" style="min-width:70px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$2.99</div><div class="price-opt-l">/mo</div></div>
+                <div class="price-opt" onclick="selPrice(this)" style="min-width:70px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$4.99</div><div class="price-opt-l">/mo</div></div>
+                <div class="price-opt" onclick="selPrice(this)" style="min-width:80px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$9.99</div><div class="price-opt-l">/mo · Support ❤️</div></div>
+              </div>
+              <button class="pwycaf-start" style="width:100%;padding:12px;" onclick="showToast('🕳 Unlocking Deep Rabbit Search...')">Unlock Deep Rabbit Search</button>
+              <div class="pwycaf-fine">No locked show content · No coins · Cancel anytime</div>
+            </div>
+            <div style="font-size:10px;color:var(--text2);font-style:italic;">"For the people. True authentic content. Pay what you can."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHAT YOU GET WITH PASS — perks below the preview -->
+      <div style="font-family:var(--fd);font-size:14px;letter-spacing:2px;color:var(--text);margin-bottom:12px;">EVERYTHING ELSE IN <span style="color:var(--gold);">THE PASS</span></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;">
+        <div class="perk-2"><div class="p2-ico">🔔</div><div class="p2-t">Prove Me Right Alerts</div><div class="p2-s">Set any topic. Get an instant alert any time any of the 21 shows mentions it.</div></div>
+        <div class="perk-2"><div class="p2-ico">⏳</div><div class="p2-t">On This Day</div><div class="p2-s">Every morning: what the culture said on this date in history, and how it aged.</div></div>
+        <div class="perk-2"><div class="p2-ico">🚨</div><div class="p2-t">First to Know</div><div class="p2-s">When a topic spikes across shows, you're alerted 2–3 hours before the main feed.</div></div>
+        <div class="perk-2"><div class="p2-ico">🧬</div><div class="p2-t">Cultural Fingerprint</div><div class="p2-s">Your show alignment, Called It rate, and cultural badges — shareable as a card.</div></div>
+        <div class="perk-2"><div class="p2-ico">📁</div><div class="p2-t">Private Vault + Folders</div><div class="p2-s">Unlimited private collections with smart auto-tagging. Organized without effort.</div></div>
+        <div class="perk-2"><div class="p2-ico">📊</div><div class="p2-t">Cross-Show Analytics</div><div class="p2-s">Your full CIPHER stats: Rabbit Holes, show alignment, Called It accuracy rate.</div></div>
+        <div class="perk-2"><div class="p2-ico">🎬</div><div class="p2-t">Watch Parties</div><div class="p2-s">Watch any clip with 2–10 people simultaneously with a live chat rail.</div></div>
+        <div class="perk-2"><div class="p2-ico">📬</div><div class="p2-t">Monday Digest</div><div class="p2-s">Top 5 Rabbit Holes from the past week, curated and delivered every Monday.</div></div>
+        <div class="perk-2"><div class="p2-ico">🕳</div><div class="p2-t">Custom Rabbit Holes</div><div class="p2-s">Build and publish your own official Rabbit Holes. Best ones featured on Browse Culture.</div></div>
+      </div>
+
+      <!-- B2B -->
+      <div style="font-family:var(--fd);font-size:14px;letter-spacing:2px;color:var(--text);margin-bottom:12px;">B2B <span style="color:var(--gold);">REVENUE</span></div>
+      <div class="b2b-grid">
+        <div class="b2b-c"><div class="b2b-ico">📢</div><div class="b2b-t">Sponsored Rabbit Holes</div><div class="b2b-s">Labels and brands sponsor topic pages for 24–72hrs. Clearly labeled, topically relevant, never intrusive.</div><div class="b2b-price">$2,500–$10,000 / 48hr</div><button class="btn" style="font-size:10px;" onclick="showToast('📧 brands@ciphertheculture.com')">Inquire →</button></div>
+        <div class="b2b-c"><div class="b2b-ico">📊</div><div class="b2b-t">Culture Trend Reports</div><div class="b2b-s">Quarterly data on spiking topics, city engagement, and show debate leaders. Sold to labels, PR firms, and brand marketers.</div><div class="b2b-price">$500–$2,000 / quarter</div><button class="btn" style="font-size:10px;" onclick="showToast('📧 data@ciphertheculture.com')">Inquire →</button></div>
+        <div class="b2b-c"><div class="b2b-ico">🎤</div><div class="b2b-t">Live Event Streaming</div><div class="b2b-s">When verified shows do live recordings or events, CIPHER is the official streaming home for the culture audience.</div><div class="b2b-price">$5 PPV or bundled</div><button class="btn" style="font-size:10px;" onclick="showToast('📧 live@ciphertheculture.com')">Inquire →</button></div>
+      </div>
+
+      <!-- REFERRAL -->
+      <div style="background:linear-gradient(135deg,rgba(29,204,110,.08),rgba(29,204,110,.02));border:1px solid rgba(29,204,110,.2);border-radius:var(--r);padding:14px 16px;">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px;">🎁 Share a Rabbit Hole → Both Get 7 Days Free</div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:10px;">Share your referral link. Your friend gets 7 days free. You get 7 days free. No limit on referrals.</div>
+        <div style="display:flex;gap:6px;"><div style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 11px;font-size:10px;color:var(--text2);font-family:var(--fm);">ciphertheculture.com/join?ref=you</div><button style="background:var(--green);color:#000;border:none;border-radius:20px;padding:6px 12px;font-size:10px;font-weight:700;cursor:pointer;" onclick="showToast('✓ Referral link copied!')">Copy</button><button style="background:#000;color:#fff;border:1px solid var(--b2);border-radius:20px;padding:6px 12px;font-size:10px;font-weight:700;cursor:pointer;" onclick="openShare('rabbit')">↗ Share</button></div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+
+  <!-- RIGHT PANEL -->
+  <div class="rp">
+    <div class="rp-sec"><div class="rp-t">QUICK <span>ACCESS</span></div>
+      <div class="sq-grid">
+        <div class="sq"><div class="sq-av jbp">JBP</div><div class="sq-nm">Joe Budden</div></div>
+        <div class="sq"><div class="sq-lp"></div><div class="sq-av akademy" style="font-size:7px;">AHQ</div><div class="sq-nm">Akademy HQ</div></div>
+        <div class="sq"><div class="sq-av vlad">VTV</div><div class="sq-nm">VladTV</div></div>
+        <div class="sq"><div class="sq-av shay">CSS</div><div class="sq-nm">Club Shay</div></div>
+        <div class="sq"><div class="sq-av champs">DC</div><div class="sq-nm">Drink Champs</div></div>
+        <div class="sq"><div class="sq-av bkfst">BKF</div><div class="sq-nm">Breakfast Club</div></div>
+        <div class="sq"><div class="sq-av arena">ARN</div><div class="sq-nm">The Arena</div></div>
+        <div class="sq"><div class="sq-av mwog" style="font-size:6px;">MDG</div><div class="sq-nm">Mill. Dollaz</div></div>
+      </div>
+    </div>
+    <div class="rp-div"></div>
+    <!-- ON THIS DAY — NEW FEATURE -->
+    <div class="rp-sec">
+      <div class="rp-t">⏳ ON <span>THIS DAY</span></div>
+      <div class="otd-panel">
+        <div class="otd-eye">Daily Culture History</div>
+        <div class="otd-date">3 years ago · May 6, 2021</div>
+        <div class="otd-sn"><div class="ns-av jbp" style="width:16px;height:16px;font-size:6px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">JBP</div>Joe Budden Podcast · EP. 437</div>
+        <div class="otd-q">"Rory, you are in breach of your contract. From this point forward — you are fired."</div>
+        <div class="otd-votes"><div class="otd-vi ci">✓ 2.1K Called It</div><div class="otd-vi ab">✗ 44 Aged Badly</div><div class="otd-play" onclick="selBubble('Rory Mal split 437');showSec('rabbithole')">▶ Rabbit Hole →</div></div>
+      </div>
+    </div>
+    <div class="rp-div"></div>
+    <div class="rp-sec"><div class="rp-t">COMING <span>UP</span></div>
+      <div class="si"><div class="si-top"><div class="si-d" style="background:var(--red);"></div><span class="si-live">🔴 LIVE NOW</span></div><div class="si-show">The Akademy HQ</div><div class="si-desc">134 clipping · Drake situation</div></div>
+      <div class="si"><div class="si-top"><div class="si-d" style="background:#dfcf4a;"></div><span class="si-time">In 2hrs</span></div><div class="si-show">Club Shay Shay</div><div class="si-desc">Shannon Sharpe · major guest</div><span class="si-remind">📅 Remind me</span></div>
+      <div class="si"><div class="si-top"><div class="si-d" style="background:#c060ef;"></div><span class="si-time">Tonight</span></div><div class="si-show">The Arena</div><div class="si-desc">Sports & culture new episode</div><span class="si-remind">📅 Remind me</span></div>
+      <div class="si"><div class="si-top"><div class="si-d" style="background:#df4aaf;"></div><span class="si-time">Wed 8pm</span></div><div class="si-show">Drink Champs</div><div class="si-desc">N.O.R.E. & EFN new drop</div><span class="si-remind">📅 Remind me</span></div>
+      <div class="si"><div class="si-top"><div class="si-d" style="background:#c9a84c;"></div><span class="si-time">Sat</span></div><div class="si-show">Joe Budden Podcast</div><div class="si-desc">Ep. 860 · week in review</div><span class="si-remind">📅 Remind me</span></div>
+    </div>
+    <div class="rp-div"></div>
+    <div class="rp-sec"><div class="rp-t">RABBIT <span>HOLES</span></div>
+      <div class="ti" onclick="showSec('rabbithole')"><div class="ti-row"><div class="ti-rank">01</div><div class="ti-body"><div class="ti-nm">Diddy Trial</div><div class="ti-cl">47 clips · 11 shows</div><div class="ti-dots"><div class="ti-dot" style="background:#c9a84c;"></div><div class="ti-dot" style="background:#dfaf4a;"></div><div class="ti-dot" style="background:#df4aaf;"></div></div></div><div class="ti-heat">ALL SHOWS</div></div></div>
+      <div class="ti" onclick="openEntity('kendrick')"><div class="ti-row"><div class="ti-rank">02</div><div class="ti-body"><div class="ti-nm">Kendrick Lamar</div><div class="ti-cl">200+ clips · entity page</div><div class="ti-dots"><div class="ti-dot" style="background:#c9a84c;"></div><div class="ti-dot" style="background:#af4adf;"></div></div></div><div class="ti-heat">↑ HOT</div></div></div>
+      <div class="ti" onclick="showSec('rabbithole')"><div class="ti-row"><div class="ti-rank">03</div><div class="ti-body"><div class="ti-nm">Katt Williams</div><div class="ti-cl">72M views · Club Shay</div><div class="ti-dots"><div class="ti-dot" style="background:#dfcf4a;"></div></div></div><div class="ti-heat">🔥 72M</div></div></div>
+      <div class="ti" onclick="openEntity('drake-beef')"><div class="ti-row"><div class="ti-rank">04</div><div class="ti-body"><div class="ti-nm">Drake Beef Archive</div><div class="ti-cl">120+ clips · all-time</div><div class="ti-dots"><div class="ti-dot" style="background:#c9a84c;"></div><div class="ti-dot" style="background:#4a9fdf;"></div></div></div><div class="ti-heat">ALL-TIME</div></div></div>
+      <div class="ti" onclick="showSec('rabbithole')"><div class="ti-row"><div class="ti-rank">05</div><div class="ti-body"><div class="ti-nm">Pooh Shiesty — Memphis</div><div class="ti-cl">Down South concentrated</div><div class="ti-dots"><div class="ti-dot" style="background:#4a9fdf;"></div><div class="ti-dot" style="background:#4adf8f;"></div></div></div><div class="ti-heat">↑ LOCAL</div></div></div>
+    </div>
+  </div>
+
+</div><!-- /layout -->
+
+<!-- ══ ENTITY MODAL ══ -->
+<div class="entity-overlay" id="entityOverlay" onclick="if(event.target===this)closeEntity()">
+  <div class="entity-modal"><div class="em-top"><div class="em-brand">C<em>I</em>PHER · ENTITY PAGE</div><div class="em-close" onclick="closeEntity()">✕</div></div><div id="entityContent"></div></div>
+</div>
+
+<!-- ══ SHARE MODAL ══ -->
+<div class="share-overlay" id="shareOverlay" onclick="if(event.target===this)closeShare()">
+  <div class="share-modal">
+    <div class="sm-head"><div><div class="sm-title" id="smTitle">Share to X</div><div style="font-size:10px;color:var(--text2);margin-top:1px;">Auto-captioned · #CIPHERRabbitHole · zero effort</div></div><div class="sm-close" onclick="closeShare()">✕</div></div>
+    <div class="sm-body">
+      <div class="sm-tabs"><div class="sm-tab active" onclick="switchTab('clip',this)">📎 Clip</div><div class="sm-tab" onclick="switchTab('rabbit',this)">🕳 Rabbit Hole</div><div class="sm-tab" onclick="switchTab('resurface',this)">⏳ Resurfaced</div></div>
+      <div class="sm-card-wrap" id="smCard"></div>
+      <div class="sm-cap-lbl">Caption — edit before posting</div>
+      <textarea class="sm-cap" id="smCap"></textarea>
+      <div class="sm-acts">
+        <button class="sm-btn sm-copy" onclick="copyCap()">📋 Copy</button>
+        <button class="sm-btn sm-x" onclick="postX()">𝕏 Open in X</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DEBATE MODAL ══ -->
+<div class="debate-overlay" id="debateOverlay" onclick="if(event.target===this)closeDebate()">
+  <div class="debate-modal">
+    <div class="dm-head"><div class="dm-t">💬 Community Debate — Is Vlad the most important interview archive in hip-hop?</div><div class="dm-close" onclick="closeDebate()">✕</div></div>
+    <div class="dm-body">
+      <div class="dm-comment"><div class="dm-ava jbp" style="font-size:8px;">JF</div><div class="dm-info"><div class="dm-user">@JBPFan_99<span class="dm-badge">JBP Listener</span></div><div class="dm-txt">Vlad has interviews that go back to 2008 with people who are now legends. There's no other archive like it in the culture. Period.</div><div class="dm-acts"><div class="dm-act">👍 142</div><div class="dm-act">Reply</div><div class="dm-act">🕳 Find Rabbit Hole</div></div></div></div>
+      <div class="dm-comment"><div class="dm-ava" style="background:var(--bg3);color:var(--gold);">AK</div><div class="dm-info"><div class="dm-user">@AkademiksFan<span class="dm-badge">Ak Listener</span></div><div class="dm-txt">Akademiks has the receipts on more recent events though. Both matter. They cover different eras.</div><div class="dm-acts"><div class="dm-act">👍 87</div><div class="dm-act">Reply</div></div></div></div>
+      <div class="dm-comment"><div class="dm-ava" style="background:var(--bg3);color:#dfcf4a;">SS</div><div class="dm-info"><div class="dm-user">@ShannonFan<span class="dm-badge">CSS Listener</span></div><div class="dm-txt">What Katt Williams said in 72M views is proof that the right interview changes everything. Vlad has quantity, Shannon has the moments that define the culture.</div><div class="dm-acts"><div class="dm-act">👍 203</div><div class="dm-act">Reply</div></div></div></div>
+      <div class="dm-input-row"><input class="dm-input" placeholder="Add to the debate..."><button class="dm-send" onclick="showToast('✓ Comment posted')">Post</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY TOOLTIP -->
+<div class="why-tip" id="whyTip"><div class="why-lbl">💡 Why you're seeing this</div><div id="whyItems"></div></div>
+
+<!-- DEEP SEARCH MODAL -->
+<div class="entity-overlay" id="deepSearchOverlay" onclick="if(event.target===this)this.classList.remove('open')" style="z-index:700;">
+  <div class="entity-modal" style="max-width:640px;margin-top:60px;">
+    <div class="em-top">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_4db0369b-5f79-4454-a749-a932c12b951b.png?v=1775412869" style="height:20px;" onerror="this.style.display='none'">
+        <div class="em-brand" style="font-size:12px;">DEEP RABBIT SEARCH · ⭐ CIPHER Pass Feature</div>
+      </div>
+      <div class="em-close" onclick="document.getElementById('deepSearchOverlay').classList.remove('open')">✕</div>
+    </div>
+    <div style="padding:22px 24px;">
+      <div style="font-size:13px;color:var(--text);font-weight:700;margin-bottom:6px;">Describe what you half-remember</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:16px;">Type however you remember it — vague, partial, out of order. CIPHER finds the exact clip across all 20 shows.</div>
+      <div class="ds-input-wrap" style="margin-bottom:12px;"><input class="ds-input" id="dsInputModal" type="text" placeholder='"that JBP episode where they all argued about money..."' onkeydown="if(event.key==='Enter')runDeepSearchModal()"><button class="ds-go" onclick="runDeepSearchModal()">Find It</button></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:11px 12px;cursor:pointer;" onclick="document.getElementById('dsInputModal').value='that episode where Joe was alone and fired everyone'">
+          <div style="font-size:10px;color:var(--gold);font-family:var(--fm);margin-bottom:4px;">TRY THIS →</div>
+          <div style="font-size:11px;color:var(--text);font-style:italic;">"that episode where Joe was alone and fired everyone"</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:3px;">→ JBP Ep. 437 · Rory & Mal fired</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:11px 12px;cursor:pointer;" onclick="document.getElementById('dsInputModal').value='when Vlad had someone talk about Bad Boy in the 90s'">
+          <div style="font-size:10px;color:var(--gold);font-family:var(--fm);margin-bottom:4px;">TRY THIS →</div>
+          <div style="font-size:11px;color:var(--text);font-style:italic;">"when Vlad had someone talk about Bad Boy in the 90s"</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:3px;">→ VladTV archive · Bad Boy era</div>
+        </div>
+      </div>
+      <div style="background:var(--gdim);border:1px solid var(--gb);border-radius:var(--r);padding:11px 13px;text-align:center;">
+        <div style="font-size:11px;color:var(--gold);margin-bottom:3px;">⭐ CIPHER Pass unlocks Deep Rabbit Search</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:9px;">Fuzzy semantic search across all 20 verified shows</div>
+        <button class="btn pri" onclick="showSec('premium');document.getElementById('deepSearchOverlay').classList.remove('open')">Pay What You Can → from $0.99/mo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WATCH PARTY MODAL -->
+<div class="overlay" id="watchPartyOverlay" onclick="if(event.target===this)closeOverlay('watchPartyOverlay')" style="z-index:650;">
+  <div class="modal-inner lg">
+    <div class="modal-top"><div class="modal-t">🎬 Watch Party — JBP Ep. 848 · Diddy Trial</div><div style="font-size:11px;color:var(--text2);">5 watching</div><div class="modal-x" onclick="closeOverlay('watchPartyOverlay')">✕</div></div>
+    <div class="wp-layout">
+      <div class="wp-player-side">
+        <div class="wp-screen">🎬</div>
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="font-size:13px;font-weight:700;color:var(--text);flex:1;">Joe Budden Podcast · Ep. 848</div><div style="font-size:11px;color:var(--gold);font-family:var(--fm);">👁 5 watching</div></div>
+        <div class="wp-ctrl-row"><button class="btn pri">▶ Play Together</button><button class="btn" onclick="showToast('Jumping to 43:12 →')">⏱ 43:12</button><button class="btn">⏸ Pause All</button></div>
+        <div class="wp-invite-box"><div class="wp-invite-t">Invite to this watch party</div><div class="wp-invite-row"><div class="wp-link">ciphertheculture.com/wp/jbp848-a3f</div><button class="wp-copy" onclick="showToast('✓ Watch party link copied!')">Copy</button></div></div>
+      </div>
+      <div class="wp-chat-side">
+        <div class="wp-chat-hd">Live Chat</div>
+        <div class="wp-msgs">
+          <div class="wp-msg"><div class="wp-msg-av jbp" style="font-size:6px;">JF</div><div class="wp-msg-body"><div class="wp-msg-u">@JBPFan_99</div><div class="wp-msg-t">Joe is NOT missing today 🔥</div></div></div>
+          <div class="wp-msg"><div class="wp-msg-av" style="background:var(--bg5);">AK</div><div class="wp-msg-body"><div class="wp-msg-u">@CultureHead</div><div class="wp-msg-t">Marc about to go in watch</div></div></div>
+          <div class="wp-msg"><div class="wp-msg-av" style="background:var(--bg5);">SS</div><div class="wp-msg-body"><div class="wp-msg-u">@DiddyWatcher</div><div class="wp-msg-t">43:12 is THE moment 🎯</div></div></div>
+          <div class="wp-msg"><div class="wp-msg-av" style="background:var(--bg5);">NY</div><div class="wp-msg-body"><div class="wp-msg-u">@NYCulture</div><div class="wp-msg-t">Called this 2 years ago. CIPHER proves it 💪</div></div></div>
+        </div>
+        <div class="wp-in-row"><input class="wp-in" placeholder="Say something..."><button class="wp-send" onclick="showToast('✓ Sent')">Send</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CULTURAL FINGERPRINT MODAL -->
+<div class="overlay" id="fpOverlay" onclick="if(event.target===this)closeOverlay('fpOverlay')" style="z-index:650;">
+  <div class="modal-inner">
+    <div class="modal-top"><div class="modal-t">🧬 Your Cultural Fingerprint</div><div class="modal-x" onclick="closeOverlay('fpOverlay')">✕</div></div>
+    <div class="modal-body">
+      <div class="fp-card">
+        <div style="font-family:var(--fd);font-size:20px;letter-spacing:3px;color:var(--text);margin-bottom:3px;">YOUR <span style="color:var(--gold);">CULTURAL DNA</span></div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:14px;">Based on 47 Rabbit Holes · 23 Called It votes · 4 Watch Parties · 2025</div>
+        <div class="sa-row" style="margin-bottom:9px;"><div class="sa-av jbp">JBP</div><div class="sa-nm">Joe Budden</div><div class="sa-bar"><div class="sa-fill" style="width:74%;"></div></div><div class="sa-pct">74%</div></div>
+        <div class="sa-row" style="margin-bottom:9px;"><div class="sa-av vlad">VTV</div><div class="sa-nm">VladTV</div><div class="sa-bar"><div class="sa-fill" style="width:18%;"></div></div><div class="sa-pct">18%</div></div>
+        <div class="sa-row" style="margin-bottom:14px;"><div class="sa-av champs">DC</div><div class="sa-nm">Drink Champs</div><div class="sa-bar"><div class="sa-fill" style="width:8%;"></div></div><div class="sa-pct">8%</div></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;justify-content:center;"><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">🔥 Beef Specialist</span><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">⚖️ Trial Follower</span><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">🎙️ JBP Era Expert</span><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">🏠 NY/NJ Region</span><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">✓ 78% Called It Rate</span></div>
+        <div style="font-size:10px;color:var(--text3);font-family:var(--fm);text-align:center;">CIPHER FINGERPRINT · 2025 · CIPHERTHECULTURE.COM</div>
+      </div>
+      <div style="display:flex;gap:8px;"><button class="btn dk" style="flex:1;" onclick="openShare('clip');closeOverlay('fpOverlay')">↗ Share on X</button><button class="btn" style="flex:1;" onclick="showToast('✓ Fingerprint saved to Vault')">⊕ Save to Vault</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOM RH BUILDER MODAL -->
+<div class="overlay" id="crhOverlay" onclick="if(event.target===this)closeOverlay('crhOverlay')" style="z-index:650;">
+  <div class="modal-inner">
+    <div class="modal-top"><div class="modal-t">🕳 Custom Rabbit Hole Builder</div><div class="modal-x" onclick="closeOverlay('crhOverlay')">✕</div></div>
+    <div class="modal-body">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:13px;">Curate clips from any verified show · publish under your handle · best ones featured on Browse Culture</div>
+      <input style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px;color:var(--text);font-size:12px;outline:none;margin-bottom:8px;display:block;" placeholder="Name your Rabbit Hole..." type="text">
+      <textarea style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px;color:var(--text);font-size:12px;outline:none;resize:none;height:52px;margin-bottom:11px;display:block;" placeholder="Context note — tell the culture why this matters..."></textarea>
+      <div style="font-size:9px;color:var(--text2);font-family:var(--fm);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;">Added Clips</div>
+      <div class="crh-clip"><div style="width:6px;height:6px;border-radius:50%;background:#c9a84c;flex-shrink:0;"></div><div style="flex:1;font-size:11px;color:var(--text);">JBP Ep. 214 — Joe on Meek's approach</div><div style="font-size:9px;color:var(--text3);font-family:var(--fm);">43:12</div><div class="crh-rm" onclick="this.closest('.crh-clip').remove()">✕</div></div>
+      <div class="crh-clip"><div style="width:6px;height:6px;border-radius:50%;background:#4a9fdf;flex-shrink:0;"></div><div style="flex:1;font-size:11px;color:var(--text);">VladTV — Drake interview 2016</div><div style="font-size:9px;color:var(--text3);font-family:var(--fm);">11:27</div><div class="crh-rm" onclick="this.closest('.crh-clip').remove()">✕</div></div>
+      <div style="width:100%;padding:8px;background:var(--bg3);border:1px dashed var(--border);border-radius:var(--r);font-size:11px;color:var(--text3);text-align:center;cursor:pointer;margin:6px 0 12px;" onclick="showToast('Browse all 20 verified shows to add clips')">+ Add clips from verified shows</div>
+      <div style="display:flex;gap:7px;"><button class="btn rh" onclick="showToast('✓ Rabbit Hole published!');closeOverlay('crhOverlay')">🕳 Publish</button><button class="btn">Save Draft</button><button class="btn" onclick="closeOverlay('crhOverlay')">Cancel</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── GENERIC OVERLAY SYSTEM ──
+function openOverlay(id){document.getElementById(id).classList.add('open');}
+function closeOverlay(id){document.getElementById(id).classList.remove('open');}
+
+// ── NAV ──
+function showSec(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const s=document.getElementById('tab-'+id);if(s)s.classList.add('active');
+  const n=document.getElementById('nav-'+id);if(n)n.classList.add('active');
+  if(id==='browse')initMap();
+  window.scrollTo(0,0);
+}
+
+// ── VAULT TABS ──
+function showVault(id,el){
+  document.querySelectorAll('.vsec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.vt').forEach(t=>t.classList.remove('active'));
+  const s=document.getElementById('vsec-'+id);if(s)s.classList.add('active');
+  if(el)el.classList.add('active');
+}
+
+// ── FEED FILTER ──
+function toggleShow(el){
+  const s=el.dataset.show,isA=el.classList.contains('active');
+  el.classList.toggle('active',!isA);el.classList.toggle('off',isA);
+  document.querySelectorAll('#clipGrid .cc[data-show="'+s+'"]').forEach(c=>c.classList.toggle('hidden',isA));
+}
+function resetFilter(){
+  document.querySelectorAll('#feedFilters .ffs').forEach(b=>{b.classList.add('active');b.classList.remove('off');});
+  document.querySelectorAll('#clipGrid .cc').forEach(c=>c.classList.remove('hidden'));
+}
+
+// ── TOGGLE SUMMARY ──
+function toggleSum(hd){
+  const body=hd.nextElementSibling;
+  const tog=hd.querySelector('.ep-sum-tog');
+  body.classList.toggle('open');
+  tog.textContent=body.classList.contains('open')?'▲ Close':'▼ Read';
+}
+
+// ── CALLED IT / AGED BADLY ──
+function vote(btn){
+  if(btn.classList.contains('voted'))return;
+  const row=btn.closest('.vote-row');
+  row.querySelectorAll('.vi-btn').forEach(b=>b.classList.remove('voted'));
+  btn.classList.add('voted');
+  const n=btn.querySelector('.vi-n');
+  if(n){
+    const cur=parseInt(n.textContent.replace(/[^0-9]/g,''))||0;
+    n.textContent=cur+1;
+    n.style.animation='none';setTimeout(()=>{n.style.animation='countUp .3s ease';},10);
+  }
+  const isCi=btn.classList.contains('ci');
+  showToast(isCi?'✓ You Called It — this clip aged well!':'✗ Aged Badly noted');
+}
+
+// ── EPISODE SUMMARY ──
+// (handled by toggleSum above)
+
+// ── RABBIT HOLE ──
+const rhMsgs=['Searching the archive...','Pulling from 20 official channels...','Matching clips across all eras...','Building the Rabbit Hole...'];
+let rhInt;
+function rhGo(){const v=document.getElementById('rhIn').value.trim();if(!v)return;selBubble(v);}
+function selBubble(t){
+  const inp=document.getElementById('rhIn');if(inp)inp.value=t;
+  const cats=document.getElementById('rhCats');const thread=document.getElementById('rhThread');
+  const gen=document.getElementById('rhGen');
+  if(cats)cats.style.display='none';
+  if(thread)thread.style.display='none';
+  if(gen){gen.style.display='block';}
+  let i=0;clearInterval(rhInt);
+  rhInt=setInterval(()=>{const el=document.getElementById('rhGenTxt');if(el)el.textContent=rhMsgs[i=(i+1)%rhMsgs.length];},800);
+  setTimeout(()=>{
+    clearInterval(rhInt);
+    if(gen)gen.style.display='none';
+    const short=t.length>38?t.slice(0,38)+'...':t;
+    const titleEl=document.getElementById('rhTitle');if(titleEl)titleEl.textContent=short.toUpperCase();
+    const metaEl=document.getElementById('rhMeta');if(metaEl)metaEl.textContent='Cross-show results · Official sources only';
+    if(thread)thread.style.display='block';
+    showSec('rabbithole');
+  },2200);
+}
+
+// ── DEEP SEARCH ──
+const dsMsgs=['Searching the archive...','Matching your description...','Scanning episode transcripts...','Finding best clips...'];
+let dsInt;
+function setDS(t){const el=document.getElementById('dsIn');if(el)el.value=t.trim();}
+function runDS(){
+  const v=document.getElementById('dsIn');if(!v||!v.value.trim())return;
+  const res=document.getElementById('dsRes');const gen=document.getElementById('dsGen');
+  if(res)res.style.display='none';
+  if(gen){gen.style.display='block';}
+  let i=0;clearInterval(dsInt);
+  dsInt=setInterval(()=>{const el=document.getElementById('dsGenTxt');if(el)el.textContent=dsMsgs[i=(i+1)%dsMsgs.length];},700);
+  setTimeout(()=>{clearInterval(dsInt);if(gen)gen.style.display='none';if(res)res.style.display='block';},2000);
+}
+
+// ── PROVE ME RIGHT ──
+const prmColors=['#c9a84c','#4a9fdf','#4adf8f','#df4aaf','#af4adf','#dfcf4a'];
+let prmIdx=0;
+function addPRM(){
+  const inp=document.getElementById('prmIn');if(!inp||!inp.value.trim())return;
+  const v=inp.value.trim();inp.value='';
+  const list=inp.closest('.p2-demo').querySelector('.prm-add');
+  if(!list)return;
+  const div=document.createElement('div');div.className='prm-item';
+  div.innerHTML=`<div class="prm-d" style="background:${prmColors[prmIdx%prmColors.length]};"></div><div class="prm-t">${v}</div><div class="prm-alert">Tracking...</div><div class="prm-rm" onclick="this.closest('.prm-item').remove()">✕</div>`;
+  list.parentElement.insertBefore(div,list);prmIdx++;
+  showToast('✓ Now tracking: '+v);
+}
+
+// ── MAP TOGGLE ──
+let mapLoaded=false;
+function toggleMap(){
+  const body=document.getElementById('mapBody');const toggle=document.getElementById('mapToggle');const arr=document.getElementById('mapArr');
+  const open=body.classList.toggle('open');
+  toggle.classList.toggle('open',open);arr.classList.toggle('up',open);
+  if(open&&!mapLoaded)initMap();
+}
+function setMF(el){document.querySelectorAll('.mfb').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+
+// ── ENTITY DATA ──
+const ED={
+  'kendrick':{type:'Artist',name:'Kendrick Lamar',icon:'👑',color:'#9a60d4',sub:'Compton, CA · 2003–present · Superbowl 2025 · Pulitzer Prize · GNX',pulse:{shows:11,clips:200,week:38},mapNote:'Strongest in LA and West Coast · nationally discussed post-Superbowl · all 11 shows weighed in on the performance',related:['Drake Beef','Not Like Us','Superbowl 2025','GNX Album','TDE','Compton'],takes:[{show:'JBP',color:'#c9a84c',quote:'Joe predicted this whole era from GKMC — said Kendrick was different from the jump',clips:61,year:'2012–25'},{show:'Brilliant Idiots',color:'#af4adf',quote:'Charlamagne vs Schulz on the Superbowl — two completely different reads, neither holds back',clips:22,year:'2025'},{show:'Breakfast Club',color:'#dfaf4a',quote:'Charlamagne called this the cultural moment of the decade — not just a performance',clips:18,year:'2024'},{show:'Drink Champs',color:'#df4aaf',quote:"N.O.R.E. breaks down what this win means for West Coast rap's legacy in real time",clips:15,year:'2024–25'},{show:'VladTV',color:'#4a9fdf',quote:'Vlad pulls archive interviews from 2010 forward — shows the full journey to the Superbowl',clips:28,year:'2010–25'},{show:'Club Shay Shay',color:'#dfcf4a',quote:"Shannon compares Kendrick to Ali — the cultural weight of performing at that level",clips:8,year:'2025'}]},
+  'drake-beef':{type:'Topic',name:'Drake Beef',icon:'🎤',color:'#d4a843',sub:'2017–present · Started with Joe Budden · Ended with Kendrick · The defining hip-hop feud of the era',pulse:{shows:12,clips:120,week:22},mapNote:'NY/NJ and LA most concentrated · both coasts deeply engaged · Chicago and Atlanta also heavy',related:['Kendrick Lamar','Joe Budden','Meek Mill','Pusha T','Not Like Us'],takes:[{show:'JBP',color:'#c9a84c',quote:'Joe started this in 2017 — was the first to say the emperor had no clothes',clips:47,year:'2017–24'},{show:'VladTV',color:'#4a9fdf',quote:"Vlad's archive goes back to 2013 — every Drake take across 10+ years",clips:35,year:'2013–24'},{show:'DJ Akademiks',color:'#4adf8f',quote:"Ak was the biggest Drake defender for years — watching his arc is its own rabbit hole",clips:29,year:'2018–24'},{show:'Breakfast Club',color:'#dfaf4a',quote:'Charlamagne gave Donkey of the Day at key moments through the whole saga',clips:18,year:'2017–24'},{show:'New Rory & Mal',color:'#4adfdf',quote:'Rory and Mal post-JBP give the most unfiltered takes on the full arc',clips:15,year:'2021–24'}]},
+  'diddy-trial':{type:'Event',name:'Diddy Trial',icon:'⚖️',color:'#e03535',sub:'2024–2025 · Federal charges · The culture reckons with two decades of industry silence',pulse:{shows:11,clips:47,week:31},mapNote:'National story — NY/NJ most concentrated given Bad Boy history · ATL and LA also heavily engaged',related:['Industry Power','Bad Boy Records','Cassie','Music Industry Accountability'],takes:[{show:'VladTV',color:'#4a9fdf',quote:'Vlad compiled every interview from 2010–2022 — the receipts were in plain sight',clips:12,year:'2010–24'},{show:'JBP',color:'#c9a84c',quote:'"This goes beyond Puff — the system that protected him is on trial" — Marc Lamont Hill',clips:8,year:'2025'},{show:'Breakfast Club',color:'#dfaf4a',quote:"Charlamagne's Donkey of the Day — why industry silence was always the real story",clips:7,year:'2024'},{show:'Drink Champs',color:'#df4aaf',quote:"N.O.R.E. knew Puff personally — speaks from a place nobody else can",clips:6,year:'2024'},{show:'Brilliant Idiots',color:'#af4adf',quote:'Schulz vs Charlamagne — accountability vs due process — nobody holds back',clips:5,year:'2024'}]},
+  'joe-budden':{type:'Host',name:'Joe Budden',icon:'🎙️',color:'#c9a84c',sub:'Newark, NJ · Host since 2015 · Former rapper · 900+ episodes · 90K Patreon',pulse:{shows:3,clips:900,week:12},mapNote:'Based in NJ · discussed nationally · heaviest engagement when JBP drama surfaces',related:['JBP','Rory & Mal Split','Akademiks','Parks Vallely','Ice'],takes:[{show:'JBP',color:'#c9a84c',quote:'900+ episodes — the most important single body of work in podcast culture',clips:900,year:'2015–25'},{show:'New Rory & Mal',color:'#4adfdf',quote:'Rory and Mal discuss Joe regularly post-split — the ongoing beef that defined an era',clips:24,year:'2021–24'},{show:'DJ Akademiks',color:'#4adf8f',quote:"Ak and Joe have history going back to Everyday Struggle — still ongoing",clips:18,year:'2018–24'},{show:'VladTV',color:'#4a9fdf',quote:'Multiple Joe Budden interviews + coverage of JBP drama from the outside',clips:14,year:'2016–24'}]},
+  'rory-mal-split':{type:'Moment',name:'Rory & Mal Split',icon:'🔥',color:'#af4adf',sub:'May 2021 · Episode 437 · Most viral podcast moment in hip-hop history · still discussed daily',pulse:{shows:6,clips:47,week:8},mapNote:'Heaviest in NY/NJ — home territory of all three parties · all podcast fans engaged regardless of region',related:['Joe Budden','Rory Farrell','Mal Clay','Episode 437'],takes:[{show:'JBP',color:'#c9a84c',quote:'Episode 437 — Joe alone in the studio, two empty seats, fires them live on air',clips:18,year:'2021'},{show:'New Rory & Mal',color:'#4adfdf',quote:'Every R&M episode processes the split aftermath in some way',clips:12,year:'2021–24'},{show:'DJ Akademiks',color:'#4adf8f',quote:'Ak covered the split in real time — had the receipts immediately',clips:8,year:'2021'},{show:'VladTV',color:'#4a9fdf',quote:'Full breakdown of the business dispute and equity argument',clips:5,year:'2021'}]},
+  'atlanta':{type:'City',name:'Atlanta, GA',icon:'🍑',color:'#e03535',sub:'Trap capital · Drink Champs territory · YSL trial · 32K active fans',pulse:{shows:8,clips:180,week:28},mapNote:'Highest engagement in the South · 3× more active than any other Southern city · trap music dominates',related:['Young Thug YSL','Metro Boomin','21 Savage','Trap Music','Young Dolph'],takes:[{show:'Drink Champs',color:'#df4aaf',quote:"N.O.R.E. always brings deep ATL guests — the city and show have a strong relationship",clips:45,year:'2018–25'},{show:'DJ Akademiks',color:'#4adf8f',quote:"Ak covers ATL street news heavily — YSL trial, beef, new artists",clips:38,year:'2019–25'},{show:'JBP',color:'#c9a84c',quote:"Joe and the cast have debated ATL's dominance in rap for a decade straight",clips:32,year:'2016–25'},{show:'VladTV',color:'#4a9fdf',quote:"Vlad has more ATL interviews than any other city",clips:25,year:'2015–25'}]}
+};
+
+// CITY DATA
+const cityData={
+  nynj:{name:'New York / New Jersey 🏠',sub:'Home base · JBP, BKF, Akademiks · 48K fans',shows:['JBP','BKF','AK','R&M'],topics:[{n:'Rory & Mal Split (Ep. 437)',clips:47,heat:'🔥 All-time',dots:['#c9a84c','#4adfdf']},{n:'NYC Rap — all boroughs',clips:120,heat:'🔥 Historic',dots:['#4a9fdf','#c9a84c']},{n:'Meek Mill vs Joe Budden',clips:38,heat:'Classic',dots:['#c9a84c','#dfaf4a']},{n:'Podcast industry drama',clips:55,heat:'🔥 Active',dots:['#c9a84c','#4adfdf']},{n:'Jay-Z legacy debates',clips:90,heat:'Never ends',dots:['#c9a84c','#df4aaf']}]},
+  philly:{name:'Philadelphia, PA 🦅',sub:"Joe's corridor · Meek Mill country · battle rap capital",shows:['JBP','VTV','CTM'],topics:[{n:'Meek Mill full story',clips:65,heat:'🔥 Always relevant',dots:['#c9a84c','#dfaf4a','#4a9fdf']},{n:'Philly rap history',clips:40,heat:'Deep archive',dots:['#4a9fdf','#df4aaf']},{n:'Battle rap culture',clips:28,heat:'↑ Active',dots:['#4a9fdf']},{n:'Beanie Sigel untold story',clips:22,heat:'Resurfacing',dots:['#4a9fdf','#df4aaf']},{n:'Joe Budden Philly ties',clips:18,heat:'Home city',dots:['#c9a84c']}]},
+  atl:{name:'Atlanta, GA 🍑',sub:'Trap HQ · Drink Champs territory · 32K fans',shows:['DC','AK','VTV','RVT'],topics:[{n:'Young Thug YSL RICO trial',clips:58,heat:'🔥 Breaking',dots:['#4adf8f','#dfaf4a','#c9a84c']},{n:'Metro Boomin legacy',clips:28,heat:'↑ New album',dots:['#c9a84c','#dfaf4a']},{n:'21 Savage archive',clips:42,heat:'🔥 Hot',dots:['#df4aaf','#c9a84c']},{n:'ATL trap music evolution',clips:80,heat:'Defines culture',dots:['#4adf8f','#4a9fdf']},{n:'Young Dolph tribute',clips:20,heat:'Historic',dots:['#4a9fdf','#4adf8f']}]},
+  houston:{name:'Houston, TX ⭐',sub:'Drink Champs territory · UGK legacy · Travis Scott',shows:['DC','VTV','JBP'],topics:[{n:'Travis Scott controversy',clips:45,heat:'🔥 Ongoing',dots:['#c9a84c','#df4aaf']},{n:'Megan vs Tory Lanez',clips:38,heat:'🔥 Major case',dots:['#c9a84c','#dfaf4a']},{n:'UGK legacy — Bun B & Pimp C',clips:25,heat:'Historic',dots:['#df4aaf','#4a9fdf']},{n:'Houston rap history',clips:50,heat:'Down South',dots:['#df4aaf','#4a9fdf']},{n:'DJ Screw influence',clips:18,heat:'Culture defining',dots:['#df4aaf']}]},
+  memphis:{name:'Memphis, TN 🎵',sub:'Pooh Shiesty territory · Three 6 Mafia roots · 8K fans',shows:['VTV','AK','JBP'],topics:[{n:'Pooh Shiesty arrest & legal',clips:22,heat:'🔥 Concentrated here',dots:['#4a9fdf','#4adf8f','#c9a84c']},{n:'Young Dolph murder story',clips:30,heat:'🔥 Impactful',dots:['#4a9fdf','#4adf8f']},{n:'Three 6 Mafia legacy',clips:18,heat:'Deep cuts',dots:['#df4aaf','#4a9fdf']},{n:'Memphis rap scene 2025',clips:25,heat:'↑ Rising',dots:['#4adf8f','#c9a84c']},{n:'Yo Gotti CMG empire',clips:15,heat:'Business',dots:['#4a9fdf']}]},
+  miami:{name:'Miami, FL 🌴',sub:'Drink Champs home · Rolling Loud · Latin crossover',shows:['DC','BKF','CSS'],topics:[{n:'Rolling Loud festival culture',clips:30,heat:'🔥 Annual',dots:['#df4aaf','#dfcf4a']},{n:'Rick Ross empire & beef',clips:45,heat:'Local hero',dots:['#df4aaf','#4a9fdf','#c9a84c']},{n:'DJ Khaled and Miami culture',clips:22,heat:'Miami king',dots:['#dfaf4a','#df4aaf']},{n:'Latin hip-hop crossover',clips:28,heat:'↑ Growing',dots:['#df4aaf']},{n:'Trick Daddy OG Miami',clips:14,heat:'Archive',dots:['#df4aaf']}]},
+  chicago:{name:'Chicago, IL 💈',sub:'Breakfast Club · JBP territory · NBA culture · 20K fans',shows:['BKF','JBP','AK'],topics:[{n:'Kanye West era by era',clips:120,heat:'🔥 Never-ending',dots:['#dfaf4a','#c9a84c','#af4adf']},{n:'Chicago drill — Lil Durk era',clips:55,heat:'🔥 Active',dots:['#4adf8f','#4a9fdf']},{n:'NBA Chicago Bulls legacy',clips:40,heat:'Sports × culture',dots:['#dfcf4a','#c9a84c']},{n:'Chance the Rapper story',clips:25,heat:'Chi-town pride',dots:['#dfaf4a','#c9a84c']},{n:'Chief Keef drill influence',clips:30,heat:'Genre defining',dots:['#4adf8f']}]},
+  la:{name:'Los Angeles, CA 🌅',sub:'VladTV · Complex · Club Shay Shay territory · 26K fans',shows:['VTV','CX','CSS','BI'],topics:[{n:'Kendrick Lamar full archive',clips:200,heat:'🔥 LA king',dots:['#4a9fdf','#6a8fdf','#af4adf','#dfcf4a']},{n:'Nipsey Hussle legacy',clips:60,heat:'Cultural icon',dots:['#4a9fdf','#df4aaf']},{n:'West Coast rap history',clips:90,heat:'Deep archive',dots:['#4a9fdf','#6a8fdf']},{n:'Blueface LA street rap',clips:25,heat:'↑ Active',dots:['#4a9fdf','#4adf8f']},{n:'YG and political rap',clips:20,heat:'Cultural',dots:['#4a9fdf']}]},
+  nola:{name:'New Orleans, LA 🎺',sub:'Bounce music · Cash Money history · 7K fans',shows:['DC','VTV'],topics:[{n:'Lil Wayne GOAT debates',clips:80,heat:'🔥 Never settled',dots:['#c9a84c','#df4aaf','#dfaf4a']},{n:'Cash Money Records history',clips:45,heat:'Dynasty',dots:['#df4aaf','#4a9fdf']},{n:'Hot Boys era',clips:25,heat:'Golden era',dots:['#df4aaf']},{n:'NOLA bounce culture',clips:15,heat:'Local',dots:['#df4aaf']},{n:'No Limit Records legacy',clips:20,heat:'Master P era',dots:['#4a9fdf','#df4aaf']}]}
+};
+
+const cityDots=[
+  {id:'nynj',label:'NY/NJ',coords:[-74.0,40.7],r:15,fill:'rgba(212,168,67,.8)',stroke:'#d4a843'},
+  {id:'philly',label:'PHL',coords:[-75.16,39.95],r:9,fill:'rgba(212,168,67,.6)',stroke:'#d4a843'},
+  {id:'atl',label:'ATL',coords:[-84.39,33.75],r:13,fill:'rgba(224,53,53,.8)',stroke:'#e03535'},
+  {id:'houston',label:'HTX',coords:[-95.37,29.76],r:11,fill:'rgba(154,96,212,.8)',stroke:'#9a60d4'},
+  {id:'memphis',label:'MEM',coords:[-90.05,35.15],r:8,fill:'rgba(224,53,53,.6)',stroke:'#e03535'},
+  {id:'miami',label:'MIA',coords:[-80.19,25.76],r:10,fill:'rgba(29,204,110,.8)',stroke:'#1dcc6e'},
+  {id:'chicago',label:'CHI',coords:[-87.63,41.88],r:11,fill:'rgba(212,168,67,.6)',stroke:'#d4a843'},
+  {id:'la',label:'LA',coords:[-118.24,34.05],r:12,fill:'rgba(58,143,212,.8)',stroke:'#3a8fd4'},
+  {id:'nola',label:'NOLA',coords:[-90.07,29.95],r:7,fill:'rgba(154,96,212,.55)',stroke:'#9a60d4'}
+];
+
+async function initMap(){
+  if(mapLoaded)return;mapLoaded=true;
+  const svg=d3.select('#us-map-svg'),path=d3.geoPath();
+  const proj=d3.geoAlbersUsa().scale(1300).translate([487.5,305]);
+  svg.attr('viewBox','0 0 975 610');
+  try{
+    const us=await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-albers-10m.json');
+    svg.append('path').datum(topojson.feature(us,us.objects.nation)).attr('d',path).attr('fill','#141420').attr('stroke','#1e1e30').attr('stroke-width','0.5');
+    svg.append('g').selectAll('path').data(topojson.feature(us,us.objects.states).features).join('path').attr('d',path).attr('fill','#141420').attr('stroke','#1e2030').attr('stroke-width','0.5').on('mouseover',function(){d3.select(this).attr('fill','#1a1a28');}).on('mouseout',function(){d3.select(this).attr('fill','#141420');});
+    svg.append('path').datum(topojson.mesh(us,us.objects.states,(a,b)=>a!==b)).attr('d',path).attr('fill','none').attr('stroke','#1e2030').attr('stroke-width','0.4');
+    svg.append('ellipse').attr('cx',545).attr('cy',415).attr('rx',148).attr('ry',70).attr('fill','rgba(154,96,212,.04)').attr('stroke','rgba(154,96,212,.18)').attr('stroke-width','1').attr('stroke-dasharray','4 4');
+    svg.append('text').attr('x',545).attr('y',355).attr('text-anchor','middle').attr('fill','rgba(154,96,212,.4)').attr('font-size','9').attr('font-family','Space Mono').text('DOWN SOUTH');
+    const tt=document.getElementById('mapTT');
+    cityDots.forEach(city=>{
+      const pos=proj(city.coords);if(!pos)return;
+      svg.append('circle').attr('cx',pos[0]).attr('cy',pos[1]).attr('r',city.r+4).attr('fill','none').attr('stroke',city.stroke).attr('stroke-width','0.7').attr('opacity','0.2');
+      svg.append('circle').attr('cx',pos[0]).attr('cy',pos[1]).attr('r',city.r).attr('fill',city.fill).attr('stroke',city.stroke).attr('stroke-width','1.5').style('cursor','pointer')
+        .on('mouseover',function(event){
+          d3.select(this).transition().duration(100).attr('r',city.r+3);
+          const cd=cityData[city.id];
+          if(cd){document.getElementById('mapTTCity').textContent=cd.name;document.getElementById('mapTTInfo').textContent=cd.topics.length+' topics · click to explore';}
+          const p=document.getElementById('us-map-svg').getBoundingClientRect();
+          tt.style.opacity='1';tt.style.left=Math.min(pos[0]/975*p.width,p.width-180)+'px';tt.style.top=Math.max(pos[1]/610*p.height-50,4)+'px';
+        })
+        .on('mouseout',function(){d3.select(this).transition().duration(100).attr('r',city.r);tt.style.opacity='0';})
+        .on('click',()=>showCityPanel(city.id));
+      svg.append('text').attr('x',pos[0]).attr('y',pos[1]+city.r+10).attr('text-anchor','middle').attr('fill',city.stroke).attr('opacity','0.75').attr('font-size','8').attr('font-family','Space Mono').text(city.label);
+    });
+  }catch(e){svg.append('text').attr('x',487).attr('y',305).attr('text-anchor','middle').attr('fill','#6e6a62').attr('font-size','13').attr('font-family','Syne').text('Map loading... check network');}
+}
+function showCityPanel(cityId){
+  const d=cityData[cityId];if(!d)return;
+  const shows=d.shows.map(s=>`<span class="ci-show">${s}</span>`).join('');
+  const topics=d.topics.map(t=>{
+    const dots=t.dots.map(c=>`<div class="cit-d" style="background:${c};"></div>`).join('');
+    return`<div class="ci-topic" onclick="launchCityRH('${t.n}')"><div class="cit-top"><div class="cit-nm">${t.n}</div><div class="cit-heat">${t.heat}</div></div><div class="cit-row"><div class="cit-cl">${t.clips} clips</div><div class="cit-dots">${dots}</div><div class="cit-btn">🕳 →</div></div></div>`;
+  }).join('');
+  document.getElementById('cityPanel').innerHTML=`<div class="city-info"><div class="ci-hd"><div class="ci-nm">${d.name}</div><div class="ci-sub">${d.sub}</div><div class="ci-shows">${shows}</div></div><div>${topics}</div></div><div style="background:var(--gdim);border:1px solid var(--gb);border-radius:var(--r);padding:9px 11px;margin-top:6px;"><div style="font-size:9px;color:var(--gold);font-weight:700;font-family:var(--fm);text-transform:uppercase;margin-bottom:2px;">📍 TAP ANY TOPIC</div><div style="font-size:10px;color:var(--text2);">Launch Rabbit Hole for local culture</div></div>`;
+}
+function launchCityRH(topic){showSec('rabbithole');setTimeout(()=>selBubble(topic),100);}
+
+// ── ENTITY PAGE ──
+function openEntity(id){
+  const d=ED[id];if(!d)return;
+  const pct=Math.round((d.pulse.shows/20)*100);
+  const takes=d.takes.map(t=>`<div class="em-take"><div class="em-take-dot" style="background:${t.color};border-color:var(--bg);"></div><div class="em-take-info"><div class="em-take-show"><div style="width:5px;height:5px;border-radius:50%;background:${t.color};display:inline-block;margin-right:5px;"></div>${t.show}<span style="color:var(--text3);margin-left:5px;font-size:9px;">${t.year}</span><span style="color:var(--red);font-weight:700;margin-left:auto;">${t.clips} clips</span></div><div class="em-take-q">${t.quote}</div><div class="em-take-meta" style="margin-bottom:4px;">${t.show} · Official · ${t.year}</div><div style="display:flex;gap:7px;"><div style="font-size:9px;color:var(--green);cursor:pointer;" onclick="showToast('✓ Called It vote added')">✓ Called It</div><div style="font-size:9px;color:#f07070;cursor:pointer;" onclick="showToast('✗ Aged Badly vote added')">✗ Aged Badly</div></div></div></div>`).join('');
+  const chips=d.related.map(r=>`<div class="em-chip" onclick="selBubble('${r}')">${r}</div>`).join('');
+  const showPills=d.takes.map(t=>`<span class="cp-show">${t.show}</span>`).join('');
+  document.getElementById('entityContent').innerHTML=`
+    <div class="em-hero">
+      <div class="em-icon">${d.icon}</div>
+      <div class="em-info">
+        <div class="em-type" style="color:${d.color};">${d.type}</div>
+        <div class="em-name" style="color:${d.color};">${d.name}</div>
+        <div class="em-sub">${d.sub}</div>
+        <div class="cp-wrap"><div class="cp-head"><div class="cp-lbl">🔥 Culture Pulse</div><div class="cp-s">${d.pulse.shows} shows · ${d.pulse.clips} clips · ${d.pulse.week} this week</div></div><div class="cp-bar"><div class="cp-fill" style="width:${pct}%;background:linear-gradient(90deg,${d.color},${d.color}88);"></div></div><div class="cp-shows">${showPills}</div></div>
+        <div class="em-acts"><button class="btn rh" onclick="selBubble('${d.name}');closeEntity()">🕳 Rabbit Hole</button><button class="btn dk" onclick="openShare('rabbit')">↗ Share to X</button><button class="btn" onclick="showToast('✓ Following ${d.name}')">+ Follow</button><button class="btn" onclick="openOverlay('watchPartyOverlay')">🎬 Watch Party</button></div>
+      </div>
+    </div>
+    <div class="em-body">
+      <div class="em-timeline"><div class="em-tl-hd">OFFICIAL <span>TIMELINE</span></div>${takes}</div>
+      <div class="em-sidebar">
+        <div class="em-sb-box"><div class="em-sb-lbl">🗺 Where It's Discussed</div><div class="em-sb-txt">${d.mapNote}</div></div>
+        <div class="em-sb-box"><div class="em-sb-lbl">Related Topics</div><div class="em-chips">${chips}</div></div>
+      </div>
+    </div>`;
+  document.getElementById('entityOverlay').classList.add('open');
+}
+function closeEntity(){document.getElementById('entityOverlay').classList.remove('open');}
+
+// ── SHARE MODAL ──
+const cardPreviews={
+  clip:`<div style="background:#060606;border-top:3px solid #c9a84c;font-family:'Syne',sans-serif;padding:13px 15px 11px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><div style="font-family:'Black Han Sans',sans-serif;font-size:12px;letter-spacing:3px;color:#f0ece3;">C<em style="color:#d4a843;">I</em>PHER</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;">#CIPHERRabbitHole</div></div><div style="display:flex;align-items:center;gap:5px;margin-bottom:11px;"><div style="width:5px;height:5px;border-radius:50%;background:#c9a84c;"></div><div style="font-size:10px;font-weight:700;color:#f0ece3;">Joe Budden Podcast ✓</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;margin-left:auto;">EP. 848 · 43:12</div></div><div style="font-size:9px;color:#d4a843;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;">🔥 8 official shows reacted</div><div style="font-size:13px;font-weight:700;color:#f0ece3;line-height:1.4;margin-bottom:8px;">"This trial is bigger than Puff — the entire system that protected him for decades is what's really on trial here."</div><div style="display:flex;gap:6px;align-items:center;"><span style="font-size:9px;color:#1dcc6e;">✓ 847 Called It</span><span style="font-size:9px;color:#f07070;">✗ 23 Aged Badly</span><span style="font-size:10px;font-weight:700;color:#d4a843;font-family:'Space Mono',monospace;margin-left:auto;">🕳 Rabbit Hole →</span></div></div>`,
+  rabbit:`<div style="background:#060606;border-top:3px solid #e03535;font-family:'Syne',sans-serif;padding:13px 15px 11px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><div style="font-family:'Black Han Sans',sans-serif;font-size:12px;letter-spacing:3px;color:#f0ece3;">C<em style="color:#d4a843;">I</em>PHER</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;">#CIPHERRabbitHole</div></div><div style="display:flex;align-items:center;gap:5px;margin-bottom:11px;"><div style="width:5px;height:5px;border-radius:50%;background:#e03535;"></div><div style="font-size:10px;font-weight:700;color:#f0ece3;">Rabbit Hole · 11 Official Shows · 47 Clips</div></div><div style="font-size:9px;color:#e03535;font-weight:700;text-transform:uppercase;margin-bottom:4px;">🔥 Every official take · one place</div><div style="font-size:13px;font-weight:700;color:#f0ece3;line-height:1.4;margin-bottom:9px;">DIDDY TRIAL — VladTV receipts from 2010 → JBP Ep. 848 → Breakfast Club → 8 more official shows</div><div style="display:flex;gap:3px;"><div style="width:6px;height:6px;border-radius:50%;background:#c9a84c;"></div><div style="width:6px;height:6px;border-radius:50%;background:#4a9fdf;"></div><div style="width:6px;height:6px;border-radius:50%;background:#dfaf4a;"></div><div style="width:6px;height:6px;border-radius:50%;background:#df4aaf;"></div><div style="width:6px;height:6px;border-radius:50%;background:#af4adf;"></div><div style="font-size:9px;color:#2e2c28;margin-left:4px;font-family:'Space Mono',monospace;">+6 more</div></div><div style="margin-top:9px;padding-top:9px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;"><div style="font-size:10px;font-weight:700;color:#d4a843;font-family:'Space Mono',monospace;">🕳 Go down the Rabbit Hole →</div><div style="font-size:9px;color:#2e2c28;">#DiddyTrial</div></div></div>`,
+  resurface:`<div style="background:#060606;border-top:3px solid #9a60d4;font-family:'Syne',sans-serif;padding:13px 15px 11px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><div style="font-family:'Black Han Sans',sans-serif;font-size:12px;letter-spacing:3px;color:#f0ece3;">C<em style="color:#d4a843;">I</em>PHER</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;">#CIPHERRabbitHole</div></div><div style="display:flex;align-items:center;gap:5px;margin-bottom:11px;"><div style="width:5px;height:5px;border-radius:50%;background:#9a60d4;"></div><div style="font-size:10px;font-weight:700;color:#f0ece3;">Resurfaced from the archive ⏳</div></div><div style="font-size:9px;color:#9a60d4;font-weight:700;text-transform:uppercase;margin-bottom:4px;">They said this years ago...</div><div style="font-size:13px;font-weight:700;color:#f0ece3;line-height:1.4;margin-bottom:8px;">JBP was talking about this 3 years before the documentary — nobody was listening then</div><div style="font-size:10px;font-weight:700;color:#d4a843;font-family:'Space Mono',monospace;">🕳 Hear the originals on CIPHER →</div></div>`
+};
+const showNames2={jbp:'Joe Budden Podcast',vlad:'VladTV',champs:'Drink Champs',bkfst:'The Breakfast Club',shay:'Club Shay Shay',akad:'DJ Akademiks',idiots:'Brilliant Idiots',arena:'The Arena',rmal:'New Rory & Mal'};
+const showTags2={jbp:'#JoeBuddenPodcast #JBP',vlad:'#VladTV',champs:'#DrinkChamps',bkfst:'#BreakfastClub',shay:'#ClubShayShay',akad:'#Akademiks',idiots:'#BrilliantIdiots',arena:'#TheArena',rmal:'#RoryAndMal'};
+function genCap(type,show,topic){
+  const sn=showNames2[show]||'Joe Budden Podcast';const tags=showTags2[show]||'#JBP';const t=topic||'Diddy Trial';
+  if(type==='clip')return sn+' said this and it\'s hitting different right now.\n\n"'+t.charAt(0).toUpperCase()+t.slice(1)+'"\n\nFull clip + every official reaction:\n🕳 ciphertheculture.com/rabbit-hole/'+t.toLowerCase().replace(/\s+/g,'-').slice(0,28)+'\n\n#CIPHERRabbitHole '+tags;
+  if(type==='rabbit')return t.charAt(0).toUpperCase()+t.slice(1)+' is everywhere right now.\n\nEvery official take from the culture in one Rabbit Hole:\n🕳 ciphertheculture.com/rabbit-hole/'+t.toLowerCase().replace(/\s+/g,'-').slice(0,28)+'\n\nFeaturing: '+sn+' + every other show in the culture\n\n#CIPHERRabbitHole';
+  return sn+' was talking about '+t+' way before anyone else.\n\nNow the whole culture is saying what they already said:\n🕳 ciphertheculture.com/rabbit-hole/'+t.toLowerCase().replace(/\s+/g,'-').slice(0,28)+'\n\n#CIPHERRabbitHole '+tags;
+}
+let curSType='clip';
+function openShare(type){
+  curSType=type||'clip';
+  document.querySelectorAll('.sm-tab').forEach(t=>t.classList.remove('active'));
+  const tab=document.getElementById('st-'+curSType);if(tab)tab.classList.add('active');
+  const title=document.getElementById('smTitle');if(title)title.textContent=curSType==='rabbit'?'Share this Rabbit Hole':curSType==='resurface'?'Share Resurfaced Clip':'Share this Clip to X';
+  const card=document.getElementById('smCard');if(card)card.innerHTML=cardPreviews[curSType]||cardPreviews.clip;
+  const cap=document.getElementById('smCap');if(cap)cap.value=genCap(curSType,'jbp','Diddy Trial');
+  const overlay=document.getElementById('shareOverlay');if(overlay)overlay.classList.add('open');
+}
+function switchTab(t,el){document.querySelectorAll('.sm-tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');curSType=t;const card=document.getElementById('smCard');if(card)card.innerHTML=cardPreviews[t]||cardPreviews.clip;const cap=document.getElementById('smCap');if(cap)cap.value=genCap(t,'jbp','Diddy Trial');}
+function closeShare(){const o=document.getElementById('shareOverlay');if(o)o.classList.remove('open');}
+function copyCap(){const t=document.getElementById('smCap');if(t&&navigator.clipboard)navigator.clipboard.writeText(t.value);showToast('✓ Caption copied to clipboard');}
+function postX(){const c=(document.getElementById('smCap').value||'').slice(0,280);window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(c),'_blank');}
+
+// ── DEBATES ──
+function openDebate(){const o=document.getElementById('debateOverlay');if(o)o.classList.add('open');}
+function closeDebate(){const o=document.getElementById('debateOverlay');if(o)o.classList.remove('open');}
+
+// ── WHY ──
+function showWhy(e,reasons){
+  const t=document.getElementById('whyTip');
+  document.getElementById('whyItems').innerHTML=reasons.split('·').map(r=>`<div class="why-item"><div class="why-d"></div><div class="why-t">${r.trim()}</div></div>`).join('');
+  t.style.left=Math.min(e.clientX,window.innerWidth-240)+'px';
+  t.style.top=(e.clientY-175)+'px';
+  t.classList.add('open');
+  setTimeout(()=>t.classList.remove('open'),4000);
+}
+document.addEventListener('click',e=>{if(!e.target.classList.contains('why')&&!e.target.classList.contains('why-btn'))document.getElementById('whyTip').classList.remove('open');});
+
+// ── PREMIUM ──
+function selPrice(el){document.querySelectorAll('.price-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');}
+
+// ── TOAST ──
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+</script>
+<div class="toast" id="toast"></div>
+</body>
+</html>
