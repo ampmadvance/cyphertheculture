@@ -2,8 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CIPHER — We Are The Culture · ciphertheculture.com</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CYPHER — We Are The Culture · cyphertheculture.com</title>
+
+<!-- FAVICON & ICONS (all generated from 512x512 source) -->
+<link rel="icon" type="image/png" sizes="512x512" href="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_a2e6e804-decb-4152-b5e7-53d3de4a3d70.png?v=1775507563">
+<link rel="icon" type="image/png" sizes="32x32" href="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_a2e6e804-decb-4152-b5e7-53d3de4a3d70.png?v=1775507563">
+<link rel="icon" type="image/png" sizes="16x16" href="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_a2e6e804-decb-4152-b5e7-53d3de4a3d70.png?v=1775507563">
+<link rel="apple-touch-icon" sizes="180x180" href="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_a2e6e804-decb-4152-b5e7-53d3de4a3d70.png?v=1775507563">
+<meta name="msapplication-TileImage" content="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_a2e6e804-decb-4152-b5e7-53d3de4a3d70.png?v=1775507563">
+
+<!-- PWA / THEME -->
+<meta name="theme-color" content="#060606">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CYPHER">
+
+<!-- OPEN GRAPH -->
+<meta property="og:title" content="CYPHER — We Are The Culture">
+<meta property="og:description" content="Official Only. Every view, every engagement goes directly to the verified creator. No re-uploads. No basement opinions. If it's on Cypher, it's the real thing.">
+<meta property="og:image" content="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_a2e6e804-decb-4152-b5e7-53d3de4a3d70.png?v=1775507563">
+<meta property="og:url" content="https://cyphertheculture.com">
+<meta property="og:type" content="website">
+
+<!-- TWITTER / X CARD -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CYPHER — We Are The Culture">
+<meta name="twitter:description" content="Official Only. Every view goes directly to the verified creator. 21 shows. One culture. #CYPHERRabbitHole">
+<meta name="twitter:image" content="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_a2e6e804-decb-4152-b5e7-53d3de4a3d70.png?v=1775507563">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
@@ -753,6 +779,198 @@ input,select,textarea{font-family:var(--fs);}
 .drs-eg-pct{float:right;font-size:9px;color:var(--green);font-family:var(--fm);}
 /* PWYCAF on DRS page */
 .drs-pwycaf{background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(212,168,67,.03));border:1px solid var(--gb);border-radius:var(--rl);padding:20px 22px;text-align:center;margin-bottom:18px;}
+
+/* ─────────── MOBILE HAMBURGER ─────────── */
+.mob-ham{display:none;width:32px;height:32px;border-radius:8px;background:var(--bg3);border:1px solid var(--b2);align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;z-index:10;}
+.mob-ham span{display:block;width:14px;height:1.5px;background:var(--text2);position:relative;transition:all .2s;}
+.mob-ham span::before,.mob-ham span::after{content:'';position:absolute;left:0;width:100%;height:1.5px;background:var(--text2);transition:all .2s;}
+.mob-ham span::before{top:-4px;}
+.mob-ham span::after{top:4px;}
+.mob-ham.open span{background:transparent;}
+.mob-ham.open span::before{top:0;transform:rotate(45deg);}
+.mob-ham.open span::after{top:0;transform:rotate(-45deg);}
+
+/* MOBILE NAV DRAWER */
+.mob-drawer{display:none;position:fixed;top:82px;left:0;right:0;bottom:0;z-index:250;background:rgba(6,6,6,.98);backdrop-filter:blur(20px);overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);}
+.mob-drawer.open{transform:translateX(0);}
+
+/* MOBILE BOTTOM TAB BAR */
+.mob-tab-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:350;background:rgba(6,6,6,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,8px);height:auto;}
+.mob-tab-bar-inner{display:flex;justify-content:space-around;align-items:center;}
+.mob-tab{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 8px;border-radius:8px;transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.mob-tab-ico{font-size:18px;line-height:1;}
+.mob-tab-lbl{font-size:8px;color:var(--text3);font-weight:600;font-family:var(--fm);letter-spacing:.5px;}
+.mob-tab.active .mob-tab-lbl{color:var(--gold);}
+.mob-tab.active .mob-tab-ico{filter:drop-shadow(0 0 4px rgba(212,168,67,.4));}
+
+/* ─────────── RESPONSIVE: 768px (Tablet) ─────────── */
+@media(max-width:768px){
+  :root{--sidebar:0px;--right:0px;}
+  .sidebar{display:none;}
+  .rp{display:none;}
+  .main{margin-left:0;margin-right:0;padding:16px 14px 80px;}
+  .layout{padding-top:82px;}
+  .live-banner{padding-left:14px;padding-right:14px;top:82px;}
+  .topbar{height:50px;}
+  .tb-logo{width:auto;border-right:none;padding:0 12px;}
+  .logo-img{height:26px;}
+  .tb-mid{padding:0 8px;gap:8px;}
+  .sbar{max-width:none;}
+  .sbar input{padding:6px 36px 6px 12px;font-size:11px;}
+  .deep-search-pill{display:none;}
+  .live-pill .lpt{display:none;}
+  .tb-right{width:auto;border-left:none;padding:0 12px;gap:6px;}
+  .pass-btn{display:none;}
+  .mob-ham{display:flex;}
+  .mob-drawer{display:block;}
+  .mob-tab-bar{display:block;}
+  .sbar2{grid-template-columns:repeat(2,1fr);gap:7px;}
+  .cgrid{grid-template-columns:1fr;gap:10px;}
+  .rh-grid{grid-template-columns:1fr;gap:16px;}
+  .rh-grid::before{display:none;}
+  .rh-col{padding:0 !important;}
+  .perks-grid,.perk-grid-2,.b2b-grid,.csa-grid{grid-template-columns:1fr 1fr;gap:8px;}
+  .vault-grid{grid-template-columns:1fr;}
+  .em-body{grid-template-columns:1fr;}
+  .em-timeline{border-right:none;border-bottom:1px solid var(--border);}
+  .em-hero{flex-direction:column;gap:12px;}
+  .entity-modal{margin:0;border-radius:16px 16px 0 0;max-height:92vh;margin-top:auto;}
+  .share-modal{width:96vw;}
+  .map-2col{grid-template-columns:1fr;}
+  .wp-layout{grid-template-columns:1fr;}
+  .wp-chat-side{max-height:200px;overflow-y:auto;}
+  .price-slider{gap:6px;}
+  .price-opt{min-width:70px;padding:10px 12px;}
+}
+
+/* ─────────── RESPONSIVE: 375px (iPhone) ─────────── */
+@media(max-width:480px){
+  .ticker{height:22px;padding:0 10px;}
+  .tl{font-size:7px;letter-spacing:1.5px;}
+  .tic{font-size:8px;}
+  .topbar{height:48px;top:22px;}
+  .layout{padding-top:70px;}
+  .live-banner{top:70px;padding:5px 10px;gap:8px;}
+  .lb-su{display:none;}
+  .main{padding:12px 10px 88px;}
+  .pht{font-size:20px;letter-spacing:2px;}
+  .phs{font-size:10px;}
+  .sbar2{grid-template-columns:1fr 1fr;gap:6px;}
+  .sb2{padding:10px 11px;}
+  .sb2-n{font-size:18px;}
+  .sb2-l{font-size:9px;}
+  .hthumb{height:180px;}
+  .htitle{font-size:14px;}
+  .hbody{padding:11px 13px 14px;}
+  .htags{gap:4px;}
+  .hacts{gap:5px;}
+  .hero:hover{transform:none;}
+  .cc:hover{transform:none;}
+  .ctitle{font-size:11px;}
+  .rh-hdr{padding:16px 14px;}
+  .rh-ttl{font-size:18px;}
+  .ds-input{font-size:12px;padding:10px 44px 10px 14px;}
+  .ds-go{padding:5px 11px;font-size:10px;}
+  .ds-examples{gap:5px;}
+  .ds-ex{font-size:9px;padding:3px 8px;}
+  .rh-bubbles{gap:5px;}
+  .rb{font-size:10px;padding:5px 11px;}
+  .drs-hero{padding:16px 14px;}
+  .drs-ttl{font-size:20px;}
+  .drs-preview-wrap .drs-lock-card{padding:20px 16px;}
+  .drs-lock-t{font-size:18px;}
+  .perks-grid,.perk-grid-2,.b2b-grid,.csa-grid{grid-template-columns:1fr;}
+  .pwycaf{padding:16px 14px;}
+  .pwycaf-t{font-size:22px;}
+  .price-opt{min-width:60px;padding:8px 10px;}
+  .price-opt-n{font-size:16px !important;}
+  .ph{flex-direction:column;gap:10px;}
+  .ph-r{flex-wrap:wrap;}
+  .ff-shows{gap:5px;}
+  .ffs span{font-size:9px;}
+  .rh-cat-lbl{font-size:8px;}
+  .sg-card{min-width:120px;padding:10px 12px;}
+  .entity-modal{border-radius:14px 14px 0 0;}
+  .em-name{font-size:22px;}
+  .em-icon{font-size:34px;}
+  .debate-modal{border-radius:14px 14px 0 0;max-height:80vh;}
+  .tb-logo{padding:0 8px;}
+  .logo-img{height:22px;}
+  .sbar input{font-size:10px;padding:5px 32px 5px 10px;border-radius:22px;}
+  .sbar-btn{padding:3px 7px;font-size:9px;}
+  .ib{width:26px;height:26px;font-size:10px;}
+  .nd{width:6px;height:6px;top:2px;right:2px;}
+  .live-pill{padding:4px 8px;}
+  .tb-right{padding:0 8px;gap:5px;}
+  .tb-mid{padding:0 6px;gap:6px;}
+  .btn{font-size:10px;padding:5px 10px;}
+  .tag{font-size:9px;padding:3px 8px;}
+}
+
+/* ─────────── TOUCH & MOBILE UX POLISH ─────────── */
+@media(hover:none) and (pointer:coarse){
+  .hero:hover,.cc:hover,.sg-card:hover,.bc-card:hover,.rb:hover,.ti:hover,.prh:hover,.ns:hover{transform:none;}
+  .cc:active,.hero:active{transform:scale(.98);transition:transform .1s;}
+  .ni:active,.ns:active{background:var(--bg4);}
+  .btn:active{transform:scale(.96);}
+  *{-webkit-tap-highlight-color:transparent;}
+  .main{-webkit-overflow-scrolling:touch;}
+}
+
+/* ─────────── SMOOTH SCROLL SNAP FOR HORIZONTAL SCROLLS ON MOBILE ─────────── */
+@media(max-width:768px){
+  .rh-subgenre-cards,.bc-scroll{scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
+  .sg-card,.bc-card{scroll-snap-align:start;}
+}
+
+/* ─────────── SAFE AREA (iPhone notch) ─────────── */
+@supports(padding:env(safe-area-inset-bottom)){
+  .mob-tab-bar{padding-bottom:calc(env(safe-area-inset-bottom) + 4px);}
+  @media(max-width:480px){
+    .main{padding-bottom:calc(88px + env(safe-area-inset-bottom));}
+  }
+}
+
+/* ─────────── ANIMATIONS & MICRO-INTERACTIONS ─────────── */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulseGold{0%,100%{box-shadow:0 0 0 0 rgba(212,168,67,.3)}50%{box-shadow:0 0 0 8px rgba(212,168,67,0)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.mob-tab.active{animation:pulseGold .6s ease;}
+.sec.active{animation:fadeIn .25s ease;}
+
+/* ─────────── SHOW PROFILE MODAL (new) ─────────── */
+.show-profile-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:650;display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
+.show-profile-overlay.open{display:flex;}
+.show-profile{background:var(--bg);max-width:480px;width:94vw;border-radius:18px;border:1px solid var(--b2);overflow:hidden;animation:slideIn .22s ease;}
+.sp-header{padding:20px;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:center;}
+.sp-avatar{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:var(--fd);flex-shrink:0;}
+.sp-info h3{font-family:var(--fd);font-size:16px;letter-spacing:1.5px;color:var(--text);margin-bottom:2px;}
+.sp-info p{font-size:11px;color:var(--text2);}
+.sp-verified{font-size:9px;color:var(--gold);font-family:var(--fm);display:inline-flex;align-items:center;gap:3px;}
+.sp-body{padding:16px 20px;}
+.sp-desc{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:14px;}
+.sp-links{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.sp-link{font-size:10px;padding:5px 12px;border-radius:20px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .2s;text-decoration:none;}
+.sp-link:hover{background:var(--gdim);color:var(--gold);border-color:var(--gb);}
+.sp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.sp-stat{text-align:center;background:var(--bg2);border-radius:var(--r);padding:10px 8px;border:1px solid var(--border);}
+.sp-stat-n{font-family:var(--fd);font-size:18px;color:var(--gold);}
+.sp-stat-l{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+.sp-close{position:absolute;top:14px;right:14px;width:28px;height:28px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:13px;z-index:2;}
+
+/* ─────────── CONNECT SUBS (Ultra Premium) ─────────── */
+.connect-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+@media(max-width:480px){.connect-grid{grid-template-columns:1fr;}}
+.connect-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;}
+.connect-card:hover{border-color:var(--gb);background:var(--gdim);}
+.connect-card.connected{border-color:rgba(29,204,110,.3);background:rgba(29,204,110,.05);}
+.connect-ico{font-size:24px;flex-shrink:0;}
+.connect-nm{font-size:12px;font-weight:700;color:var(--text);}
+.connect-status{font-size:10px;color:var(--text2);margin-top:2px;}
+.connect-card.connected .connect-status{color:var(--green);}
+.connect-btn{margin-left:auto;font-size:10px;padding:5px 12px;border-radius:20px;border:1px solid var(--gb);background:var(--gdim);color:var(--gold);cursor:pointer;flex-shrink:0;}
+.connect-card.connected .connect-btn{background:rgba(29,204,110,.1);border-color:rgba(29,204,110,.3);color:var(--green);}
 </style>
 </head>
 <body>
@@ -766,7 +984,7 @@ input,select,textarea{font-family:var(--fs);}
     <span class="tic">🔥 Diddy Trial — 11 official shows weighed in<span class="tdt">·</span></span>
     <span class="tic">⚡ The Arena new drop tonight — sports & culture<span class="tdt">·</span></span>
     <span class="tic">🎤 Kendrick Superbowl — 8 official shows covered it<span class="tdt">·</span></span>
-    <span class="tic">🆕 Let's Rap About It + Club 520 now on CIPHER<span class="tdt">·</span></span>
+    <span class="tic">🆕 Let's Rap About It + Club 520 now on CYPHER<span class="tdt">·</span></span>
     <span class="tic">🔴 King Akademiks live now — 134 clipping<span class="tdt">·</span></span>
     <span class="tic">📅 Club Shay Shay drops in 2hrs<span class="tdt">·</span></span>
     <span class="tic">🔥 Diddy Trial — 11 official shows weighed in<span class="tdt">·</span></span>
@@ -777,8 +995,8 @@ input,select,textarea{font-family:var(--fs);}
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="tb-logo">
-    <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_97ef0f4f-fc21-432a-ba5e-97a2aae25f32.png?v=1775412867" class="logo-img" alt="CIPHER" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="logo-fallback" style="display:none;flex-direction:column;"><div>C<em>I</em>PHER</div><div class="logo-domain">ciphertheculture.com</div></div>
+    <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_a2e6e804-decb-4152-b5e7-53d3de4a3d70.png?v=1775507563" class="logo-img" alt="CYPHER" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="logo-fallback" style="display:none;flex-direction:column;"><div>C<em>Y</em>PHER</div><div class="logo-domain">cyphertheculture.com</div></div>
   </div>
   <div class="tb-mid">
     <div class="sbar">
@@ -786,7 +1004,7 @@ input,select,textarea{font-family:var(--fs);}
       <button class="sbar-btn" onclick="showSec('rabbithole')">🔍</button>
     </div>
     <div class="deep-search-pill" onclick="openDeepSearch()">
-      <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_4db0369b-5f79-4454-a749-a932c12b951b.png?v=1775412869" class="ds-logo" alt="" onerror="this.style.display='none'">
+      <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_c2a70286-9eb1-4db9-86ac-56d71dae0dc0.png?v=1775507564" class="ds-logo" alt="" onerror="this.style.display='none'">
       <span class="ds-txt">DEEP RABBIT SEARCH</span>
     </div>
     <div class="live-pill"><div class="lpd"></div><span class="lpt">AK LIVE</span></div>
@@ -795,6 +1013,60 @@ input,select,textarea{font-family:var(--fs);}
     <div class="pass-btn" onclick="showSec('premium')">🕳 Deep Rabbit Search · from $0.99</div>
     <div class="ib" style="position:relative;">🔔<div class="nd"></div></div>
     <div class="ib">👤</div>
+    <div class="mob-ham" id="mobHam" onclick="toggleMobileMenu()"><span></span></div>
+  </div>
+</div>
+
+<!-- MOBILE DRAWER -->
+<div class="mob-drawer" id="mobDrawer">
+  <div style="padding:14px 16px;">
+    <div class="nl">Navigate</div>
+    <div class="ni active" onclick="showSec('home');closeMobileMenu()"><span class="ni-ico">🏠</span>The Feed<span class="ni-bdg">LIVE</span></div>
+    <div class="ni" onclick="showSec('rabbithole');closeMobileMenu()"><span class="ni-ico">🕳</span>Rabbit Hole</div>
+    <div class="ni" onclick="showSec('browse');closeMobileMenu()"><span class="ni-ico">🌐</span>Browse Culture</div>
+    <div class="ni" onclick="showSec('vault');closeMobileMenu()"><span class="ni-ico">🔐</span>My Vault</div>
+    <div class="ni" onclick="showSec('premium');closeMobileMenu()"><span class="ni-ico"><img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_c2a70286-9eb1-4db9-86ac-56d71dae0dc0.png?v=1775507564" style="height:13px;" alt="" onerror="this.outerHTML='⭐'"></span>Deep Rabbit Search<span class="ni-new">Pass</span></div>
+  </div>
+  <div class="sdiv"></div>
+  <div style="padding:0 16px;">
+    <div class="nl">Official Shows · 21</div>
+    <div class="ns" onclick="openShowProfile('jbp')"><div class="ns-av jbp">JBP</div><div class="ns-nm">Joe Budden Podcast</div></div>
+    <div class="ns" onclick="openShowProfile('akad')"><div class="ns-av akad">AK</div><div class="ns-nm">DJ Akademiks</div></div>
+    <div class="ns" onclick="openShowProfile('vlad')"><div class="ns-av vlad">VTV</div><div class="ns-nm">VladTV</div></div>
+    <div class="ns" onclick="openShowProfile('champs')"><div class="ns-av champs">DC</div><div class="ns-nm">Drink Champs</div></div>
+    <div class="ns" onclick="openShowProfile('bkfst')"><div class="ns-av bkfst">BKF</div><div class="ns-nm">Breakfast Club</div></div>
+    <div class="ns" onclick="openShowProfile('shay')"><div class="ns-av shay">CSS</div><div class="ns-nm">Club Shay Shay</div></div>
+    <div class="ns" onclick="openShowProfile('arena')"><div class="ns-av arena">ARN</div><div class="ns-nm">The Arena</div></div>
+    <div class="ns" onclick="openShowProfile('idiots')"><div class="ns-av idiots">BI</div><div class="ns-nm">Brilliant Idiots</div></div>
+    <div class="ns" onclick="openShowProfile('rmal')"><div class="ns-av rmal">R&M</div><div class="ns-nm">New Rory & Mal</div></div>
+    <div class="ns" onclick="openShowProfile('mwog')"><div class="ns-av mwog" style="font-size:7px;">MDG</div><div class="ns-nm">Million Dollaz WOG</div></div>
+  </div>
+  <div style="padding:14px 16px;">
+    <div class="sidebar-pass" onclick="showSec('premium');closeMobileMenu()">
+      <div class="sp-t"><img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_c2a70286-9eb1-4db9-86ac-56d71dae0dc0.png?v=1775507564" style="height:14px;vertical-align:middle;margin-right:4px;" alt="" onerror="this.outerHTML='🕳'"> DEEP RABBIT SEARCH</div>
+      <div class="sp-s">Describe what you half-remember — CYPHER finds the exact clip</div>
+      <button class="sp-b">Unlock · from $0.99</button>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE BOTTOM TAB BAR -->
+<div class="mob-tab-bar">
+  <div class="mob-tab-bar-inner">
+    <div class="mob-tab active" onclick="showSecMob('home')"><div class="mob-tab-ico">🏠</div><div class="mob-tab-lbl">FEED</div></div>
+    <div class="mob-tab" onclick="showSecMob('rabbithole')"><div class="mob-tab-ico">🕳</div><div class="mob-tab-lbl">RABBIT</div></div>
+    <div class="mob-tab" onclick="showSecMob('browse')"><div class="mob-tab-ico">🌐</div><div class="mob-tab-lbl">BROWSE</div></div>
+    <div class="mob-tab" onclick="showSecMob('vault')"><div class="mob-tab-ico">🔐</div><div class="mob-tab-lbl">VAULT</div></div>
+    <div class="mob-tab" onclick="showSecMob('premium')"><div class="mob-tab-ico"><img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_c2a70286-9eb1-4db9-86ac-56d71dae0dc0.png?v=1775507564" style="height:18px;" alt="⭐" onerror="this.outerHTML='⭐'"></div><div class="mob-tab-lbl">PASS</div></div>
+  </div>
+</div>
+
+<!-- SHOW PROFILE MODAL -->
+<div class="show-profile-overlay" id="showProfileOverlay" onclick="if(event.target===this)closeShowProfile()">
+  <div class="show-profile" style="position:relative;">
+    <div class="sp-close" onclick="closeShowProfile()">✕</div>
+    <div class="sp-header" id="spHeader"></div>
+    <div class="sp-body" id="spBody"></div>
   </div>
 </div>
 
@@ -817,7 +1089,7 @@ input,select,textarea{font-family:var(--fs);}
       <div class="ni" id="nav-rabbithole" onclick="showSec('rabbithole')"><span class="ni-ico">🕳</span>Rabbit Hole</div>
       <div class="ni" id="nav-browse" onclick="showSec('browse')"><span class="ni-ico">🌐</span>Browse Culture</div>
       <div class="ni" id="nav-vault" onclick="showSec('vault')"><span class="ni-ico">🔐</span>My Vault</div>
-      <div class="ni" id="nav-premium" onclick="showSec('premium')"><span class="ni-ico">🕳</span>Deep Rabbit Search<span class="ni-new">⭐ Pass</span></div>
+      <div class="ni" id="nav-premium" onclick="showSec('premium')"><span class="ni-ico"><img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_c2a70286-9eb1-4db9-86ac-56d71dae0dc0.png?v=1775507564" style="height:13px;" alt="🕳" onerror="this.outerHTML='🕳'"></span>Deep Rabbit Search<span class="ni-new">⭐ Pass</span></div>
     </div>
     <div class="sdiv"></div>
     <div class="nl" style="padding-left:20px;">Official Shows · 21</div>
@@ -842,8 +1114,8 @@ input,select,textarea{font-family:var(--fs);}
     <div class="ns"><div class="ns-av mwog" style="font-size:7px;">MDG</div><div class="ns-nm">Million Dollaz Worth of Game</div></div>
     <div class="ns" style="opacity:.5;"><div class="ns-av" style="background:var(--bg3);color:var(--text3);font-size:9px;">7PM</div><div class="ns-nm">7PM in Brooklyn</div></div>
     <div class="sidebar-pass" onclick="showSec('premium')">
-      <div class="sp-t">🕳 DEEP RABBIT SEARCH</div>
-      <div class="sp-s">Describe what you half-remember — CIPHER finds the exact clip across all 21 shows</div>
+      <div class="sp-t"><img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_c2a70286-9eb1-4db9-86ac-56d71dae0dc0.png?v=1775507564" style="height:14px;vertical-align:middle;margin-right:4px;" alt="" onerror="this.outerHTML='🕳'"> DEEP RABBIT SEARCH</div>
+      <div class="sp-s">Describe what you half-remember — CYPHER finds the exact clip across all 21 shows</div>
       <button class="sp-b">Unlock · from $0.99</button>
       <div class="sp-p">pay what you can · for the people</div>
     </div>
@@ -870,8 +1142,8 @@ input,select,textarea{font-family:var(--fs);}
 
       <!-- HERO SLOGAN BANNER -->
       <div style="background:var(--bg2);border:1px solid var(--gb);border-radius:var(--r);padding:13px 16px;margin-bottom:16px;border-left:3px solid var(--gold);">
-        <div style="font-size:12px;color:var(--text);line-height:1.6;font-style:italic;">"Official Only — We Are The Culture. Every view, every engagement goes directly to the verified creator. No re-uploads. No basement opinions. If it's on CIPHER, it's the real thing."</div>
-        <div style="font-size:9px;color:var(--text3);font-family:var(--fm);margin-top:6px;letter-spacing:1px;">— CIPHER · CIPHERTHECULTURE.COM</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.6;font-style:italic;">"Official Only — We Are The Culture. Every view, every engagement goes directly to the verified creator. No re-uploads. No basement opinions. If it's on CYPHER, it's the real thing."</div>
+        <div style="font-size:9px;color:var(--text3);font-family:var(--fm);margin-top:6px;letter-spacing:1px;">— CYPHER · CYPHERTHECULTURE.COM</div>
       </div>
 
       <!-- HERO CLIP -->
@@ -964,7 +1236,7 @@ input,select,textarea{font-family:var(--fs);}
             <div class="ctags"><span class="tag fire">🔥 72M Views</span><span class="tag">Katt Williams</span></div>
             <div class="cacts"><button class="btn">▶ Play</button><button class="btn dk" onclick="openShare('clip')">↗</button><button class="btn rh" onclick="showSec('rabbithole')">🕳</button><button class="btn" onclick="openOverlay('watchPartyOverlay')">🎬</button></div>
             <div class="vote-row"><button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">2.1K</span> Called It</button><button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">14</span> Aged Badly</button></div>
-            <div class="ep-sum"><div class="ep-sum-hd" onclick="toggleSum(this)"><span>📄 Episode Summary</span><span class="ep-sum-tog">▼</span></div><div class="ep-sum-body">In what became the most watched YouTube interview ever with 72M views, Katt joins Shannon for 3 unfiltered hours. Katt names specific industry figures and discusses systemic suppression of Black male comedians. At 1:24:08 he makes the statement that sends every other CIPHER show into reaction mode within 48 hours.</div></div>
+            <div class="ep-sum"><div class="ep-sum-hd" onclick="toggleSum(this)"><span>📄 Episode Summary</span><span class="ep-sum-tog">▼</span></div><div class="ep-sum-body">In what became the most watched YouTube interview ever with 72M views, Katt joins Shannon for 3 unfiltered hours. Katt names specific industry figures and discusses systemic suppression of Black male comedians. At 1:24:08 he makes the statement that sends every other CYPHER show into reaction mode within 48 hours.</div></div>
             <div class="debate-row"><div class="db-ico">💬</div><div class="db-txt">Best interview of the decade?</div><div class="db-cnt">340</div><div class="db-btn" onclick="openOverlay('debateOverlay')">Join</div></div>
           </div>
         </div>
@@ -1008,7 +1280,7 @@ input,select,textarea{font-family:var(--fs);}
           <div class="cbody">
             <div class="crow"><div class="cavs"><div class="cav lrai" style="font-size:6px;">LR</div></div><div class="cmeta">@LetsRapAboutIt · Official</div><div class="cera">2025</div></div>
             <div class="ctitle">Breaking down the culture from a perspective no other show brings to the table right now</div>
-            <div class="ctags"><span class="tag new">New to CIPHER</span><span class="tag">Culture</span></div>
+            <div class="ctags"><span class="tag new">New to CYPHER</span><span class="tag">Culture</span></div>
             <div class="cacts"><button class="btn">▶ Play</button><button class="btn dk" onclick="openShare('clip')">↗</button><button class="btn rh" onclick="showSec('rabbithole')">🕳</button></div>
             <div class="vote-row"><button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">67</span> Called It</button><button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">5</span> Aged Badly</button></div>
           </div>
@@ -1022,7 +1294,7 @@ input,select,textarea{font-family:var(--fs);}
           <div class="cbody">
             <div class="crow"><div class="cavs"><div class="cav c520" style="font-size:6px;">520</div></div><div class="cmeta">@club520podcast · Official</div><div class="cera">2025</div></div>
             <div class="ctitle">Real talk, no filter — Club 520 keeps it authentic every single episode without compromise</div>
-            <div class="ctags"><span class="tag new">New to CIPHER</span><span class="tag">Hip-Hop</span></div>
+            <div class="ctags"><span class="tag new">New to CYPHER</span><span class="tag">Hip-Hop</span></div>
             <div class="cacts"><button class="btn">▶ Play</button><button class="btn dk" onclick="openShare('clip')">↗</button><button class="btn rh" onclick="showSec('rabbithole')">🕳</button></div>
             <div class="vote-row"><button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">44</span> Called It</button><button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">3</span> Aged Badly</button></div>
           </div>
@@ -1036,7 +1308,7 @@ input,select,textarea{font-family:var(--fs);}
           <div class="cbody">
             <div class="crow"><div class="cavs"><div class="cav mwog" style="font-size:6px;">MDG</div></div><div class="cmeta">Gillie Da King & Wallo267 · 1.53M</div><div class="cera">2025</div></div>
             <div class="ctitle">Gillie & Wallo drop real game — Philly roots, street wisdom, and the culture from people who lived it</div>
-            <div class="ctags"><span class="tag new">New to CIPHER</span><span class="tag">Game</span><span class="tag">Philly</span></div>
+            <div class="ctags"><span class="tag new">New to CYPHER</span><span class="tag">Game</span><span class="tag">Philly</span></div>
             <div class="cacts"><button class="btn">▶ Play</button><button class="btn dk" onclick="openShare('clip')">↗</button><button class="btn rh" onclick="showSec('rabbithole')">🕳</button><button class="why" onclick="showWhy(event,'Philly culture · Gillie & Wallo · New verified show')">💡</button></div>
             <div class="vote-row"><button class="vi-btn ci" onclick="vote(this)">✓ <span class="vi-n">189</span> Called It</button><button class="vi-btn ab" onclick="vote(this)">✗ <span class="vi-n">7</span> Aged Badly</button></div>
             <div class="ep-sum"><div class="ep-sum-hd" onclick="toggleSum(this)"><span>📄 Episode Summary</span><span class="ep-sum-tog">▼</span></div><div class="ep-sum-body">Gillie and Wallo sit down for their signature no-filter conversation. Wallo, who turned his life around after 20 years in prison, brings the street perspective while Gillie brings the rap industry lens. This episode covers personal growth, navigating success, and what it means to own your intellectual property — a topic they know well after turning down Spotify's multi-million dollar IP acquisition offer.</div></div>
@@ -1056,13 +1328,13 @@ input,select,textarea{font-family:var(--fs);}
       <!-- DEEP RABBIT SEARCH (PREMIUM) -->
       <div class="deep-search-box">
         <div class="ds-hd">
-          <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_4db0369b-5f79-4454-a749-a932c12b951b.png?v=1775412869" class="ds-logo-lg" alt="Deep Rabbit Search" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div style="display:none;flex-direction:column;"><div style="font-size:14px;font-weight:800;color:var(--gold);font-family:var(--fm);">🕳 DEEP RABBIT SEARCH</div></div>
+          <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_c2a70286-9eb1-4db9-86ac-56d71dae0dc0.png?v=1775507564" class="ds-logo-lg" alt="Deep Rabbit Search" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;flex-direction:column;"><div style="font-size:14px;font-weight:800;color:var(--gold);font-family:var(--fm);"><img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_c2a70286-9eb1-4db9-86ac-56d71dae0dc0.png?v=1775507564" style="height:16px;vertical-align:middle;margin-right:4px;" alt="" onerror="this.outerHTML='🕳'"> DEEP RABBIT SEARCH</div></div>
           <div>
             <div class="ds-hd-t">Deep Rabbit Search</div>
             <div class="ds-hd-s">Describe what you half-remember — we find the exact clip</div>
           </div>
-          <div class="ds-premium">⭐ CIPHER Pass</div>
+          <div class="ds-premium">⭐ CYPHER Pass</div>
         </div>
         <div class="ds-input-wrap">
           <input class="ds-input" id="dsInput" type="text" placeholder="&quot;that episode where Joe got really mad about something with Rory...&quot; or &quot;when Ak said something about a lawsuit...&quot;" onkeydown="if(event.key==='Enter')runDeepSearch()">
@@ -1219,7 +1491,7 @@ input,select,textarea{font-family:var(--fs);}
           <div class="rh-col">
             <div class="rh-node"><div class="rh-bull" style="background:#c9a84c;"></div><div class="rh-card"><div class="rh-srow"><div class="rh-sdot" style="background:#c9a84c;"></div><span class="rh-snm">JBP · EP. 848 · 2025</span><span class="rh-heat">🔥 4.2M</span></div><div class="rh-txt">"This goes way beyond Puff — the system that protected him is on trial" — Marc Lamont Hill</div><div class="rh-ep">Joe · Ice · MLH · Official JBP</div></div></div>
             <div class="rh-node"><div class="rh-bull" style="background:#dfaf4a;"></div><div class="rh-card"><div class="rh-srow"><div class="rh-sdot" style="background:#dfaf4a;"></div><span class="rh-snm">BREAKFAST CLUB · 2024</span><span class="rh-heat">🔥 6.8M</span></div><div class="rh-txt">Charlamagne's Donkey of the Day — why industry silence was always the real story</div><div class="rh-ep">Charlamagne · DJ Envy · Official</div></div></div>
-            <div class="rh-node"><div class="rh-bull" style="background:#df4aaf;"></div><div class="rh-card"><div class="contradiction">🔄 Flipped from earlier take</div><div class="rh-srow"><div class="rh-sdot" style="background:#df4aaf;"></div><span class="rh-snm">DRINK CHAMPS · 2024</span><span class="rh-heat">🔥 2.8M</span></div><div class="rh-txt">N.O.R.E. revisits his earlier takes — this is why CIPHER shows you both sides</div><div class="rh-ep">N.O.R.E. & DJ EFN · Official · 2024</div></div></div>
+            <div class="rh-node"><div class="rh-bull" style="background:#df4aaf;"></div><div class="rh-card"><div class="contradiction">🔄 Flipped from earlier take</div><div class="rh-srow"><div class="rh-sdot" style="background:#df4aaf;"></div><span class="rh-snm">DRINK CHAMPS · 2024</span><span class="rh-heat">🔥 2.8M</span></div><div class="rh-txt">N.O.R.E. revisits his earlier takes — this is why CYPHER shows you both sides</div><div class="rh-ep">N.O.R.E. & DJ EFN · Official · 2024</div></div></div>
             <div class="rh-node"><div class="rh-bull" style="background:#4adf8f;"></div><div class="rh-card"><div class="rh-srow"><div class="rh-sdot" style="background:#4adf8f;"></div><span class="rh-snm">DJ AKADEMIKS · 2024</span><span class="rh-heat">🔥 9.4M</span></div><div class="rh-txt">Ak breaks every timeline detail — who knew what, when, and why nobody said it until now</div><div class="rh-ep">DJ Akademiks · Official · 2.8M subs</div></div></div>
           </div>
         </div>
@@ -1310,7 +1582,7 @@ input,select,textarea{font-family:var(--fs);}
           <div class="vc"><div class="vc-top"><div class="vc-ico">🍑</div><div class="vc-priv pub">🌐 Public</div></div><div class="vc-nm">ATL Trap Culture 2018–2024</div><div class="vc-meta">32 clips · 5 shows</div><div class="vc-tags"><span class="vc-tag">ATL</span><span class="vc-tag smart-tag">🤖 Regional</span></div><div class="vc-acts"><div class="vc-btn vc-open">Open</div><div class="vc-btn vc-sh">↗ Share</div></div></div>
           <div class="vc" style="border:1px dashed var(--border);background:transparent;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;min-height:130px;" onclick="openOverlay('crhOverlay')"><div style="font-size:22px;">+</div><div style="font-size:11px;color:var(--text3);">New collection</div></div>
         </div>
-        <div style="background:rgba(58,143,212,.06);border:1px solid rgba(58,143,212,.18);border-radius:var(--r);padding:11px 13px;"><div style="font-size:11px;font-weight:700;color:var(--blue);margin-bottom:3px;">🤖 Smart Tagging — CIPHER Pass</div><div style="font-size:10px;color:var(--text2);">CIPHER auto-analyzes saved clips and suggests tags. No effort needed.</div></div>
+        <div style="background:rgba(58,143,212,.06);border:1px solid rgba(58,143,212,.18);border-radius:var(--r);padding:11px 13px;"><div style="font-size:11px;font-weight:700;color:var(--blue);margin-bottom:3px;">🤖 Smart Tagging — CYPHER Pass</div><div style="font-size:10px;color:var(--text2);">CYPHER auto-analyzes saved clips and suggests tags. No effort needed.</div></div>
       </div>
       <!-- CUSTOM RH TAB -->
       <div class="vsec" id="vsec-crh">
@@ -1365,7 +1637,7 @@ input,select,textarea{font-family:var(--fs);}
       <div class="vsec" id="vsec-community">
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;">Community Rabbit Holes — Follow &amp; Save</div>
         <div class="pub-rh-list">
-          <div class="prh-row"><div style="font-size:20px;flex-shrink:0;">🕳</div><div class="prh-info"><div class="prh-nm">Every Kendrick take 2012 to Superbowl — chronological</div><div class="prh-meta">By @CipherUser_89 · 200 clips · 11 shows · 1.2K followers</div></div><div class="prh-follow" onclick="this.textContent=this.textContent==='+ Follow'?'✓ Following':'+ Follow'">+ Follow</div></div>
+          <div class="prh-row"><div style="font-size:20px;flex-shrink:0;">🕳</div><div class="prh-info"><div class="prh-nm">Every Kendrick take 2012 to Superbowl — chronological</div><div class="prh-meta">By @CypherUser_89 · 200 clips · 11 shows · 1.2K followers</div></div><div class="prh-follow" onclick="this.textContent=this.textContent==='+ Follow'?'✓ Following':'+ Follow'">+ Follow</div></div>
           <div class="prh-row"><div style="font-size:20px;flex-shrink:0;">🕳</div><div class="prh-info"><div class="prh-nm">Rory & Mal split — every episode leading to Ep. 437</div><div class="prh-meta">By @JBPSuperFan · 47 clips · 3 shows · 890 followers</div></div><div class="prh-follow" onclick="this.textContent=this.textContent==='+ Follow'?'✓ Following':'+ Follow'">+ Follow</div></div>
           <div class="prh-row"><div style="font-size:20px;flex-shrink:0;">🕳</div><div class="prh-info"><div class="prh-nm">Memphis rap scene — official interviews 2015–2025</div><div class="prh-meta">By @SouthernCulture · 55 clips · 6 shows · 640 followers</div></div><div class="prh-follow" onclick="this.textContent=this.textContent==='+ Follow'?'✓ Following':'+ Follow'">+ Follow</div></div>
           <div class="prh-row"><div style="font-size:20px;flex-shrink:0;">🕳</div><div class="prh-info"><div class="prh-nm">Kanye's full arc — every major interview 2006–2025</div><div class="prh-meta">By @KanyeArchive · 88 clips · 9 shows · 2.1K followers</div></div><div class="prh-follow" onclick="this.textContent=this.textContent==='+ Follow'?'✓ Following':'+ Follow'">+ Follow</div></div>
@@ -1375,116 +1647,362 @@ input,select,textarea{font-family:var(--fs);}
 
     <!-- ═══ DEEP RABBIT SEARCH ═══ -->
     <div class="sec" id="tab-premium">
-      <div class="ph">
-        <div>
-          <div class="pht">🕳 DEEP RABBIT <span>SEARCH</span></div>
-          <div class="phs">Describe what you half-remember — CIPHER finds the exact clip across all 21 verified shows</div>
-        </div>
-        <div class="ph-r"><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">⭐ CIPHER Pass Feature</span></div>
-      </div>
 
-      <!-- WHAT IS DEEP RABBIT SEARCH -->
-      <div class="drs-hero">
-        <div class="drs-eye">🕳 DEEP RABBIT SEARCH</div>
-        <div class="drs-ttl">FIND ANY MOMENT. <span>EVEN THE ONES YOU HALF REMEMBER.</span></div>
-        <div class="drs-desc">Standard search needs exact words. Deep Rabbit Search understands the way your brain actually stores podcast moments — vague, out of order, partial. Type "that episode where Joe was alone and fired someone live" and CIPHER matches it to JBP Ep. 437, 98% confidence. Powered by semantic search across every transcript, every episode, all 21 shows.</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
-          <span class="tag" style="font-size:10px;">Fuzzy memory search</span>
-          <span class="tag" style="font-size:10px;">All 21 verified shows</span>
-          <span class="tag" style="font-size:10px;">Every episode ever archived</span>
-          <span class="tag" style="font-size:10px;">Confidence matching</span>
-          <span class="tag" style="font-size:10px;">Timestamp deep links</span>
+      <!-- DESIGN PREVIEW TOGGLE -->
+      <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(29,204,110,.08);border:1px solid rgba(29,204,110,.25);border-radius:var(--r);padding:10px 14px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="font-size:14px;">🔓</div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:var(--green);">DESIGN PREVIEW MODE — Viewing as subscribed user</div>
+            <div style="font-size:10px;color:var(--text2);">Toggle to see locked vs unlocked experience</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn" id="previewUnlocked" style="background:rgba(29,204,110,.15);color:var(--green);border-color:rgba(29,204,110,.3);font-size:10px;" onclick="togglePreviewMode('unlocked')">🔓 Unlocked</button>
+          <button class="btn" id="previewLocked" style="font-size:10px;" onclick="togglePreviewMode('locked')">🔒 Locked</button>
         </div>
       </div>
 
-      <!-- PREVIEW — blurred UI + lock wall -->
-      <div class="drs-preview-wrap">
-        <!-- BLURRED PREVIEW — what users see but can't interact with -->
-        <div class="drs-preview-content">
-          <div style="margin-bottom:12px;">
-            <div style="font-size:10px;color:var(--text2);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Try searching like this</div>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;">
-              <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"that episode where Joe was alone and fired everyone"</div>
-              <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"when Vlad had someone talk about Bad Boy in the 90s"</div>
-              <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"Akademiks said something about a lawsuit with another show"</div>
-              <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"Gillie and Wallo talking about turning down that big deal"</div>
-              <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"Charlamagne giving donkey of the day to an industry figure"</div>
+      <!-- ════════ UNLOCKED VIEW (subscriber experience) ════════ -->
+      <div id="drsUnlocked">
+        <div class="ph">
+          <div>
+            <div class="pht">🕳 DEEP RABBIT <span>SEARCH</span></div>
+            <div class="phs">Describe what you half-remember — CYPHER finds the exact clip across all 21 verified shows</div>
+          </div>
+          <div class="ph-r">
+            <span class="tag" style="color:var(--green);border-color:rgba(29,204,110,.3);background:rgba(29,204,110,.1);">✓ CYPHER Pass Active</span>
+            <span class="tag" style="font-size:9px;color:var(--text3);">Unlimited searches</span>
+          </div>
+        </div>
+
+        <!-- SEARCH BOX — FULL UNLOCKED -->
+        <div class="deep-search-box" style="border-color:rgba(212,168,67,.35);">
+          <div class="ds-hd">
+            <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_c2a70286-9eb1-4db9-86ac-56d71dae0dc0.png?v=1775507564" class="ds-logo-lg" alt="Deep Rabbit Search" onerror="this.style.display='none'">
+            <div>
+              <div class="ds-hd-t">Deep Rabbit Search</div>
+              <div class="ds-hd-s">Type however your brain remembers it — vague, partial, out of order</div>
+            </div>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+              <div style="font-size:9px;color:var(--green);font-family:var(--fm);">✓ UNLIMITED</div>
             </div>
           </div>
-          <!-- Fake search input -->
-          <div style="position:relative;margin-bottom:16px;">
-            <div style="width:100%;background:var(--bg3);border:1px solid var(--b2);border-radius:30px;padding:12px 52px 12px 18px;font-size:13px;color:var(--text3);">Type what you remember — even if it's vague, partial, or out of order...</div>
-            <div style="position:absolute;right:7px;top:50%;transform:translateY(-50%);background:var(--gold);border-radius:22px;padding:7px 16px;font-size:11px;font-weight:700;color:#000;opacity:.5;">Search</div>
-          </div>
-          <!-- Fake results -->
-          <div style="font-size:9px;color:var(--text2);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;">Best matches found — 3 results</div>
-          <div class="drs-eg">
-            <div class="drs-eg-show"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#c9a84c;margin-right:4px;"></span>JOE BUDDEN PODCAST · EP. 437 · MAY 2021<span class="drs-eg-pct">98% match</span></div>
-            <div class="drs-eg-q">"Rory, you are in breach of your contract — from this point forward, you are fired."</div>
-            <div class="drs-eg-meta">Joe Budden · Alone in studio · Empty seats · Most viral pod moment in hip-hop history</div>
-          </div>
-          <div class="drs-eg">
-            <div class="drs-eg-show"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#c9a84c;margin-right:4px;"></span>JOE BUDDEN PODCAST · EP. 440 · JUNE 2021<span class="drs-eg-pct">84% match</span></div>
-            <div class="drs-eg-q">"I built something and they wanted to take it from me — that's what this was always about."</div>
-            <div class="drs-eg-meta">Joe Budden · Post-split episode · Addressing the beef directly</div>
-          </div>
-          <div class="drs-eg">
-            <div class="drs-eg-show"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4adfdf;margin-right:4px;"></span>NEW RORY & MAL · EP. 01 · JULY 2021<span class="drs-eg-pct">79% match</span></div>
-            <div class="drs-eg-q">"We want to tell y'all our side of the story — for real this time, unfiltered."</div>
-            <div class="drs-eg-meta">Rory Farrell · Mal Clay · Their first independent episode post-JBP</div>
-          </div>
-        </div>
 
-        <!-- LOCK WALL overlay -->
-        <div class="drs-lock-wall">
-          <div class="drs-lock-card">
-            <div class="drs-lock-ico">🕳</div>
-            <div class="drs-lock-t">DEEP RABBIT <span>SEARCH</span></div>
-            <div class="drs-lock-s">This is what you're missing. Unlock fuzzy memory search across all 21 shows, every episode, every timestamp. Pay what you can afford.</div>
-            <!-- PWYCAF inline -->
-            <div class="drs-pwycaf" style="margin-bottom:14px;">
-              <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);font-family:var(--fm);text-transform:uppercase;margin-bottom:8px;">CIPHER PASS · PAY WHAT YOU CAN</div>
-              <div style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
-                <div class="price-opt" onclick="selPrice(this)" style="min-width:70px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$0.99</div><div class="price-opt-l">/mo</div></div>
-                <div class="price-opt sel" onclick="selPrice(this)" style="min-width:70px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$2.99</div><div class="price-opt-l">/mo</div></div>
-                <div class="price-opt" onclick="selPrice(this)" style="min-width:70px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$4.99</div><div class="price-opt-l">/mo</div></div>
-                <div class="price-opt" onclick="selPrice(this)" style="min-width:80px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$9.99</div><div class="price-opt-l">/mo · Support ❤️</div></div>
+          <!-- SCOPE FILTER -->
+          <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
+            <div style="font-size:9px;color:var(--text2);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;margin-right:4px;">SCOPE:</div>
+            <button class="tag on" id="scopeAll" onclick="setScope('all',this)" style="font-size:9px;">All 21 Shows</button>
+            <button class="tag" onclick="setScope('jbp',this)" style="font-size:9px;">JBP Only</button>
+            <button class="tag" onclick="setScope('vlad',this)" style="font-size:9px;">VladTV Only</button>
+            <button class="tag" onclick="setScope('akad',this)" style="font-size:9px;">Akademiks Only</button>
+            <button class="tag" onclick="setScope('bkfst',this)" style="font-size:9px;">Breakfast Club</button>
+            <button class="tag" onclick="setScope('shay',this)" style="font-size:9px;">Club Shay Shay</button>
+          </div>
+
+          <div class="ds-input-wrap">
+            <input class="ds-input" id="drsInput" type="text" placeholder="&quot;that episode where Joe got really mad about something with Rory...&quot;" onkeydown="if(event.key==='Enter')runDRS()">
+            <button class="ds-go" onclick="runDRS()">Search</button>
+          </div>
+
+          <!-- CLICKABLE SUGGESTIONS -->
+          <div class="ds-examples" id="drsSuggestions">
+            <div class="ds-ex" onclick="fillDRS(this.textContent)">"that time Joe fired someone live on air"</div>
+            <div class="ds-ex" onclick="fillDRS(this.textContent)">"when VladTV had a rapper talk about Bad Boy"</div>
+            <div class="ds-ex" onclick="fillDRS(this.textContent)">"Akademiks said something about a lawsuit"</div>
+            <div class="ds-ex" onclick="fillDRS(this.textContent)">"Charlamagne giving donkey of the day"</div>
+            <div class="ds-ex" onclick="fillDRS(this.textContent)">"Drink Champs episode where the guest got emotional"</div>
+            <div class="ds-ex" onclick="fillDRS(this.textContent)">"Shannon Sharpe and Katt Williams 72M interview"</div>
+          </div>
+
+          <!-- PROGRESS BAR (hidden until search) -->
+          <div id="drsProgress" style="display:none;margin-top:14px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <div style="font-size:16px;animation:spin 1.5s linear infinite;display:inline-block;">🕳</div>
+              <div id="drsProgressText" style="font-size:12px;color:var(--text2);">Searching the archive...</div>
+            </div>
+            <div style="height:4px;background:var(--bg4);border-radius:3px;overflow:hidden;">
+              <div id="drsProgressBar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:3px;transition:width .3s ease;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:4px;">
+              <div id="drsProgressStep" style="font-size:9px;color:var(--text3);font-family:var(--fm);">Scanning transcripts...</div>
+              <div id="drsProgressPct" style="font-size:9px;color:var(--gold);font-family:var(--fm);">0%</div>
+            </div>
+          </div>
+
+          <!-- RESULTS (hidden until search completes) -->
+          <div id="drsResults" style="display:none;margin-top:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <div class="ds-res-label">Best matches found — 5 results across 4 shows</div>
+              <div style="display:flex;gap:6px;">
+                <button class="tag on" id="viewList" onclick="setView('list',this)" style="font-size:9px;">📋 List</button>
+                <button class="tag" id="viewTimeline" onclick="setView('timeline',this)" style="font-size:9px;">📅 Timeline</button>
               </div>
-              <button class="pwycaf-start" style="width:100%;padding:12px;" onclick="showToast('🕳 Unlocking Deep Rabbit Search...')">Unlock Deep Rabbit Search</button>
-              <div class="pwycaf-fine">No locked show content · No coins · Cancel anytime</div>
             </div>
-            <div style="font-size:10px;color:var(--text2);font-style:italic;">"For the people. True authentic content. Pay what you can."</div>
+
+            <!-- LIST VIEW -->
+            <div id="drsListView">
+              <div class="ds-result" onclick="openDRSClip(0)" style="border:1px solid rgba(212,168,67,.15);border-radius:var(--r);padding:12px;margin-bottom:8px;background:var(--bg3);">
+                <div class="ds-r-dot" style="background:#c9a84c;"></div>
+                <div class="ds-r-info">
+                  <div class="ds-r-show">JOE BUDDEN PODCAST · EP. 437 · MAY 12, 2021</div>
+                  <div class="ds-r-quote">"Rory, you are in breach of your contract — from this point forward, you are fired."</div>
+                  <div class="ds-r-meta">Joe Budden · Alone in studio · Empty seats · 2 empty chairs · Most viral pod moment ever</div>
+                  <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
+                    <button class="btn" style="font-size:9px;padding:3px 8px;" onclick="event.stopPropagation();showToast('Opening YouTube at 1:12:34 →')">▶ Play at 1:12:34</button>
+                    <button class="btn rh" style="font-size:9px;padding:3px 8px;" onclick="event.stopPropagation();showSec('rabbithole')">🕳 Full Rabbit Hole</button>
+                    <button class="btn" style="font-size:9px;padding:3px 8px;" onclick="event.stopPropagation();openShare('clip')">↗ Share</button>
+                  </div>
+                </div>
+                <div class="ds-r-match" style="font-size:11px;font-weight:700;">98%</div>
+              </div>
+
+              <div class="ds-result" onclick="openDRSClip(1)" style="border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;background:var(--bg3);">
+                <div class="ds-r-dot" style="background:#c9a84c;"></div>
+                <div class="ds-r-info">
+                  <div class="ds-r-show">JOE BUDDEN PODCAST · EP. 440 · JUNE 2, 2021</div>
+                  <div class="ds-r-quote">"I built something and they wanted to take it from me — that's what this was always about."</div>
+                  <div class="ds-r-meta">Joe Budden · Post-split · Addressing the beef directly · 1 week after Ep. 437</div>
+                  <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
+                    <button class="btn" style="font-size:9px;padding:3px 8px;" onclick="event.stopPropagation();showToast('Opening YouTube at 43:12 →')">▶ Play at 43:12</button>
+                    <button class="btn rh" style="font-size:9px;padding:3px 8px;" onclick="event.stopPropagation();">🕳 Rabbit Hole</button>
+                    <button class="btn" style="font-size:9px;padding:3px 8px;" onclick="event.stopPropagation();openShare('clip')">↗</button>
+                  </div>
+                </div>
+                <div class="ds-r-match">84%</div>
+              </div>
+
+              <div class="ds-result" onclick="openDRSClip(2)" style="border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;background:var(--bg3);">
+                <div class="ds-r-dot" style="background:#4adfdf;"></div>
+                <div class="ds-r-info">
+                  <div class="ds-r-show">NEW RORY & MAL · EP. 01 · JULY 14, 2021</div>
+                  <div class="ds-r-quote">"We want to tell y'all our side of the story — for real this time, unfiltered."</div>
+                  <div class="ds-r-meta">Rory Farrell · Jamil "Mal" Clay · First episode post-JBP · Independent launch</div>
+                  <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
+                    <button class="btn" style="font-size:9px;padding:3px 8px;" onclick="event.stopPropagation();showToast('Opening YouTube at 0:00 →')">▶ Play from start</button>
+                    <button class="btn rh" style="font-size:9px;padding:3px 8px;" onclick="event.stopPropagation();">🕳 Rabbit Hole</button>
+                  </div>
+                </div>
+                <div class="ds-r-match">79%</div>
+              </div>
+
+              <div class="ds-result" style="border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;background:var(--bg3);">
+                <div class="ds-r-dot" style="background:#4a9fdf;"></div>
+                <div class="ds-r-info">
+                  <div class="ds-r-show">VLADTV · INTERVIEW #4892 · JUNE 18, 2021</div>
+                  <div class="ds-r-quote">DJ Vlad discusses the JBP split and its impact on the podcast industry with an insider source.</div>
+                  <div class="ds-r-meta">DJ Vlad · Industry analysis · Referenced Ep. 437 directly</div>
+                  <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
+                    <button class="btn" style="font-size:9px;padding:3px 8px;" onclick="showToast('Opening YouTube at 8:44 →')">▶ Play at 8:44</button>
+                  </div>
+                </div>
+                <div class="ds-r-match">71%</div>
+              </div>
+
+              <div class="ds-result" style="border:1px solid rgba(154,96,212,.2);border-radius:var(--r);padding:12px;margin-bottom:8px;background:rgba(154,96,212,.04);">
+                <div class="ds-r-dot" style="background:#9a60d4;"></div>
+                <div class="ds-r-info">
+                  <div class="ds-r-show" style="color:#c090ef;">💰 PATREON EXCLUSIVE · JBP PATREON · EP. 437B · MAY 2021</div>
+                  <div class="ds-r-quote">"The Patreon episode that dropped right after 437 — Joe's uncut reaction that didn't make the main feed."</div>
+                  <div class="ds-r-meta">Joe Budden · Patreon exclusive · Extended cut · Only visible because you connected Patreon</div>
+                  <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
+                    <button class="btn" style="font-size:9px;padding:3px 8px;color:#c090ef;border-color:rgba(154,96,212,.3);background:rgba(154,96,212,.08);" onclick="showToast('Opening Patreon episode →')">▶ Play on Patreon</button>
+                    <span style="font-size:9px;color:#c090ef;font-family:var(--fm);display:flex;align-items:center;">🔗 From your connected subs</span>
+                  </div>
+                </div>
+                <div class="ds-r-match" style="color:#c090ef;">67%</div>
+              </div>
+            </div>
+
+            <!-- TIMELINE VIEW (hidden by default) -->
+            <div id="drsTimelineView" style="display:none;">
+              <div style="position:relative;padding-left:24px;border-left:2px solid var(--gb);">
+                <div style="margin-bottom:16px;position:relative;">
+                  <div style="position:absolute;left:-29px;top:2px;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--bg);"></div>
+                  <div style="font-size:9px;color:var(--gold);font-family:var(--fm);letter-spacing:1px;margin-bottom:4px;">MAY 12, 2021</div>
+                  <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;">
+                    <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;"><div style="width:6px;height:6px;border-radius:50%;background:#c9a84c;"></div><span style="font-size:10px;font-weight:700;color:var(--text);">Joe Budden Podcast · EP. 437</span><span style="font-size:9px;color:var(--green);margin-left:auto;font-family:var(--fm);">98%</span></div>
+                    <div style="font-size:11px;color:var(--text);line-height:1.4;">"Rory, you are in breach of your contract — from this point forward, you are fired."</div>
+                    <div style="font-size:9px;color:var(--text3);margin-top:4px;">The moment that changed podcast culture forever · 2 empty chairs</div>
+                  </div>
+                </div>
+                <div style="margin-bottom:16px;position:relative;">
+                  <div style="position:absolute;left:-29px;top:2px;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--bg);"></div>
+                  <div style="font-size:9px;color:var(--gold);font-family:var(--fm);letter-spacing:1px;margin-bottom:4px;">JUNE 2, 2021</div>
+                  <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;">
+                    <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;"><div style="width:6px;height:6px;border-radius:50%;background:#c9a84c;"></div><span style="font-size:10px;font-weight:700;color:var(--text);">JBP · EP. 440</span><span style="font-size:9px;color:var(--text2);margin-left:auto;font-family:var(--fm);">84%</span></div>
+                    <div style="font-size:11px;color:var(--text);line-height:1.4;">"I built something and they wanted to take it from me."</div>
+                  </div>
+                </div>
+                <div style="margin-bottom:16px;position:relative;">
+                  <div style="position:absolute;left:-29px;top:2px;width:10px;height:10px;border-radius:50%;background:#4a9fdf;border:2px solid var(--bg);"></div>
+                  <div style="font-size:9px;color:#4a9fdf;font-family:var(--fm);letter-spacing:1px;margin-bottom:4px;">JUNE 18, 2021</div>
+                  <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;">
+                    <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;"><div style="width:6px;height:6px;border-radius:50%;background:#4a9fdf;"></div><span style="font-size:10px;font-weight:700;color:var(--text);">VladTV · Interview #4892</span><span style="font-size:9px;color:var(--text2);margin-left:auto;font-family:var(--fm);">71%</span></div>
+                    <div style="font-size:11px;color:var(--text);line-height:1.4;">DJ Vlad breaks down the JBP split and its industry impact.</div>
+                  </div>
+                </div>
+                <div style="margin-bottom:16px;position:relative;">
+                  <div style="position:absolute;left:-29px;top:2px;width:10px;height:10px;border-radius:50%;background:#4adfdf;border:2px solid var(--bg);"></div>
+                  <div style="font-size:9px;color:#4adfdf;font-family:var(--fm);letter-spacing:1px;margin-bottom:4px;">JULY 14, 2021</div>
+                  <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;">
+                    <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;"><div style="width:6px;height:6px;border-radius:50%;background:#4adfdf;"></div><span style="font-size:10px;font-weight:700;color:var(--text);">New Rory & Mal · EP. 01</span><span style="font-size:9px;color:var(--text2);margin-left:auto;font-family:var(--fm);">79%</span></div>
+                    <div style="font-size:11px;color:var(--text);line-height:1.4;">"We want to tell y'all our side of the story — for real this time."</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FOLLOW-UP CHAT -->
+            <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:14px 16px;margin-top:14px;">
+              <div style="font-size:10px;color:var(--gold);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">FOLLOW-UP — ASK MORE ABOUT THESE RESULTS</div>
+              <div id="drsChat" style="margin-bottom:10px;">
+                <div style="display:flex;gap:8px;margin-bottom:8px;">
+                  <div style="width:22px;height:22px;border-radius:50%;background:var(--gdim);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;">🕳</div>
+                  <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px 12px 12px 2px;padding:9px 12px;font-size:11px;color:var(--text);line-height:1.5;max-width:80%;">Found 5 results across 4 shows for the Rory & Mal firing. The pivotal moment was JBP Ep. 437 (May 2021). Want me to dig deeper into any specific angle?</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+                <button class="ds-ex" onclick="addChatQ('What did Akademiks say about the split?')" style="font-size:9px;">"What did Akademiks say about the split?"</button>
+                <button class="ds-ex" onclick="addChatQ('Were there warning signs in earlier episodes?')" style="font-size:9px;">"Were there warning signs earlier?"</button>
+                <button class="ds-ex" onclick="addChatQ('How did the Breakfast Club cover it?')" style="font-size:9px;">"How did Breakfast Club cover it?"</button>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <input id="drsChatInput" style="flex:1;background:var(--bg3);border:1px solid var(--b2);border-radius:20px;padding:8px 14px;color:var(--text);font-size:11px;font-family:var(--fs);outline:none;" placeholder="Ask a follow-up question about these results..." onkeydown="if(event.key==='Enter')sendDRSChat()">
+                <button class="ds-go" style="padding:6px 12px;" onclick="sendDRSChat()">Ask</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- WHAT YOU GET WITH PASS — perks below the preview -->
-      <div style="font-family:var(--fd);font-size:14px;letter-spacing:2px;color:var(--text);margin-bottom:12px;">EVERYTHING ELSE IN <span style="color:var(--gold);">THE PASS</span></div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;">
-        <div class="perk-2"><div class="p2-ico">🔔</div><div class="p2-t">Prove Me Right Alerts</div><div class="p2-s">Set any topic. Get an instant alert any time any of the 21 shows mentions it.</div></div>
-        <div class="perk-2"><div class="p2-ico">⏳</div><div class="p2-t">On This Day</div><div class="p2-s">Every morning: what the culture said on this date in history, and how it aged.</div></div>
-        <div class="perk-2"><div class="p2-ico">🚨</div><div class="p2-t">First to Know</div><div class="p2-s">When a topic spikes across shows, you're alerted 2–3 hours before the main feed.</div></div>
-        <div class="perk-2"><div class="p2-ico">🧬</div><div class="p2-t">Cultural Fingerprint</div><div class="p2-s">Your show alignment, Called It rate, and cultural badges — shareable as a card.</div></div>
-        <div class="perk-2"><div class="p2-ico">📁</div><div class="p2-t">Private Vault + Folders</div><div class="p2-s">Unlimited private collections with smart auto-tagging. Organized without effort.</div></div>
-        <div class="perk-2"><div class="p2-ico">📊</div><div class="p2-t">Cross-Show Analytics</div><div class="p2-s">Your full CIPHER stats: Rabbit Holes, show alignment, Called It accuracy rate.</div></div>
-        <div class="perk-2"><div class="p2-ico">🎬</div><div class="p2-t">Watch Parties</div><div class="p2-s">Watch any clip with 2–10 people simultaneously with a live chat rail.</div></div>
-        <div class="perk-2"><div class="p2-ico">📬</div><div class="p2-t">Monday Digest</div><div class="p2-s">Top 5 Rabbit Holes from the past week, curated and delivered every Monday.</div></div>
-        <div class="perk-2"><div class="p2-ico">🕳</div><div class="p2-t">Custom Rabbit Holes</div><div class="p2-s">Build and publish your own official Rabbit Holes. Best ones featured on Browse Culture.</div></div>
-      </div>
+        <!-- ON THIS DAY — subscriber feature -->
+        <div style="background:linear-gradient(135deg,rgba(154,96,212,.1),rgba(154,96,212,.03));border:1px solid rgba(154,96,212,.22);border-radius:var(--rl);padding:18px 20px;margin-bottom:18px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div>
+              <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:#c090ef;font-family:var(--fm);text-transform:uppercase;">⏳ ON THIS DAY</div>
+              <div style="font-size:10px;color:var(--text2);margin-top:2px;">Based on your followed shows · April 6</div>
+            </div>
+            <div style="font-size:9px;color:var(--text3);font-family:var(--fm);">Personalized for you</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 13px;cursor:pointer;" onclick="selBubble('Joe Budden rant April 2019');showSec('rabbithole')">
+              <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;"><div style="width:5px;height:5px;border-radius:50%;background:#c9a84c;"></div><span style="font-size:9px;color:var(--text2);font-family:var(--fm);">JBP · EP. 234 · APRIL 6, 2019</span></div>
+              <div style="font-size:11px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:4px;">"The industry doesn't want artists to own their masters — I've been saying this for 10 years."</div>
+              <div style="display:flex;gap:7px;align-items:center;"><span style="font-size:9px;color:var(--green);">✓ 1.4K Called It</span><span style="font-size:9px;color:#f07070;">✗ 12 Aged Badly</span><span style="font-size:9px;color:var(--gold);margin-left:auto;">▶ →</span></div>
+            </div>
+            <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 13px;cursor:pointer;" onclick="selBubble('Breakfast Club Kanye interview');showSec('rabbithole')">
+              <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;"><div style="width:5px;height:5px;border-radius:50%;background:#dfaf4a;"></div><span style="font-size:9px;color:var(--text2);font-family:var(--fm);">BREAKFAST CLUB · APRIL 6, 2018</span></div>
+              <div style="font-size:11px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:4px;">"Charlamagne challenged Kanye on mental health and it changed the conversation around artists and wellness."</div>
+              <div style="display:flex;gap:7px;align-items:center;"><span style="font-size:9px;color:var(--green);">✓ 2.8K Called It</span><span style="font-size:9px;color:#f07070;">✗ 88 Aged Badly</span><span style="font-size:9px;color:var(--gold);margin-left:auto;">▶ →</span></div>
+            </div>
+          </div>
+        </div>
 
-      <!-- B2B -->
-      <div style="font-family:var(--fd);font-size:14px;letter-spacing:2px;color:var(--text);margin-bottom:12px;">B2B <span style="color:var(--gold);">REVENUE</span></div>
+        <!-- EVERYTHING ELSE IN THE PASS -->
+        <div style="font-family:var(--fd);font-size:14px;letter-spacing:2px;color:var(--text);margin-bottom:12px;">EVERYTHING IN <span style="color:var(--gold);">YOUR PASS</span></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;">
+          <div class="perk-2"><div class="p2-ico">🔔</div><div class="p2-t">Prove Me Right Alerts</div><div class="p2-s">Set any topic. Get an instant alert any time any of the 21 shows mentions it.</div></div>
+          <div class="perk-2"><div class="p2-ico">⏳</div><div class="p2-t">On This Day</div><div class="p2-s">Every morning: what the culture said on this date in history, and how it aged.</div></div>
+          <div class="perk-2"><div class="p2-ico">🚨</div><div class="p2-t">First to Know</div><div class="p2-s">When a topic spikes across shows, you're alerted 2–3 hours before the main feed.</div></div>
+          <div class="perk-2"><div class="p2-ico">🧬</div><div class="p2-t">Cultural Fingerprint</div><div class="p2-s">Your show alignment, Called It rate, and cultural badges — shareable as a card.</div></div>
+          <div class="perk-2"><div class="p2-ico">📁</div><div class="p2-t">Private Vault + Folders</div><div class="p2-s">Unlimited private collections with smart auto-tagging. Organized without effort.</div></div>
+          <div class="perk-2"><div class="p2-ico">📊</div><div class="p2-t">Cross-Show Analytics</div><div class="p2-s">Your full CYPHER stats: Rabbit Holes, show alignment, Called It accuracy rate.</div></div>
+          <div class="perk-2"><div class="p2-ico">🎬</div><div class="p2-t">Watch Parties</div><div class="p2-s">Watch any clip with 2–10 people simultaneously with a live chat rail.</div></div>
+          <div class="perk-2"><div class="p2-ico">📬</div><div class="p2-t">Monday Digest</div><div class="p2-s">Top 5 Rabbit Holes from the past week, curated and delivered every Monday.</div></div>
+          <div class="perk-2"><div class="p2-ico">🕳</div><div class="p2-t">Custom Rabbit Holes</div><div class="p2-s">Build and publish your own official Rabbit Holes. Best ones featured on Browse Culture.</div></div>
+        </div>
+
+        <!-- CONNECT SUBS -->
+        <div style="background:linear-gradient(135deg,rgba(154,96,212,.1),rgba(154,96,212,.03));border:1px solid rgba(154,96,212,.22);border-radius:var(--rl);padding:20px 22px;margin-bottom:18px;">
+          <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:#c090ef;font-family:var(--fm);text-transform:uppercase;margin-bottom:5px;">🔗 ULTRA PREMIUM · $4.99/MO</div>
+          <div style="font-family:var(--fd);font-size:18px;letter-spacing:2px;color:var(--text);margin-bottom:5px;">CONNECT YOUR <span style="color:#c090ef;">SUBSCRIPTIONS</span></div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:16px;">Link your Patreon, Netflix, Apple Podcasts, and Spotify accounts. Deep Rabbit Search includes your private/paid episodes — only visible to you.</div>
+          <div class="connect-grid">
+            <div class="connect-card connected" onclick="showToast('✓ Patreon connected')"><div class="connect-ico">💰</div><div><div class="connect-nm">Patreon</div><div class="connect-status">✓ Connected · 3 shows</div></div><div class="connect-btn">Manage</div></div>
+            <div class="connect-card" onclick="showToast('🔗 Connect Spotify')"><div class="connect-ico">🎧</div><div><div class="connect-nm">Spotify</div><div class="connect-status">Not connected</div></div><div class="connect-btn">Connect</div></div>
+            <div class="connect-card" onclick="showToast('🔗 Connect Apple Podcasts')"><div class="connect-ico">🍎</div><div><div class="connect-nm">Apple Podcasts</div><div class="connect-status">Not connected</div></div><div class="connect-btn">Connect</div></div>
+            <div class="connect-card" onclick="showToast('🔗 Connect Netflix')"><div class="connect-ico">🎬</div><div><div class="connect-nm">Netflix</div><div class="connect-status">Not connected</div></div><div class="connect-btn">Connect</div></div>
+          </div>
+        </div>
+      </div><!-- /drsUnlocked -->
+
+      <!-- ════════ LOCKED VIEW (non-subscriber experience) ════════ -->
+      <div id="drsLocked" style="display:none;">
+        <div class="ph">
+          <div>
+            <div class="pht">🕳 DEEP RABBIT <span>SEARCH</span></div>
+            <div class="phs">Describe what you half-remember — CYPHER finds the exact clip across all 21 verified shows</div>
+          </div>
+          <div class="ph-r"><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">⭐ CYPHER Pass Feature</span></div>
+        </div>
+
+        <div class="drs-hero">
+          <div class="drs-eye"><img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_c2a70286-9eb1-4db9-86ac-56d71dae0dc0.png?v=1775507564" style="height:12px;vertical-align:middle;margin-right:4px;" alt="" onerror="this.outerHTML='🕳'"> DEEP RABBIT SEARCH</div>
+          <div class="drs-ttl">FIND ANY MOMENT. <span>EVEN THE ONES YOU HALF REMEMBER.</span></div>
+          <div class="drs-desc">Standard search needs exact words. Deep Rabbit Search understands the way your brain actually stores podcast moments — vague, out of order, partial. Type "that episode where Joe was alone and fired someone live" and CYPHER matches it to JBP Ep. 437, 98% confidence. Powered by semantic search across every transcript, every episode, all 21 shows.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+            <span class="tag" style="font-size:10px;">Fuzzy memory search</span>
+            <span class="tag" style="font-size:10px;">All 21 verified shows</span>
+            <span class="tag" style="font-size:10px;">Every episode ever archived</span>
+            <span class="tag" style="font-size:10px;">Confidence matching</span>
+            <span class="tag" style="font-size:10px;">Timestamp deep links</span>
+          </div>
+        </div>
+
+        <!-- BLURRED PREVIEW + LOCK WALL -->
+        <div class="drs-preview-wrap">
+          <div class="drs-preview-content">
+            <div style="margin-bottom:12px;">
+              <div style="font-size:10px;color:var(--text2);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Try searching like this</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"that episode where Joe was alone and fired everyone"</div>
+                <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"when Vlad had someone talk about Bad Boy in the 90s"</div>
+                <div style="font-size:11px;color:var(--text3);border:1px solid var(--border);border-radius:20px;padding:4px 11px;background:var(--bg3);font-style:italic;">"Akademiks said something about a lawsuit with another show"</div>
+              </div>
+            </div>
+            <div style="position:relative;margin-bottom:16px;">
+              <div style="width:100%;background:var(--bg3);border:1px solid var(--b2);border-radius:30px;padding:12px 52px 12px 18px;font-size:13px;color:var(--text3);">Type what you remember — even if it's vague...</div>
+              <div style="position:absolute;right:7px;top:50%;transform:translateY(-50%);background:var(--gold);border-radius:22px;padding:7px 16px;font-size:11px;font-weight:700;color:#000;opacity:.5;">Search</div>
+            </div>
+            <div style="font-size:9px;color:var(--text2);font-family:var(--fm);letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;">Best matches found — 3 results</div>
+            <div class="drs-eg"><div class="drs-eg-show"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#c9a84c;margin-right:4px;"></span>JOE BUDDEN PODCAST · EP. 437 · MAY 2021<span class="drs-eg-pct">98% match</span></div><div class="drs-eg-q">"Rory, you are in breach of your contract — from this point forward, you are fired."</div><div class="drs-eg-meta">Joe Budden · Alone in studio · Most viral pod moment ever</div></div>
+            <div class="drs-eg"><div class="drs-eg-show"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#c9a84c;margin-right:4px;"></span>JOE BUDDEN PODCAST · EP. 440 · JUNE 2021<span class="drs-eg-pct">84% match</span></div><div class="drs-eg-q">"I built something and they wanted to take it from me."</div><div class="drs-eg-meta">Joe Budden · Post-split · Addressing the beef directly</div></div>
+            <div class="drs-eg"><div class="drs-eg-show"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4adfdf;margin-right:4px;"></span>NEW RORY & MAL · EP. 01 · JULY 2021<span class="drs-eg-pct">79% match</span></div><div class="drs-eg-q">"We want to tell y'all our side of the story — for real this time, unfiltered."</div><div class="drs-eg-meta">Rory & Mal · Their first independent episode</div></div>
+          </div>
+          <div class="drs-lock-wall">
+            <div class="drs-lock-card">
+              <div class="drs-lock-ico">🕳</div>
+              <div class="drs-lock-t">DEEP RABBIT <span>SEARCH</span></div>
+              <div class="drs-lock-s">This is what you're missing. Unlock fuzzy memory search across all 21 shows, every episode, every timestamp. Pay what you can afford.</div>
+              <div class="drs-pwycaf" style="margin-bottom:14px;">
+                <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);font-family:var(--fm);text-transform:uppercase;margin-bottom:8px;">CYPHER PASS · PAY WHAT YOU CAN</div>
+                <div style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+                  <div class="price-opt" onclick="selPrice(this)" style="min-width:70px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$0.99</div><div class="price-opt-l">/mo</div></div>
+                  <div class="price-opt sel" onclick="selPrice(this)" style="min-width:70px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$2.99</div><div class="price-opt-l">/mo</div></div>
+                  <div class="price-opt" onclick="selPrice(this)" style="min-width:70px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$4.99</div><div class="price-opt-l">/mo</div></div>
+                  <div class="price-opt" onclick="selPrice(this)" style="min-width:80px;padding:9px 14px;"><div class="price-opt-n" style="font-size:18px;">$9.99</div><div class="price-opt-l">/mo · Support ❤️</div></div>
+                </div>
+                <button class="pwycaf-start" style="width:100%;padding:12px;" onclick="showToast('🕳 Unlocking Deep Rabbit Search...')">Unlock Deep Rabbit Search</button>
+                <div class="pwycaf-fine">No locked show content · No coins · Cancel anytime</div>
+              </div>
+              <div style="font-size:10px;color:var(--text2);font-style:italic;">"For the people. True authentic content. Pay what you can."</div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /drsLocked -->
+
+    </div>
       <div class="b2b-grid">
-        <div class="b2b-c"><div class="b2b-ico">📢</div><div class="b2b-t">Sponsored Rabbit Holes</div><div class="b2b-s">Labels and brands sponsor topic pages for 24–72hrs. Clearly labeled, topically relevant, never intrusive.</div><div class="b2b-price">$2,500–$10,000 / 48hr</div><button class="btn" style="font-size:10px;" onclick="showToast('📧 brands@ciphertheculture.com')">Inquire →</button></div>
-        <div class="b2b-c"><div class="b2b-ico">📊</div><div class="b2b-t">Culture Trend Reports</div><div class="b2b-s">Quarterly data on spiking topics, city engagement, and show debate leaders. Sold to labels, PR firms, and brand marketers.</div><div class="b2b-price">$500–$2,000 / quarter</div><button class="btn" style="font-size:10px;" onclick="showToast('📧 data@ciphertheculture.com')">Inquire →</button></div>
-        <div class="b2b-c"><div class="b2b-ico">🎤</div><div class="b2b-t">Live Event Streaming</div><div class="b2b-s">When verified shows do live recordings or events, CIPHER is the official streaming home for the culture audience.</div><div class="b2b-price">$5 PPV or bundled</div><button class="btn" style="font-size:10px;" onclick="showToast('📧 live@ciphertheculture.com')">Inquire →</button></div>
+        <div class="b2b-c"><div class="b2b-ico">📢</div><div class="b2b-t">Sponsored Rabbit Holes</div><div class="b2b-s">Labels and brands sponsor topic pages for 24–72hrs. Clearly labeled, topically relevant, never intrusive.</div><div class="b2b-price">$2,500–$10,000 / 48hr</div><button class="btn" style="font-size:10px;" onclick="showToast('📧 brands@cyphertheculture.com')">Inquire →</button></div>
+        <div class="b2b-c"><div class="b2b-ico">📊</div><div class="b2b-t">Culture Trend Reports</div><div class="b2b-s">Quarterly data on spiking topics, city engagement, and show debate leaders. Sold to labels, PR firms, and brand marketers.</div><div class="b2b-price">$500–$2,000 / quarter</div><button class="btn" style="font-size:10px;" onclick="showToast('📧 data@cyphertheculture.com')">Inquire →</button></div>
+        <div class="b2b-c"><div class="b2b-ico">🎤</div><div class="b2b-t">Live Event Streaming</div><div class="b2b-s">When verified shows do live recordings or events, CYPHER is the official streaming home for the culture audience.</div><div class="b2b-price">$5 PPV or bundled</div><button class="btn" style="font-size:10px;" onclick="showToast('📧 live@cyphertheculture.com')">Inquire →</button></div>
       </div>
 
       <!-- REFERRAL -->
       <div style="background:linear-gradient(135deg,rgba(29,204,110,.08),rgba(29,204,110,.02));border:1px solid rgba(29,204,110,.2);border-radius:var(--r);padding:14px 16px;">
         <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px;">🎁 Share a Rabbit Hole → Both Get 7 Days Free</div>
         <div style="font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:10px;">Share your referral link. Your friend gets 7 days free. You get 7 days free. No limit on referrals.</div>
-        <div style="display:flex;gap:6px;"><div style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 11px;font-size:10px;color:var(--text2);font-family:var(--fm);">ciphertheculture.com/join?ref=you</div><button style="background:var(--green);color:#000;border:none;border-radius:20px;padding:6px 12px;font-size:10px;font-weight:700;cursor:pointer;" onclick="showToast('✓ Referral link copied!')">Copy</button><button style="background:#000;color:#fff;border:1px solid var(--b2);border-radius:20px;padding:6px 12px;font-size:10px;font-weight:700;cursor:pointer;" onclick="openShare('rabbit')">↗ Share</button></div>
+        <div style="display:flex;gap:6px;"><div style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 11px;font-size:10px;color:var(--text2);font-family:var(--fm);">cyphertheculture.com/join?ref=you</div><button style="background:var(--green);color:#000;border:none;border-radius:20px;padding:6px 12px;font-size:10px;font-weight:700;cursor:pointer;" onclick="showToast('✓ Referral link copied!')">Copy</button><button style="background:#000;color:#fff;border:1px solid var(--b2);border-radius:20px;padding:6px 12px;font-size:10px;font-weight:700;cursor:pointer;" onclick="openShare('rabbit')">↗ Share</button></div>
       </div>
     </div>
 
@@ -1538,13 +2056,13 @@ input,select,textarea{font-family:var(--fs);}
 
 <!-- ══ ENTITY MODAL ══ -->
 <div class="entity-overlay" id="entityOverlay" onclick="if(event.target===this)closeEntity()">
-  <div class="entity-modal"><div class="em-top"><div class="em-brand">C<em>I</em>PHER · ENTITY PAGE</div><div class="em-close" onclick="closeEntity()">✕</div></div><div id="entityContent"></div></div>
+  <div class="entity-modal"><div class="em-top"><div class="em-brand">C<em>Y</em>PHER · ENTITY PAGE</div><div class="em-close" onclick="closeEntity()">✕</div></div><div id="entityContent"></div></div>
 </div>
 
 <!-- ══ SHARE MODAL ══ -->
 <div class="share-overlay" id="shareOverlay" onclick="if(event.target===this)closeShare()">
   <div class="share-modal">
-    <div class="sm-head"><div><div class="sm-title" id="smTitle">Share to X</div><div style="font-size:10px;color:var(--text2);margin-top:1px;">Auto-captioned · #CIPHERRabbitHole · zero effort</div></div><div class="sm-close" onclick="closeShare()">✕</div></div>
+    <div class="sm-head"><div><div class="sm-title" id="smTitle">Share to X</div><div style="font-size:10px;color:var(--text2);margin-top:1px;">Auto-captioned · #CYPHERRabbitHole · zero effort</div></div><div class="sm-close" onclick="closeShare()">✕</div></div>
     <div class="sm-body">
       <div class="sm-tabs"><div class="sm-tab active" onclick="switchTab('clip',this)">📎 Clip</div><div class="sm-tab" onclick="switchTab('rabbit',this)">🕳 Rabbit Hole</div><div class="sm-tab" onclick="switchTab('resurface',this)">⏳ Resurfaced</div></div>
       <div class="sm-card-wrap" id="smCard"></div>
@@ -1579,14 +2097,14 @@ input,select,textarea{font-family:var(--fs);}
   <div class="entity-modal" style="max-width:640px;margin-top:60px;">
     <div class="em-top">
       <div style="display:flex;align-items:center;gap:10px;">
-        <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/2_4db0369b-5f79-4454-a749-a932c12b951b.png?v=1775412869" style="height:20px;" onerror="this.style.display='none'">
-        <div class="em-brand" style="font-size:12px;">DEEP RABBIT SEARCH · ⭐ CIPHER Pass Feature</div>
+        <img src="https://cdn.shopify.com/s/files/1/0729/8400/2715/files/1_c2a70286-9eb1-4db9-86ac-56d71dae0dc0.png?v=1775507564" style="height:20px;" onerror="this.style.display='none'">
+        <div class="em-brand" style="font-size:12px;">DEEP RABBIT SEARCH · ⭐ CYPHER Pass Feature</div>
       </div>
       <div class="em-close" onclick="document.getElementById('deepSearchOverlay').classList.remove('open')">✕</div>
     </div>
     <div style="padding:22px 24px;">
       <div style="font-size:13px;color:var(--text);font-weight:700;margin-bottom:6px;">Describe what you half-remember</div>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:16px;">Type however you remember it — vague, partial, out of order. CIPHER finds the exact clip across all 20 shows.</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:16px;">Type however you remember it — vague, partial, out of order. CYPHER finds the exact clip across all 20 shows.</div>
       <div class="ds-input-wrap" style="margin-bottom:12px;"><input class="ds-input" id="dsInputModal" type="text" placeholder='"that JBP episode where they all argued about money..."' onkeydown="if(event.key==='Enter')runDeepSearchModal()"><button class="ds-go" onclick="runDeepSearchModal()">Find It</button></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
         <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:11px 12px;cursor:pointer;" onclick="document.getElementById('dsInputModal').value='that episode where Joe was alone and fired everyone'">
@@ -1601,7 +2119,7 @@ input,select,textarea{font-family:var(--fs);}
         </div>
       </div>
       <div style="background:var(--gdim);border:1px solid var(--gb);border-radius:var(--r);padding:11px 13px;text-align:center;">
-        <div style="font-size:11px;color:var(--gold);margin-bottom:3px;">⭐ CIPHER Pass unlocks Deep Rabbit Search</div>
+        <div style="font-size:11px;color:var(--gold);margin-bottom:3px;">⭐ CYPHER Pass unlocks Deep Rabbit Search</div>
         <div style="font-size:11px;color:var(--text2);margin-bottom:9px;">Fuzzy semantic search across all 20 verified shows</div>
         <button class="btn pri" onclick="showSec('premium');document.getElementById('deepSearchOverlay').classList.remove('open')">Pay What You Can → from $0.99/mo</button>
       </div>
@@ -1618,7 +2136,7 @@ input,select,textarea{font-family:var(--fs);}
         <div class="wp-screen">🎬</div>
         <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;"><div style="font-size:13px;font-weight:700;color:var(--text);flex:1;">Joe Budden Podcast · Ep. 848</div><div style="font-size:11px;color:var(--gold);font-family:var(--fm);">👁 5 watching</div></div>
         <div class="wp-ctrl-row"><button class="btn pri">▶ Play Together</button><button class="btn" onclick="showToast('Jumping to 43:12 →')">⏱ 43:12</button><button class="btn">⏸ Pause All</button></div>
-        <div class="wp-invite-box"><div class="wp-invite-t">Invite to this watch party</div><div class="wp-invite-row"><div class="wp-link">ciphertheculture.com/wp/jbp848-a3f</div><button class="wp-copy" onclick="showToast('✓ Watch party link copied!')">Copy</button></div></div>
+        <div class="wp-invite-box"><div class="wp-invite-t">Invite to this watch party</div><div class="wp-invite-row"><div class="wp-link">cyphertheculture.com/wp/jbp848-a3f</div><button class="wp-copy" onclick="showToast('✓ Watch party link copied!')">Copy</button></div></div>
       </div>
       <div class="wp-chat-side">
         <div class="wp-chat-hd">Live Chat</div>
@@ -1626,7 +2144,7 @@ input,select,textarea{font-family:var(--fs);}
           <div class="wp-msg"><div class="wp-msg-av jbp" style="font-size:6px;">JF</div><div class="wp-msg-body"><div class="wp-msg-u">@JBPFan_99</div><div class="wp-msg-t">Joe is NOT missing today 🔥</div></div></div>
           <div class="wp-msg"><div class="wp-msg-av" style="background:var(--bg5);">AK</div><div class="wp-msg-body"><div class="wp-msg-u">@CultureHead</div><div class="wp-msg-t">Marc about to go in watch</div></div></div>
           <div class="wp-msg"><div class="wp-msg-av" style="background:var(--bg5);">SS</div><div class="wp-msg-body"><div class="wp-msg-u">@DiddyWatcher</div><div class="wp-msg-t">43:12 is THE moment 🎯</div></div></div>
-          <div class="wp-msg"><div class="wp-msg-av" style="background:var(--bg5);">NY</div><div class="wp-msg-body"><div class="wp-msg-u">@NYCulture</div><div class="wp-msg-t">Called this 2 years ago. CIPHER proves it 💪</div></div></div>
+          <div class="wp-msg"><div class="wp-msg-av" style="background:var(--bg5);">NY</div><div class="wp-msg-body"><div class="wp-msg-u">@NYCulture</div><div class="wp-msg-t">Called this 2 years ago. CYPHER proves it 💪</div></div></div>
         </div>
         <div class="wp-in-row"><input class="wp-in" placeholder="Say something..."><button class="wp-send" onclick="showToast('✓ Sent')">Send</button></div>
       </div>
@@ -1646,7 +2164,7 @@ input,select,textarea{font-family:var(--fs);}
         <div class="sa-row" style="margin-bottom:9px;"><div class="sa-av vlad">VTV</div><div class="sa-nm">VladTV</div><div class="sa-bar"><div class="sa-fill" style="width:18%;"></div></div><div class="sa-pct">18%</div></div>
         <div class="sa-row" style="margin-bottom:14px;"><div class="sa-av champs">DC</div><div class="sa-nm">Drink Champs</div><div class="sa-bar"><div class="sa-fill" style="width:8%;"></div></div><div class="sa-pct">8%</div></div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;justify-content:center;"><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">🔥 Beef Specialist</span><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">⚖️ Trial Follower</span><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">🎙️ JBP Era Expert</span><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">🏠 NY/NJ Region</span><span class="tag" style="color:var(--gold);border-color:var(--gb);background:var(--gdim);">✓ 78% Called It Rate</span></div>
-        <div style="font-size:10px;color:var(--text3);font-family:var(--fm);text-align:center;">CIPHER FINGERPRINT · 2025 · CIPHERTHECULTURE.COM</div>
+        <div style="font-size:10px;color:var(--text3);font-family:var(--fm);text-align:center;">CYPHER FINGERPRINT · 2025 · CYPHERTHECULTURE.COM</div>
       </div>
       <div style="display:flex;gap:8px;"><button class="btn dk" style="flex:1;" onclick="openShare('clip');closeOverlay('fpOverlay')">↗ Share on X</button><button class="btn" style="flex:1;" onclick="showToast('✓ Fingerprint saved to Vault')">⊕ Save to Vault</button></div>
     </div>
@@ -1734,9 +2252,9 @@ function vote(btn){
 // ── RABBIT HOLE ──
 const rhMsgs=['Searching the archive...','Pulling from 20 official channels...','Matching clips across all eras...','Building the Rabbit Hole...'];
 let rhInt;
-function rhGo(){const v=document.getElementById('rhIn').value.trim();if(!v)return;selBubble(v);}
+function rhGo(){const v=document.getElementById('rhInput').value.trim();if(!v)return;selBubble(v);}
 function selBubble(t){
-  const inp=document.getElementById('rhIn');if(inp)inp.value=t;
+  const inp=document.getElementById('rhInput');if(inp)inp.value=t;
   const cats=document.getElementById('rhCats');const thread=document.getElementById('rhThread');
   const gen=document.getElementById('rhGen');
   if(cats)cats.style.display='none';
@@ -1758,10 +2276,10 @@ function selBubble(t){
 // ── DEEP SEARCH ──
 const dsMsgs=['Searching the archive...','Matching your description...','Scanning episode transcripts...','Finding best clips...'];
 let dsInt;
-function setDS(t){const el=document.getElementById('dsIn');if(el)el.value=t.trim();}
+function setDS(t){const el=document.getElementById('dsInput');if(el)el.value=t.trim();}
 function runDS(){
-  const v=document.getElementById('dsIn');if(!v||!v.value.trim())return;
-  const res=document.getElementById('dsRes');const gen=document.getElementById('dsGen');
+  const v=document.getElementById('dsInput');if(!v||!v.value.trim())return;
+  const res=document.getElementById('dsResults');const gen=document.getElementById('dsGen');
   if(res)res.style.display='none';
   if(gen){gen.style.display='block';}
   let i=0;clearInterval(dsInt);
@@ -1900,17 +2418,17 @@ function closeEntity(){document.getElementById('entityOverlay').classList.remove
 
 // ── SHARE MODAL ──
 const cardPreviews={
-  clip:`<div style="background:#060606;border-top:3px solid #c9a84c;font-family:'Syne',sans-serif;padding:13px 15px 11px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><div style="font-family:'Black Han Sans',sans-serif;font-size:12px;letter-spacing:3px;color:#f0ece3;">C<em style="color:#d4a843;">I</em>PHER</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;">#CIPHERRabbitHole</div></div><div style="display:flex;align-items:center;gap:5px;margin-bottom:11px;"><div style="width:5px;height:5px;border-radius:50%;background:#c9a84c;"></div><div style="font-size:10px;font-weight:700;color:#f0ece3;">Joe Budden Podcast ✓</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;margin-left:auto;">EP. 848 · 43:12</div></div><div style="font-size:9px;color:#d4a843;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;">🔥 8 official shows reacted</div><div style="font-size:13px;font-weight:700;color:#f0ece3;line-height:1.4;margin-bottom:8px;">"This trial is bigger than Puff — the entire system that protected him for decades is what's really on trial here."</div><div style="display:flex;gap:6px;align-items:center;"><span style="font-size:9px;color:#1dcc6e;">✓ 847 Called It</span><span style="font-size:9px;color:#f07070;">✗ 23 Aged Badly</span><span style="font-size:10px;font-weight:700;color:#d4a843;font-family:'Space Mono',monospace;margin-left:auto;">🕳 Rabbit Hole →</span></div></div>`,
-  rabbit:`<div style="background:#060606;border-top:3px solid #e03535;font-family:'Syne',sans-serif;padding:13px 15px 11px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><div style="font-family:'Black Han Sans',sans-serif;font-size:12px;letter-spacing:3px;color:#f0ece3;">C<em style="color:#d4a843;">I</em>PHER</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;">#CIPHERRabbitHole</div></div><div style="display:flex;align-items:center;gap:5px;margin-bottom:11px;"><div style="width:5px;height:5px;border-radius:50%;background:#e03535;"></div><div style="font-size:10px;font-weight:700;color:#f0ece3;">Rabbit Hole · 11 Official Shows · 47 Clips</div></div><div style="font-size:9px;color:#e03535;font-weight:700;text-transform:uppercase;margin-bottom:4px;">🔥 Every official take · one place</div><div style="font-size:13px;font-weight:700;color:#f0ece3;line-height:1.4;margin-bottom:9px;">DIDDY TRIAL — VladTV receipts from 2010 → JBP Ep. 848 → Breakfast Club → 8 more official shows</div><div style="display:flex;gap:3px;"><div style="width:6px;height:6px;border-radius:50%;background:#c9a84c;"></div><div style="width:6px;height:6px;border-radius:50%;background:#4a9fdf;"></div><div style="width:6px;height:6px;border-radius:50%;background:#dfaf4a;"></div><div style="width:6px;height:6px;border-radius:50%;background:#df4aaf;"></div><div style="width:6px;height:6px;border-radius:50%;background:#af4adf;"></div><div style="font-size:9px;color:#2e2c28;margin-left:4px;font-family:'Space Mono',monospace;">+6 more</div></div><div style="margin-top:9px;padding-top:9px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;"><div style="font-size:10px;font-weight:700;color:#d4a843;font-family:'Space Mono',monospace;">🕳 Go down the Rabbit Hole →</div><div style="font-size:9px;color:#2e2c28;">#DiddyTrial</div></div></div>`,
-  resurface:`<div style="background:#060606;border-top:3px solid #9a60d4;font-family:'Syne',sans-serif;padding:13px 15px 11px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><div style="font-family:'Black Han Sans',sans-serif;font-size:12px;letter-spacing:3px;color:#f0ece3;">C<em style="color:#d4a843;">I</em>PHER</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;">#CIPHERRabbitHole</div></div><div style="display:flex;align-items:center;gap:5px;margin-bottom:11px;"><div style="width:5px;height:5px;border-radius:50%;background:#9a60d4;"></div><div style="font-size:10px;font-weight:700;color:#f0ece3;">Resurfaced from the archive ⏳</div></div><div style="font-size:9px;color:#9a60d4;font-weight:700;text-transform:uppercase;margin-bottom:4px;">They said this years ago...</div><div style="font-size:13px;font-weight:700;color:#f0ece3;line-height:1.4;margin-bottom:8px;">JBP was talking about this 3 years before the documentary — nobody was listening then</div><div style="font-size:10px;font-weight:700;color:#d4a843;font-family:'Space Mono',monospace;">🕳 Hear the originals on CIPHER →</div></div>`
+  clip:`<div style="background:#060606;border-top:3px solid #c9a84c;font-family:'Syne',sans-serif;padding:13px 15px 11px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><div style="font-family:'Black Han Sans',sans-serif;font-size:12px;letter-spacing:3px;color:#f0ece3;">C<em style="color:#d4a843;">Y</em>PHER</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;">#CYPHERRabbitHole</div></div><div style="display:flex;align-items:center;gap:5px;margin-bottom:11px;"><div style="width:5px;height:5px;border-radius:50%;background:#c9a84c;"></div><div style="font-size:10px;font-weight:700;color:#f0ece3;">Joe Budden Podcast ✓</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;margin-left:auto;">EP. 848 · 43:12</div></div><div style="font-size:9px;color:#d4a843;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;">🔥 8 official shows reacted</div><div style="font-size:13px;font-weight:700;color:#f0ece3;line-height:1.4;margin-bottom:8px;">"This trial is bigger than Puff — the entire system that protected him for decades is what's really on trial here."</div><div style="display:flex;gap:6px;align-items:center;"><span style="font-size:9px;color:#1dcc6e;">✓ 847 Called It</span><span style="font-size:9px;color:#f07070;">✗ 23 Aged Badly</span><span style="font-size:10px;font-weight:700;color:#d4a843;font-family:'Space Mono',monospace;margin-left:auto;">🕳 Rabbit Hole →</span></div></div>`,
+  rabbit:`<div style="background:#060606;border-top:3px solid #e03535;font-family:'Syne',sans-serif;padding:13px 15px 11px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><div style="font-family:'Black Han Sans',sans-serif;font-size:12px;letter-spacing:3px;color:#f0ece3;">C<em style="color:#d4a843;">Y</em>PHER</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;">#CYPHERRabbitHole</div></div><div style="display:flex;align-items:center;gap:5px;margin-bottom:11px;"><div style="width:5px;height:5px;border-radius:50%;background:#e03535;"></div><div style="font-size:10px;font-weight:700;color:#f0ece3;">Rabbit Hole · 11 Official Shows · 47 Clips</div></div><div style="font-size:9px;color:#e03535;font-weight:700;text-transform:uppercase;margin-bottom:4px;">🔥 Every official take · one place</div><div style="font-size:13px;font-weight:700;color:#f0ece3;line-height:1.4;margin-bottom:9px;">DIDDY TRIAL — VladTV receipts from 2010 → JBP Ep. 848 → Breakfast Club → 8 more official shows</div><div style="display:flex;gap:3px;"><div style="width:6px;height:6px;border-radius:50%;background:#c9a84c;"></div><div style="width:6px;height:6px;border-radius:50%;background:#4a9fdf;"></div><div style="width:6px;height:6px;border-radius:50%;background:#dfaf4a;"></div><div style="width:6px;height:6px;border-radius:50%;background:#df4aaf;"></div><div style="width:6px;height:6px;border-radius:50%;background:#af4adf;"></div><div style="font-size:9px;color:#2e2c28;margin-left:4px;font-family:'Space Mono',monospace;">+6 more</div></div><div style="margin-top:9px;padding-top:9px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;"><div style="font-size:10px;font-weight:700;color:#d4a843;font-family:'Space Mono',monospace;">🕳 Go down the Rabbit Hole →</div><div style="font-size:9px;color:#2e2c28;">#DiddyTrial</div></div></div>`,
+  resurface:`<div style="background:#060606;border-top:3px solid #9a60d4;font-family:'Syne',sans-serif;padding:13px 15px 11px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><div style="font-family:'Black Han Sans',sans-serif;font-size:12px;letter-spacing:3px;color:#f0ece3;">C<em style="color:#d4a843;">Y</em>PHER</div><div style="font-size:9px;color:#2e2c28;font-family:'Space Mono',monospace;">#CYPHERRabbitHole</div></div><div style="display:flex;align-items:center;gap:5px;margin-bottom:11px;"><div style="width:5px;height:5px;border-radius:50%;background:#9a60d4;"></div><div style="font-size:10px;font-weight:700;color:#f0ece3;">Resurfaced from the archive ⏳</div></div><div style="font-size:9px;color:#9a60d4;font-weight:700;text-transform:uppercase;margin-bottom:4px;">They said this years ago...</div><div style="font-size:13px;font-weight:700;color:#f0ece3;line-height:1.4;margin-bottom:8px;">JBP was talking about this 3 years before the documentary — nobody was listening then</div><div style="font-size:10px;font-weight:700;color:#d4a843;font-family:'Space Mono',monospace;">🕳 Hear the originals on CYPHER →</div></div>`
 };
 const showNames2={jbp:'Joe Budden Podcast',vlad:'VladTV',champs:'Drink Champs',bkfst:'The Breakfast Club',shay:'Club Shay Shay',akad:'DJ Akademiks',idiots:'Brilliant Idiots',arena:'The Arena',rmal:'New Rory & Mal'};
 const showTags2={jbp:'#JoeBuddenPodcast #JBP',vlad:'#VladTV',champs:'#DrinkChamps',bkfst:'#BreakfastClub',shay:'#ClubShayShay',akad:'#Akademiks',idiots:'#BrilliantIdiots',arena:'#TheArena',rmal:'#RoryAndMal'};
 function genCap(type,show,topic){
   const sn=showNames2[show]||'Joe Budden Podcast';const tags=showTags2[show]||'#JBP';const t=topic||'Diddy Trial';
-  if(type==='clip')return sn+' said this and it\'s hitting different right now.\n\n"'+t.charAt(0).toUpperCase()+t.slice(1)+'"\n\nFull clip + every official reaction:\n🕳 ciphertheculture.com/rabbit-hole/'+t.toLowerCase().replace(/\s+/g,'-').slice(0,28)+'\n\n#CIPHERRabbitHole '+tags;
-  if(type==='rabbit')return t.charAt(0).toUpperCase()+t.slice(1)+' is everywhere right now.\n\nEvery official take from the culture in one Rabbit Hole:\n🕳 ciphertheculture.com/rabbit-hole/'+t.toLowerCase().replace(/\s+/g,'-').slice(0,28)+'\n\nFeaturing: '+sn+' + every other show in the culture\n\n#CIPHERRabbitHole';
-  return sn+' was talking about '+t+' way before anyone else.\n\nNow the whole culture is saying what they already said:\n🕳 ciphertheculture.com/rabbit-hole/'+t.toLowerCase().replace(/\s+/g,'-').slice(0,28)+'\n\n#CIPHERRabbitHole '+tags;
+  if(type==='clip')return sn+' said this and it\'s hitting different right now.\n\n"'+t.charAt(0).toUpperCase()+t.slice(1)+'"\n\nFull clip + every official reaction:\n🕳 cyphertheculture.com/rabbit-hole/'+t.toLowerCase().replace(/\s+/g,'-').slice(0,28)+'\n\n#CYPHERRabbitHole '+tags;
+  if(type==='rabbit')return t.charAt(0).toUpperCase()+t.slice(1)+' is everywhere right now.\n\nEvery official take from the culture in one Rabbit Hole:\n🕳 cyphertheculture.com/rabbit-hole/'+t.toLowerCase().replace(/\s+/g,'-').slice(0,28)+'\n\nFeaturing: '+sn+' + every other show in the culture\n\n#CYPHERRabbitHole';
+  return sn+' was talking about '+t+' way before anyone else.\n\nNow the whole culture is saying what they already said:\n🕳 cyphertheculture.com/rabbit-hole/'+t.toLowerCase().replace(/\s+/g,'-').slice(0,28)+'\n\n#CYPHERRabbitHole '+tags;
 }
 let curSType='clip';
 function openShare(type){
@@ -1947,6 +2465,202 @@ function selPrice(el){document.querySelectorAll('.price-opt').forEach(o=>o.class
 
 // ── TOAST ──
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+
+// ── MOBILE MENU ──
+function toggleMobileMenu(){
+  const d=document.getElementById('mobDrawer');
+  const h=document.getElementById('mobHam');
+  d.classList.toggle('open');
+  h.classList.toggle('open');
+  document.body.style.overflow=d.classList.contains('open')?'hidden':'';
+}
+function closeMobileMenu(){
+  document.getElementById('mobDrawer').classList.remove('open');
+  document.getElementById('mobHam').classList.remove('open');
+  document.body.style.overflow='';
+}
+function showSecMob(id){
+  showSec(id);
+  closeMobileMenu();
+  document.querySelectorAll('.mob-tab').forEach(function(t){t.classList.remove('active');});
+  var tabs={home:0,rabbithole:1,browse:2,vault:3,premium:4};
+  var idx=tabs[id];
+  var allTabs=document.querySelectorAll('.mob-tab');
+  if(idx!==undefined && allTabs[idx])allTabs[idx].classList.add('active');
+}
+
+// ── SHOW PROFILES DATA ──
+const showProfiles={
+  jbp:{name:'Joe Budden Podcast',abbr:'JBP',cls:'jbp',hosts:'Joe Budden, Ice, ish, Parks',desc:'The Joe Budden Podcast is one of the most influential hip-hop podcasts in the culture. Known for unfiltered takes on music, industry politics, and current events.',subs:'3.2M',eps:'860+',clips:'4,200+',links:[{l:'YouTube'},{l:'Patreon'},{l:'Spotify'},{l:'Apple Podcasts'},{l:'X / Twitter'}]},
+  akad:{name:'DJ Akademiks',abbr:'AK',cls:'akad',hosts:'DJ Akademiks',desc:'The culture\'s breaking news anchor. Known for real-time coverage of hip-hop drama, legal cases, and industry moves. Streams regularly break 100K concurrent.',subs:'4.1M',eps:'2,000+',clips:'8,500+',links:[{l:'YouTube'},{l:'Twitch'},{l:'X / Twitter'}]},
+  vlad:{name:'VladTV',abbr:'VTV',cls:'vlad',hosts:'DJ Vlad',desc:'VladTV is the largest hip-hop interview platform in history. The archive goes back to 2008 with legends, rising stars, and cultural figures.',subs:'6.8M',eps:'25,000+',clips:'30,000+',links:[{l:'YouTube'},{l:'X / Twitter'},{l:'Instagram'}]},
+  champs:{name:'Drink Champs',abbr:'DC',cls:'champs',hosts:'N.O.R.E. & DJ EFN',desc:'Where legends come to tell their stories over drinks. From Jay-Z to Lil Wayne, the biggest names in hip-hop have pulled up.',subs:'2.4M',eps:'400+',clips:'3,800+',links:[{l:'YouTube'},{l:'Spotify'},{l:'Apple Podcasts'}]},
+  bkfst:{name:'The Breakfast Club',abbr:'BKF',cls:'bkfst',hosts:'Charlamagne, DJ Envy, Jess Hilarious',desc:'The world\'s most dangerous morning show. Broadcasting live from Power 105.1 in NYC — the culture\'s morning briefing.',subs:'5.9M',eps:'5,000+',clips:'15,000+',links:[{l:'YouTube'},{l:'iHeart'},{l:'X / Twitter'}]},
+  shay:{name:'Club Shay Shay',abbr:'CSS',cls:'shay',hosts:'Shannon Sharpe',desc:'Broke every podcast record with the Katt Williams interview (72M views). Shannon brings sports legends and cultural icons for viral conversations.',subs:'5.2M',eps:'300+',clips:'2,100+',links:[{l:'YouTube'},{l:'Spotify'},{l:'X / Twitter'}]},
+  arena:{name:'The Arena',abbr:'ARN',cls:'arena',hosts:'Various',desc:'Where sports and culture collide. Covering NBA, NFL, and the intersection of athletics and hip-hop.',subs:'890K',eps:'200+',clips:'1,400+',links:[{l:'YouTube'},{l:'Spotify'}]},
+  idiots:{name:'Brilliant Idiots',abbr:'BI',cls:'idiots',hosts:'Charlamagne & Andrew Schulz',desc:'The uncensored, unfiltered podcast where Charlamagne and Andrew Schulz tackle everything from politics to pop culture.',subs:'1.8M',eps:'400+',clips:'2,600+',links:[{l:'YouTube'},{l:'Patreon'},{l:'Spotify'}]},
+  rmal:{name:'New Rory & Mal',abbr:'R&M',cls:'rmal',hosts:'Rory Farrell & Mal Clay',desc:'After the legendary split from JBP, Rory & Mal launched their independent show — proving they could build their own platform.',subs:'980K',eps:'250+',clips:'1,800+',links:[{l:'YouTube'},{l:'Patreon'},{l:'Spotify'}]},
+  mwog:{name:'Million Dollaz Worth of Game',abbr:'MDG',cls:'mwog',hosts:'Gillie Da King & Wallo267',desc:'Philly authenticity and real-life wisdom. They turned down Spotify\'s multi-million dollar IP acquisition to maintain ownership.',subs:'1.5M',eps:'300+',clips:'2,200+',links:[{l:'YouTube'},{l:'Spotify'},{l:'X / Twitter'}]}
+};
+function openShowProfile(id){
+  const d=showProfiles[id];if(!d)return;
+  document.getElementById('spHeader').innerHTML='<div class="sp-avatar '+d.cls+'">'+d.abbr+'</div><div class="sp-info"><h3>'+d.name+'</h3><p>'+d.hosts+'</p><div class="sp-verified">✓ Verified on CYPHER</div></div>';
+  const links=d.links.map(function(lk){return'<a class="sp-link" href="#" onclick="event.preventDefault();showToast(\'Opening '+lk.l+' →\')">'+lk.l+'</a>';}).join('');
+  document.getElementById('spBody').innerHTML='<div class="sp-desc">'+d.desc+'</div><div class="sp-stats"><div class="sp-stat"><div class="sp-stat-n">'+d.subs+'</div><div class="sp-stat-l">Subscribers</div></div><div class="sp-stat"><div class="sp-stat-n">'+d.eps+'</div><div class="sp-stat-l">Episodes</div></div><div class="sp-stat"><div class="sp-stat-n">'+d.clips+'</div><div class="sp-stat-l">Clips on CYPHER</div></div></div><div class="sp-links">'+links+'</div><div style="display:flex;gap:7px;flex-wrap:wrap;"><button class="btn rh" onclick="showSec(\'rabbithole\');closeShowProfile()">🕳 Rabbit Hole</button><button class="btn" onclick="showToast(\'✓ Following '+d.name+'\')">+ Follow</button><button class="btn dk" onclick="openShare(\'clip\');closeShowProfile()">↗ Share</button></div>';
+  document.getElementById('showProfileOverlay').classList.add('open');
+  closeMobileMenu();
+}
+function closeShowProfile(){document.getElementById('showProfileOverlay').classList.remove('open');}
+
+// ── ADD SHOW PROFILE CLICKS TO DESKTOP SIDEBAR ──
+document.querySelectorAll('.sidebar .ns').forEach(function(el){
+  var av=el.querySelector('.ns-av');
+  if(!av)return;
+  var classes=['jbp','akad','vlad','champs','bkfst','shay','arena','idiots','rmal','mwog'];
+  var id=classes.find(function(c){return av.classList.contains(c);});
+  if(id && showProfiles[id]){
+    el.style.cursor='pointer';
+    el.addEventListener('click',function(){openShowProfile(id);});
+  }
+});
+
+// ── DEEP SEARCH ALIASES ──
+function openDeepSearch(){document.getElementById('deepSearchOverlay').classList.add('open');}
+function runDeepSearch(){
+  var v=document.getElementById('dsInput');if(!v||!v.value.trim())return;
+  var res=document.getElementById('dsResults');var gen=document.getElementById('dsGen');
+  if(res)res.style.display='none';
+  if(gen)gen.style.display='block';
+  var i=0;clearInterval(dsInt);
+  dsInt=setInterval(function(){var el=document.getElementById('dsGenTxt');if(el)el.textContent=dsMsgs[i=(i+1)%dsMsgs.length];},700);
+  setTimeout(function(){clearInterval(dsInt);if(gen)gen.style.display='none';if(res)res.style.display='block';},2000);
+}
+function runDeepSearchModal(){
+  var v=document.getElementById('dsInputModal');if(!v||!v.value.trim())return;
+  document.getElementById('dsInput').value=v.value;
+  document.getElementById('deepSearchOverlay').classList.remove('open');
+  showSec('rabbithole');
+  setTimeout(function(){runDeepSearch();},200);
+}
+function setDSExample(t){document.getElementById('dsInput').value=t;}
+
+// ── PREVIEW MODE TOGGLE ──
+function togglePreviewMode(mode){
+  var ul=document.getElementById('drsUnlocked');
+  var lk=document.getElementById('drsLocked');
+  var btnU=document.getElementById('previewUnlocked');
+  var btnL=document.getElementById('previewLocked');
+  if(mode==='locked'){
+    ul.style.display='none';lk.style.display='block';
+    btnL.style.background='rgba(224,53,53,.15)';btnL.style.color='#f07070';btnL.style.borderColor='rgba(224,53,53,.3)';
+    btnU.style.background='';btnU.style.color='';btnU.style.borderColor='';
+  }else{
+    ul.style.display='block';lk.style.display='none';
+    btnU.style.background='rgba(29,204,110,.15)';btnU.style.color='var(--green)';btnU.style.borderColor='rgba(29,204,110,.3)';
+    btnL.style.background='';btnL.style.color='';btnL.style.borderColor='';
+  }
+}
+
+// ── SCOPE FILTER ──
+function setScope(scope,el){
+  document.querySelectorAll('#drsUnlocked .ds-input-wrap').forEach(function(w){
+    var inp=w.querySelector('.ds-input');
+    if(inp&&scope!=='all')inp.placeholder='"Search '+el.textContent+' episodes only..."';
+    else if(inp)inp.placeholder='"that episode where Joe got really mad about something with Rory..."';
+  });
+  var tags=el.parentElement.querySelectorAll('.tag');
+  tags.forEach(function(t){t.classList.remove('on');});
+  el.classList.add('on');
+  showToast('Scope: '+el.textContent);
+}
+
+// ── LIST / TIMELINE VIEW TOGGLE ──
+function setView(view,el){
+  document.getElementById('drsListView').style.display=view==='list'?'block':'none';
+  document.getElementById('drsTimelineView').style.display=view==='timeline'?'block':'none';
+  document.getElementById('viewList').classList.toggle('on',view==='list');
+  document.getElementById('viewTimeline').classList.toggle('on',view==='timeline');
+}
+
+// ── FILL DRS SEARCH ──
+function fillDRS(t){
+  var inp=document.getElementById('drsInput');
+  if(inp)inp.value=t.replace(/[""]/g,'');
+  inp.focus();
+}
+
+// ── RUN DRS SEARCH WITH PROGRESS BAR ──
+var drsProgressInt;
+function runDRS(){
+  var inp=document.getElementById('drsInput');
+  if(!inp||!inp.value.trim())return;
+  var prog=document.getElementById('drsProgress');
+  var results=document.getElementById('drsResults');
+  var suggestions=document.getElementById('drsSuggestions');
+  prog.style.display='block';
+  results.style.display='none';
+  if(suggestions)suggestions.style.display='none';
+  var bar=document.getElementById('drsProgressBar');
+  var txt=document.getElementById('drsProgressText');
+  var step=document.getElementById('drsProgressStep');
+  var pct=document.getElementById('drsProgressPct');
+  var progress=0;
+  var steps=[
+    {p:15,t:'Searching the archive...',s:'Scanning 21 verified channels...'},
+    {p:35,t:'Matching your description...',s:'Semantic matching across transcripts...'},
+    {p:55,t:'Scanning episode transcripts...',s:'Checking 860+ JBP episodes...'},
+    {p:75,t:'Cross-referencing shows...',s:'Found matches in 4 shows...'},
+    {p:90,t:'Building results...',s:'Ranking by confidence score...'},
+    {p:100,t:'Done!',s:'5 results found across 4 shows'}
+  ];
+  var si=0;
+  clearInterval(drsProgressInt);
+  drsProgressInt=setInterval(function(){
+    if(si>=steps.length){
+      clearInterval(drsProgressInt);
+      prog.style.display='none';
+      results.style.display='block';
+      return;
+    }
+    bar.style.width=steps[si].p+'%';
+    txt.textContent=steps[si].t;
+    step.textContent=steps[si].s;
+    pct.textContent=steps[si].p+'%';
+    si++;
+  },450);
+}
+
+// ── DRS FOLLOW-UP CHAT ──
+function addChatQ(q){
+  var inp=document.getElementById('drsChatInput');
+  if(inp)inp.value=q;
+  sendDRSChat();
+}
+function sendDRSChat(){
+  var inp=document.getElementById('drsChatInput');
+  if(!inp||!inp.value.trim())return;
+  var chat=document.getElementById('drsChat');
+  var q=inp.value.trim();
+  inp.value='';
+  // Add user message
+  chat.innerHTML+='<div style="display:flex;gap:8px;margin-bottom:8px;justify-content:flex-end;"><div style="background:var(--gdim);border:1px solid var(--gb);border-radius:12px 12px 2px 12px;padding:9px 12px;font-size:11px;color:var(--gold);line-height:1.5;max-width:80%;">'+q+'</div><div style="width:22px;height:22px;border-radius:50%;background:var(--bg4);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;">👤</div></div>';
+  // Simulate AI response after delay
+  setTimeout(function(){
+    var responses=[
+      'Found 3 clips where Akademiks covered the JBP split. His most watched reaction was a 2-hour stream on June 1, 2021 with 180K concurrent viewers. He called it "the biggest moment in podcast history" and had receipts from DMs.',
+      'Great question — in JBP episodes 420-435, there were several heated money discussions. Episode 431 is notable: Joe said "we need to talk about accounting" and Rory\'s face told the whole story. That was 6 episodes before the firing.',
+      'The Breakfast Club covered it on June 3, 2021. Charlamagne said he wasn\'t surprised, referenced his own departure from similar situations, and said "ownership changes relationships." DJ Envy stayed neutral.'
+    ];
+    var resp=responses[Math.floor(Math.random()*responses.length)];
+    chat.innerHTML+='<div style="display:flex;gap:8px;margin-bottom:8px;"><div style="width:22px;height:22px;border-radius:50%;background:var(--gdim);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;">🕳</div><div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px 12px 12px 2px;padding:9px 12px;font-size:11px;color:var(--text);line-height:1.5;max-width:80%;">'+resp+'</div></div>';
+    chat.scrollTop=chat.scrollHeight;
+  },800);
+}
+
+function openDRSClip(idx){
+  var clips=['JBP Ep. 437 at 1:12:34','JBP Ep. 440 at 43:12','New Rory & Mal Ep. 01 at 0:00'];
+  showToast('Opening YouTube → '+clips[idx]);
+}
 </script>
 <div class="toast" id="toast"></div>
 </body>
